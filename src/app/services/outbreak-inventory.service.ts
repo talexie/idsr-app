@@ -1,8 +1,5 @@
 import { Injectable, Inject, forwardRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import { ConstantService } from '../services';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
@@ -13,13 +10,13 @@ export class OutbreakInventoryService {
 	  //constructor(private http: Http, @Inject(forwardRef(() => ConstantService)) constantService) { }
 	constructor(private http:HttpClient, private constant:ConstantService){
 
-	 }	
-	 
+	 }
+
 	getPrograms(){
 		let fields = 'paging=false&fields=id,name,programType,programTrackedEntityAttributes[trackedEntityAttribute[id,name]],programStages[id,name,programStageDataElements[dataElement[id,name]]]';
 	  	return this.http.get(this.constant.ROOTURL + 'api/programs.json?' + fields);
 	}
-	
+
 	getTrackedEntityInstances(ou,program,programStartDate,programEndDate){
 		let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program='+ program +'&skipPaging=true';
 		if(!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate)){
@@ -47,7 +44,7 @@ export class OutbreakInventoryService {
 					if(trackedEntityInstance.instance === event.trackedEntityInstance ){
 						mergedEventsAndTeis.push(this.addTeiToEventData(trackedEntityInstance,event,programStages));
 					}
-				}				
+				}
 			}
 		}
 		else{
@@ -80,11 +77,11 @@ export class OutbreakInventoryService {
 	}
 	getColumns(headers){
 		let columns: any = [];
-		
+
 		if(!isNullOrUndefined(headers)){
 			for(let header of headers){
 				let colHeader: any = {};
-				
+
 				if(header.name === 'instance'){
 					//colHeader.prop = header.name;
 					//colHeader.name = header.column;
@@ -115,7 +112,7 @@ export class OutbreakInventoryService {
 					colHeader.headerClass = "datatable-header";
 					columns.push(colHeader);
 				}
-				
+
 			}
 		}
 		return columns;
@@ -137,14 +134,14 @@ export class OutbreakInventoryService {
 			"name":"Org Unit Name",
 			"headerClass":"datatable-header"
 		}];
-		
+
 		if(!isNullOrUndefined(programStage) && !isNullOrUndefined(programStage.programStageDataElements)){
 			for(let dataElement of programStage.programStageDataElements){
 				let colHeader: any = {};
 				colHeader.prop = dataElement.dataElement.id;
 				colHeader.name = dataElement.dataElement.name;
 				colHeader.headerClass = "datatable-header";
-				columns.push(colHeader);				
+				columns.push(colHeader);
 			}
 		}
 		return columns;
@@ -157,14 +154,14 @@ export class OutbreakInventoryService {
 				for(let val of data.rows){
 					let colHeader: any = {};
 					let count: number = 0;
-					for(let header of data.headers){						
-						colHeader[header.name] = val[count];						
+					for(let header of data.headers){
+						colHeader[header.name] = val[count];
 						count++;
 					}
 					columnData.push(colHeader);
 				}
 			}
-			
+
 		}
 		return columnData;
 	}
@@ -215,13 +212,13 @@ export class OutbreakInventoryService {
 						}
 					}
 				}
-				
+
 			}
 		}
 		return columns;
 	}
 
-	/** 
+	/**
 	Filter events and arrange them ny tracked Entity Instances and program Stages
 	**/
 	filterEventsByTrackedEntityInstance(events){
@@ -229,7 +226,7 @@ export class OutbreakInventoryService {
 		let eventsByTeisCheck: any = [];
 		if(!isNullOrUndefined(events)){
 			for(let event of events){
-				
+
 				if((eventsByTeisCheck.indexOf(event.trackedEntityInstance)) === -1){
 					eventsByTeisCheck.push(event.trackedEntityInstance);
 					let tei: any = {};
@@ -252,7 +249,7 @@ export class OutbreakInventoryService {
 							programStageEvent.status = event.status;
 							programStageEvent.eventDate = event.eventDate;
 							teiExists[event.programStage].push(this.createObjectFromArrayDataValues(event.dataValues,programStageEvent));
-							
+
 						}
 						else{
 							teiExists[event.programStage] = [];
@@ -261,15 +258,15 @@ export class OutbreakInventoryService {
 							programStageEvent.status = event.status;
 							programStageEvent.eventDate = event.eventDate;
 							teiExists[event.programStage].push(this.createObjectFromArrayDataValues(event.dataValues,programStageEvent));
-						}	
-					}					
+						}
+					}
 				}
 			}
 		}
 		return eventsByTeis;
 
 	}
-	/** 
+	/**
 	Lookup the existing Tracked Entity Instance
 	**/
 	filterByTrackedEntityInstance(events,trackedEntityInstance){
@@ -277,13 +274,13 @@ export class OutbreakInventoryService {
 		if(!isNullOrUndefined(events)){
 			for(let event of events){
 				if(event.trackedEntityInstance === trackedEntityInstance){
-					tei = event;					
+					tei = event;
 				}
 			}
 		}
-		return tei;		
+		return tei;
 	}
-	/** 
+	/**
 	Lookup the existing program Stage
 	**/
 	filterByProgramStage(events,programStage){
@@ -295,9 +292,9 @@ export class OutbreakInventoryService {
 				}
 			}
 		}
-		return programStageValues;		
+		return programStageValues;
 	}
-	/** 
+	/**
 	Create Object from array
 	**/
 	createObjectFromArrayDataValues(arrayValues,oldObject){
@@ -310,7 +307,7 @@ export class OutbreakInventoryService {
 		return arrayObject;
 	}
 	/**
-	 Create data from singe event 
+	 Create data from singe event
 	**/
 	getSingleEventData(events){
 		let rows: any = [];
@@ -327,5 +324,5 @@ export class OutbreakInventoryService {
 		}
 		return rows;
 	}
-	
+
 }

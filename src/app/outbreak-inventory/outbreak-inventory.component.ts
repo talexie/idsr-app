@@ -1,11 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelect, MatButton, MatTable,MatDatepicker } from '@angular/material';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
 import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-component";
@@ -64,20 +59,20 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     dataFormat = 'json';
     title = '';
     dataSource: any = {};
-  
-  
-  @ViewChild('ouTree')
+
+
+  @ViewChild('ouTree',{static: false})
   orgTree:OrgUnitComponent;
 
-  @ViewChild('ouTreeOutbreaks')
+  @ViewChild('ouTreeOutbreaks',{static: false})
   orgTreeOutbreaks:OrgUnitLimitedComponent;
 
-  @ViewChild('pgStages') pgStages: TemplateRef<any>;
-  @ViewChild('pgStagesHeader') pgStagesHeader: TemplateRef<any>;
+  @ViewChild('pgStages',{static: false}) pgStages: TemplateRef<any>;
+  @ViewChild('pgStagesHeader',{static: false}) pgStagesHeader: TemplateRef<any>;
 
   constructor(
-    private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService 
-    ) { 
+    private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService
+    ) {
 
     this.outbreakInventoryForm = fb.group({
       'disease' : [null, Validators.required],
@@ -87,7 +82,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
     this.selectedChoice = 'epiCurve';
     this.selectedType = "epiCurve";
-    
+
 
     this.selectEpiCurveForm = fb.group({
       'selectedPeriodType' : [null, Validators.required],
@@ -105,8 +100,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'selectedPeriodType': [null, Validators.required],
       'epiCurveEpidemic' : [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
     });
-   
-    
+
+
     this.periodTypes = [
     {
       'name':'Weekly',
@@ -167,7 +162,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
             "data":[]
           }]
 
-    } 
+    }
   }
   ngOnInit() {
     	this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues:any) =>{
@@ -199,25 +194,25 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   	// Query analytics to return report
   	let period = 'LAST_12_MONTHS';
 
-  	//let ou = 'QYiQ2KqgCxj';	
+  	//let ou = 'QYiQ2KqgCxj';
     if(!isNullOrUndefined(outbreak)){
       let ou = outbreak.orgUnit;
       this.firstCaseDate = moment(outbreak.firstCaseDate).format("DD-MM-YYYY");
       this.lastCaseDate = moment(outbreak.lastCaseDate).format("DD-MM-YYYY");
       //let ou = outbreak.reportingOrgUnit;
 
-      let outbreakInds: any = this.diseaseProgramIndicators.join(';');						
+      let outbreakInds: any = this.diseaseProgramIndicators.join(';');
     	this.piService.getAnalyticsData(outbreakInds,ou,period).subscribe((analyticsData:any) =>{
         if(!isNullOrUndefined(analyticsData.headers) && !isNullOrUndefined(this.programIndicators.programOutbreakIndicators)){
           let headerdata:number = 0;
           headerdata = analyticsData.headers.length - this.programIndicators.programOutbreakIndicators.length;
           //ou = analyticsData.rows[0][headerdata - 4]
           this.orgUnitService.getOrgUnitParents(ou).subscribe( (orgUnit:any) => {
-            this.programIndicatorData = this.piService.displayAnalyticsEpidemics(analyticsData.rows,this.programIndicators.programOutbreakIndicators,orgUnit,headerdata,outbreak);          
-              
+            this.programIndicatorData = this.piService.displayAnalyticsEpidemics(analyticsData.rows,this.programIndicators.programOutbreakIndicators,orgUnit,headerdata,outbreak);
+
           });
         }
-    		
+
     	});
     }
     else{
@@ -230,7 +225,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     if(!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveDisease)){
       let disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
       this.programIndicators = this.piService.getProgramIndicators(this.dataStores,disease);
-      this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators); 
+      this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
       if(!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveEpidemic)){
         let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
         let ou = outbreak.orgUnit;
@@ -249,15 +244,15 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
           periodType = 'daily';
         }
         let period: any = this.piService.generatePeriods(startDate,endDate,periodType);
-        let periods: any = period.join(';');             
+        let periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds,ou,periods,periodType).subscribe((analyticsData:any) =>{
-          if(!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)){              
+          if(!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)){
               this.dataSource.chart.caption = "epi Curve: " + outbreak.disease + " in " + ouName
               this.dataSource.chart.xaxisname = "Period ( "+ periodType + " )"
               if(periodType === 'daily'){
 
                  this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators,period);
-                 
+
                  this.dataSource.categories = [];
                  this.dataSource.categories.push({ "category": this.epiChartData.categories });
                  this.dataSource.dataset = [];
@@ -280,7 +275,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
           else{
             this.epiChartData = [];
           }
-          
+
         });
       }
       else{
@@ -312,21 +307,21 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     return this.selectedType;
   }
   getLineListingReport(){
-      
+
       let orgUnit:any = this.orgTree.orgUnit.id;
       let program:any = this.outbreakLineListingForm.value.program;
       let programType: any = this.outbreakLineListingForm.value.program.programType;
       this.selectedProgramType = programType;
-      
+
       let programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
       let programEndDate:any  = this.outbreakLineListingForm.value.programEndDate;
       if(programType === "WITH_REGISTRATION"){
         this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
         this.outbreakInventoryService.getTrackedEntityInstances(orgUnit,program.id,programStartDate,programEndDate).subscribe( (teis:any) =>{
           this.loadingIndicator = false;
-          
+
           this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
-          
+
           this.outbreakInventoryService.getEvents(orgUnit,program.id,programStartDate,programEndDate).subscribe( (evs:any) =>{
             this.events = evs.events;
             let eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
@@ -342,7 +337,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         this.outbreakInventoryService.getEvents(orgUnit,program.id,programStartDate,programEndDate).subscribe( (evs:any) =>{
           this.loadingIndicator = false;
           this.events = evs.events;
-          this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);          
+          this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
           this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
         });
       }
@@ -361,5 +356,5 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'is-even': (row.$$index % 2) === 0
     };
   }
-  
+
 }

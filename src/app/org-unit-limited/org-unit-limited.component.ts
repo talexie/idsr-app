@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-component";
-import { Observable } from "rxjs";
+import { TreeNode, TREE_ACTIONS, IActionMapping, TreeComponent } from 'angular-tree-component';
 import { ConstantService,OrgUnitService } from "../services";
 
 @Component({
@@ -43,7 +42,7 @@ export class OrgUnitLimitedComponent implements OnInit {
   orgUnit: any = {};
   nodes: any[] = null;
   orgUnitLevels:any[] = [];
-  @ViewChild('orgtree')
+  @ViewChild('orgtree',{static: false})
   orgtree: TreeComponent;
 
   organisationunits: any[] = [];
@@ -75,7 +74,7 @@ export class OrgUnitLimitedComponent implements OnInit {
         let actionMapping:IActionMapping = {
           mouse: {
             dblClick: TREE_ACTIONS.TOGGLE_EXPANDED,
-            click: (node, tree, $event) => TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
+            click: (node, tree, $event) => TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(node, tree, $event)
           }
         };
         this.customTemplateStringOrgunitOptions = {actionMapping};
@@ -84,36 +83,18 @@ export class OrgUnitLimitedComponent implements OnInit {
       // multselect using control key
       else if(this.orgunit_tree_config.multiple_key == "control"){
         let actionMapping:IActionMapping = {
-          mouse: {
-            click: (node, tree, $event) => {
-              $event.ctrlKey
-                ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
-                : TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
-            }
-          }
         };
         this.customTemplateStringOrgunitOptions = {actionMapping};
       }
       // multselect using shift key
       else if(this.orgunit_tree_config.multiple_key == "shift"){
         let actionMapping:IActionMapping = {
-          mouse: {
-            click: (node, tree, $event) => {
-              $event.shiftKey
-                ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
-                : TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
-            }
-          }
         };
         this.customTemplateStringOrgunitOptions = {actionMapping};
       }
 
     }else{
-      let actionMapping:IActionMapping = {                  
-        mouse: {
-          dblClick: TREE_ACTIONS.TOGGLE_EXPANDED,
-          click: (node, tree, $event) => TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
-        }
+      let actionMapping:IActionMapping = {
       };
       this.customTemplateStringOrgunitOptions = {actionMapping};
     }
@@ -134,7 +115,7 @@ export class OrgUnitLimitedComponent implements OnInit {
               userOrgunit => {
                 //let level = this.orgUnitService.getUserHighestOrgUnitlevel( userOrgunit );
                 let level: any = 1;
-               
+
                 this.orgunit_model.user_orgunits = this.orgUnitService.getUserOrgUnits( userOrgunit );
                 this.orgUnitService.user_orgunits = this.orgUnitService.getUserOrgUnits( userOrgunit );
                 if(this.orgunit_model.selection_mode == "Usr_orgUnit"){
@@ -144,7 +125,7 @@ export class OrgUnitLimitedComponent implements OnInit {
                 let orgunits = this.orgUnitService.getuserOrganisationUnitsWithHighestlevel( level, userOrgunit );
                 //let use_level = parseInt(all_levels) - (parseInt(level) - 1);
                 let use_level = 3;
-                
+
                 // this.orgunit_model.user_orgunits = orgunits;
 
                 //load inital orgiunits to speed up loading speed
@@ -195,7 +176,8 @@ export class OrgUnitLimitedComponent implements OnInit {
     setTimeout(() => {
       let node = nodes.treeModel.getNodeById(nodeId);
       if (node)
-        node.setIsActive(true, true);
+        //node.setIsActive(true, true);
+        node.toggleActivated();
     }, 0);
   }
 
@@ -376,5 +358,5 @@ export class OrgUnitLimitedComponent implements OnInit {
 
     return organisation_unit_analytics_string+orgUnits.join(";");
   }
-  
+
 }

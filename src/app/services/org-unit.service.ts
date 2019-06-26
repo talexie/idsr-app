@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable, Observer } from 'rxjs';
 import { ConstantService } from '../services';
 
 @Injectable()
@@ -163,10 +161,7 @@ export class OrgUnitService {
         observer.next(this.orgunit_levels);
         observer.complete();
       }else {
-        this.http.get(this.constant.ROOTURL + 'api/organisationUnitLevels.json?fields=id,name,level&order=level:asc')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
-          .subscribe((levels) => {
+        this.http.get(this.constant.ROOTURL + 'api/organisationUnitLevels.json?fields=id,name,level&order=level:asc').subscribe((levels:any) => {
             this.orgunit_levels = levels;
             observer.next(this.orgunit_levels);
             observer.complete();
@@ -185,10 +180,7 @@ export class OrgUnitService {
         observer.next(this.orgunit_groups);
         observer.complete();
       }else {
-        this.http.get(this.constant.ROOTURL + 'api/organisationUnitGroups.json?fields=id,name&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
-          .subscribe((groups: any) => {
+        this.http.get(this.constant.ROOTURL + 'api/organisationUnitGroups.json?fields=id,name&paging=false').subscribe((groups: any) => {
               this.orgunit_groups = groups.organisationUnitGroups;
               observer.next(this.orgunit_groups);
               observer.complete();
@@ -202,9 +194,7 @@ export class OrgUnitService {
 
   // Get system wide settings
   getAllOrgunitsForTree (fields) {
-    return this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?filter=level:eq:1&paging=false&fields=' + fields)
-      .map((response: Response) => response.json())
-      .catch( this.handleError );
+    return this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?filter=level:eq:1&paging=false&fields=' + fields);
   }
 
   // Get orgunit for specific
@@ -215,8 +205,6 @@ export class OrgUnitService {
         observer.complete();
       } else {
         this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?fields=' + fields + '&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
           .subscribe((nodes: any) => {
             this.nodes = nodes.organisationUnits;
             observer.next(this.nodes);
@@ -237,8 +225,6 @@ export class OrgUnitService {
         observer.complete();
       } else {
         this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?fields=id,name,level,children[id,name]&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
-          .map((response: Response) => response.json())
-          .catch( this.handleError )
           .subscribe((nodes: any) => {
             this.initial_orgunits = nodes.organisationUnits;
             observer.next(this.initial_orgunits);
@@ -258,7 +244,7 @@ export class OrgUnitService {
   getOrgUnitParents(orgUnit) {
     return this.http.get(this.constant.ROOTURL + 'api/organisationUnits/' + orgUnit + '.json?fields=id,name,code,ancestors[id,name]&paging=false');
   }
-  
+
   // Handling error
   handleError (error: any) {
     return Observable.throw( error );
@@ -266,4 +252,3 @@ export class OrgUnitService {
 
 
 }
-

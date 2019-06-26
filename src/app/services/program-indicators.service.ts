@@ -1,8 +1,5 @@
 import { Injectable,Inject,forwardRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
 
@@ -27,7 +24,7 @@ export class ProgramIndicatorsService {
   	if(!isNullOrUndefined(dataStores)){
   		for(let dataStore of dataStores){
   			if(!isNullOrUndefined(dataStore)){
-  				if(dataStore.disease === disease){  					
+  				if(dataStore.disease === disease){
   					return dataStore;
   				}
   			}
@@ -50,7 +47,7 @@ export class ProgramIndicatorsService {
   /**
    Get analytics data for a given disease given a set of indicators
   var piFields = ';
-  
+
   **/
   getAnalyticsData(piIndicators,ou,period){
   	let fields = 'dimension=dx:' + piIndicators + '&filter=pe:' + period + '&dimension=ou:' + ou + '&displayProperty=NAME&tableLayout=true&columns=dx&rows=ou&skipMeta=false&showHierarchy=true';
@@ -60,12 +57,12 @@ export class ProgramIndicatorsService {
   Get epi data for epi curve
 
   **/
-  getAnalyticsDataForEpiCurve(piIndicators,ou,periods,periodType){   
- 
+  getAnalyticsDataForEpiCurve(piIndicators,ou,periods,periodType){
+
     let fields = 'dimension=dx:' + piIndicators + '&dimension=pe:' + periods + '&filter=ou:' + ou + '&displayProperty=NAME&outputIdScheme=UID';
     return this.http.get(this.constant.ROOTURL + 'api/27/analytics.json?' + fields);
   }
-  /** 
+  /**
    Period Generator
   **/
   generatePeriods(startDate,endDate,periodType){
@@ -85,7 +82,7 @@ export class ProgramIndicatorsService {
            for(let i = 0; i < diff; i++) {
               periods.push(start.add(1,'d').format('YYYYMMDD'));
           }
-        }    
+        }
     }
     return periods;
   }
@@ -102,7 +99,7 @@ export class ProgramIndicatorsService {
     let suspectedandconfirmed = [];
     if(!isNullOrUndefined(data)){
       for(let period of periods){
-        for(let value of data){        
+        for(let value of data){
           if(value[0] === piIndicators[0]){
             if(period === value[1]){
               confirmed.push({ "value": parseInt(value[2])});
@@ -140,7 +137,7 @@ export class ProgramIndicatorsService {
 
     chartObject.categories = this.generateSeriesCategories(periods);
     chartObject.dataset = allcases;
-    return chartObject;       
+    return chartObject;
   }
   /**
    Get epidemic codes
@@ -156,7 +153,7 @@ export class ProgramIndicatorsService {
           }
           else{
             endDate = moment().format("DD-MM-YYYY");
-          }           
+          }
           epiArray.push({"epicode": epidemic.epicode,"endDate":endDate,"startDate":moment(epidemic.firstCaseDate).format("DD-MM-YYYY"),"orgUnit": epidemic.orgUnit,"orgUnitName": epidemic.orgUnitName,"status": epidemic.active,"disease": epidemic.disease,"firstCaseDate":epidemic.firstCaseDate,"lastCaseDate":epidemic.lastCaseDate});
         }
   		}
@@ -219,22 +216,22 @@ export class ProgramIndicatorsService {
   			tableRow.headers.push({"title":"Date confirmed","value": moment(outbreak.firstCaseDate).format("DD-MM-YYYY") });
         tableRow.headers.push({"title":"Facility reporting","value": orgUnit.name,"row":true });
           if(orgUnit.ancestors.length === 4){
-            
+
             tableRow.headers.push({"title":"Sector/Subcounty","value":orgUnit.ancestors[3].name,"row":true });
             tableRow.headers.push({"title":"District","value": orgUnit.ancestors[2].name,"row":true});
           }
           else if(orgUnit.ancestors.length === 3){
-            
+
             tableRow.headers.push({"title":"Sector/Subcounty","value":orgUnit.ancestors[2].name,"row":true });
             tableRow.headers.push({"title":"District","value": orgUnit.ancestors[1].name,"row":true});
           }
           else if(orgUnit.ancestors.length === 2){
-            
+
             tableRow.headers.push({"title":"Sector/Subcounty","value":orgUnit.ancestors[1].name,"row":true });
             tableRow.headers.push({"title":"District","value": orgUnit.ancestors[0].name,"row":true});
           }
           else if(orgUnit.ancestors.length === 5){
-            
+
             tableRow.headers.push({"title":"Sector/Subcounty","value":orgUnit.ancestors[4].name,"row":true });
             tableRow.headers.push({"title":"District Hospital","value": orgUnit.ancestors[3].name,"row":true});
             tableRow.headers.push({"title":"District","value": orgUnit.ancestors[2].name,"row":true});
@@ -251,15 +248,15 @@ export class ProgramIndicatorsService {
   			tableRow.dataValues = [];
   			for(let i of indicators){
           if(i.admissionDate){
-            tableRow.dataValues.push({"admissionDate": true,"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});  
+            tableRow.dataValues.push({"admissionDate": true,"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});
           }
           else if(i.dischargeDate){
-            tableRow.dataValues.push({"dischargeDate": true,"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});  
+            tableRow.dataValues.push({"dischargeDate": true,"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});
           }
           else{
-            tableRow.dataValues.push({"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});  
+            tableRow.dataValues.push({"title": i.name,"description":i.description,"value": d[headerdata + counterI]==""?0:parseInt(d[headerdata + counterI])});
           }
-  								
+
   				counterI++;
   			}
   			tableData.push(tableRow);

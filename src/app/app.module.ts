@@ -8,17 +8,13 @@ import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { TreeModule } from 'angular-tree-component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+// Import angular-fusioncharts
+import { FusionChartsModule } from 'angular-fusioncharts';
+
+// Import FusionCharts library and chart modules
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
-
-
-
-import {    
-    FusionChartsComponent,
-    FusionChartsCoreService,
-    FusionChartsModule,
-    FusionChartsService } from 'angular4-fusioncharts';
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
 import { AppComponent } from './app.component';
 
@@ -46,7 +42,7 @@ import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.com
     MatButtonModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
     TreeModule,
     NgxDatatableModule,
-    FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme)
+    FusionChartsModule
   ],
   providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
   bootstrap: [AppComponent]

@@ -33,7 +33,7 @@
           </div>
         </div>
       </form>
-    </div>  
+    </div>
     <div class="table-container table-responsive mat-elevation-z2">
     <fusioncharts
         [id]="id"
@@ -74,7 +74,7 @@
       <table *ngFor="let item of programIndicatorData" class="table table-bordered" style="width:70%">
         <tr *ngFor="let o of item.headers">
           <td class="tb-label">{{o.title}}</td><td>{{o.value}}</td>
-        </tr>       
+        </tr>
         <tr class="trhbordered">
           <th>No</th> <th>Indicator</th><th>Description</th><th class="indicator">Total Number</th>
         </tr>
@@ -89,12 +89,12 @@
         <tr class="trbordered">
           <td>{{item.dataValues?.length + 2}}</td>
           <td>Date Last Case Admitted</td><td>Date Last Case Admitted</td><td class="indicator">{{ lastCaseDate}}</td>
-        </tr>     
+        </tr>
       </table>
     </div>
   </div>
   <div *ngIf="selectedType  == 'lineListing' && selectedType  != 'epiCurve' && selectedType  != 'outbreakReport'">
-    
+
       <div class="form-container">
         <div class="row columns">
             <h1>Line Listing</h1>
@@ -126,7 +126,7 @@
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
             </div>
-          </form>  
+          </form>
         </div>
         <div>
           <ngx-datatable
@@ -134,7 +134,7 @@
             [rows]="rows"
             [columns]="columns"
             [columnMode]="'force'"
-            [loadingIndicator]="loadingIndicator" 
+            [loadingIndicator]="loadingIndicator"
             [headerHeight]="50"
             [footerHeight]="50"
             [rowHeight]="'auto'"
@@ -144,7 +144,7 @@
             [scrollbarH]="true">
 
           </ngx-datatable>
-          <ng-template #pgStagesHeader let-column="column">            
+          <ng-template #pgStagesHeader let-column="column">
               <table class="datatable-header">
                 <thead>
                   <tr>
@@ -167,7 +167,6 @@
           </ng-template>
         </div>
       </div>
-        
+
   </div>
 </div>
-

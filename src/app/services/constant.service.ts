@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, Subscription } from "rxjs";
 /**
  * Created by kelvin on 9/19/16.
  */
@@ -27,7 +26,7 @@ export class ConstantService {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
-    return Observable.throw(errMsg);
+    return errMsg;
   }
 
 
