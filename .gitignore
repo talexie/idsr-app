@@ -40,6 +40,5 @@ testem.log
 .DS_Store
 Thumbs.db
 #development
-/dist
-/dist/idsr-app.zip
-/dist
+idsr-app.zip
+
