@@ -130,7 +130,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   chartCallback = function (chart) { return true; } // optional function, defaults to null
   updateFlag = false; // optional boolean
   oneToOneFlag = true; // optional boolean, defaults to false
-  
+
   @ViewChild('ouTree',{static: false})
   orgTree:OrgUnitComponent;
 
@@ -216,7 +216,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.outbreakInventoryService.getPrograms().subscribe((programValues:any) => {
         this.programs = programValues.programs;
       });
-      Highcharts.chart('highcharts_container', this.options);
 
   }
   ngAfterViewInit(){
