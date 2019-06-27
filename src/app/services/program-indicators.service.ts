@@ -89,7 +89,7 @@ export class ProgramIndicatorsService {
   createEpiCurveData(data,piIndicators,periods){
     let chartObject: any = {
       "categories":[],
-      "dataset":[]
+      "data":[]
     };
     let allcases = [];
     let categories = [];
@@ -102,26 +102,26 @@ export class ProgramIndicatorsService {
         for(let value of data){
           if(value[0] === piIndicators[0]){
             if(period === value[1]){
-              confirmed.push({ "value": parseInt(value[2])});
+              confirmed.push([period,parseInt(value[2])]);
             }
             else{
-              confirmed.push({ "value": 0});
+              confirmed.push([period,0]);
             }
           }
           else if(value[0] === piIndicators[1]){
             if(period === value[1]){
-              deaths.push({ "value": parseInt(value[2])});
+              deaths.push([period,parseInt(value[2])]);
             }
             else{
-              deaths.push({ "value": 0});
+              deaths.push([period,0]);
             }
           }
           else if(value[0] === piIndicators[2]){
             if(period === value[1]){
-              suspected.push({ "value": parseInt(value[2])});
+              suspected.push([period,parseInt(value[2])]);
             }
             else{
-              suspected.push({ "value": 0});
+              suspected.push([period,0]);
             }
           }
           else{
@@ -130,13 +130,13 @@ export class ProgramIndicatorsService {
         }
       }
     }
-    //fusion charts structure
-    allcases.push({ "seriesname": "Confirmed","data": confirmed });
-    allcases.push({ "seriesname": "Suspected","data": suspected });
-    allcases.push({ "seriesname": "Deaths","data": deaths });
+    //Highcharts structure
+    allcases.push({ "name": "Confirmed","data": confirmed });
+    allcases.push({ "name": "Suspected","data": suspected });
+    allcases.push({ "name": "Deaths","data": deaths });
 
     chartObject.categories = this.generateSeriesCategories(periods);
-    chartObject.dataset = allcases;
+    chartObject.data = allcases;
     return chartObject;
   }
   /**

@@ -8,6 +8,7 @@ import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-compon
 import { ProgramIndicatorsService,OrgUnitService,OutbreakInventoryService, ConstantService } from '../services';
 import { OrgUnitComponent } from "../org-unit";
 import { OrgUnitLimitedComponent } from "../org-unit-limited";
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-outbreak-inventory',
@@ -52,15 +53,84 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   selectedChoice: string;
   selectedProgramType: string = "";
 
-    id = 'chart1';
-    width = '90%';
-    height = '90%';
-    type = 'stackedcolumn2d';
-    dataFormat = 'json';
-    title = '';
-    dataSource: any = {};
-
-
+  public options: any = {
+    chart: {
+      type: 'column',
+      height: 700,
+      renderTo:''
+    },
+    title: {
+      text: 'epiCurve'
+    },
+    credits: {
+      enabled: false
+    },
+    xAxis: {
+      categories:[],
+      title:{
+        text:'',
+        enabled: true
+      }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '',
+            enabled:true
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                color: 'gray'
+            }
+        }
+    },
+    legend: {
+      align: 'right',
+      x: -30,
+      verticalAlign: 'top',
+      y: 25,
+      floating: true,
+      backgroundColor:'white',
+      borderColor: '#CCC',
+      borderWidth: 1,
+      shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color:'white'
+            }
+        }
+    },
+    series: [
+      {
+        name: 'Confirmed',
+        data: []
+      },
+      {
+        name: 'Suspected',
+        data: []
+      },
+      {
+        name: 'Deaths',
+        data: []
+      }
+    ]
+  }
+  Highcharts = Highcharts; // required
+  chartConstructor = 'chart'; // optional string, defaults to 'chart'
+  chartCallback = function (chart) { return true; } // optional function, defaults to null
+  updateFlag = false; // optional boolean
+  oneToOneFlag = true; // optional boolean, defaults to false
+  
   @ViewChild('ouTree',{static: false})
   orgTree:OrgUnitComponent;
 
@@ -94,6 +164,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'programStages' : [null, Validators.required],
       'programStartDate' : [null, Validators.required],
       'programEndDate' : [null, Validators.required],
+      'disease' : [null, Validators.required],
+      'outbreak' : [null, Validators.required],
     });
     this.outbreakEpiCurveForm = fb.group({
       'epiCurveDisease' : [null, Validators.required],
@@ -135,34 +207,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'id':'epiDocs',
       'prop':'epiDocs'
     }];
-    this.dataSource = {
-        "chart": {
-            "caption": "epi Curve",
-            "subCaption": "",
-            "numberprefix": "",
-            "theme": "fint",
-            "yaxisname": "Number of Cases",
-            "xaxisname": "Period",
-            "exportEnabled": "1"
-        },
-        "categories": [{
-          "category":[]
-        }],
-        "dataset": [
-          {
-            "seriesname": "Confirmed",
-            "data":[]
-          },
-          {
-            "seriesname": "Suspected",
-            "data":[]
-          },
-          {
-            "seriesname": "Deaths",
-            "data":[]
-          }]
-
-    }
   }
   ngOnInit() {
     	this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues:any) =>{
@@ -172,6 +216,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.outbreakInventoryService.getPrograms().subscribe((programValues:any) => {
         this.programs = programValues.programs;
       });
+      Highcharts.chart('highcharts_container', this.options);
 
   }
   ngAfterViewInit(){
@@ -247,16 +292,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         let periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds,ou,periods,periodType).subscribe((analyticsData:any) =>{
           if(!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)){
-              this.dataSource.chart.caption = "epi Curve: " + outbreak.disease + " in " + ouName
-              this.dataSource.chart.xaxisname = "Period ( "+ periodType + " )"
+              this.options.title = "epi Curve: " + outbreak.disease + " in " + ouName
+              this.options.xAxis.title.text = "Period ( "+ periodType + " )"
               if(periodType === 'daily'){
 
                  this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators,period);
 
-                 this.dataSource.categories = [];
-                 this.dataSource.categories.push({ "category": this.epiChartData.categories });
-                 this.dataSource.dataset = [];
-                 this.dataSource.dataset = this.epiChartData.dataset;
+                 this.options.xAxis.categories = [];
+                 this.options.xAxis.categories.push(this.epiChartData.categories);
+                 this.options.series = [];
+                 this.options.series = this.epiChartData.data;
                  /*
                  if (this.chart) {
                       this.chart.addSeries(o.json(), true)
@@ -265,10 +310,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
               }
               else{
                  this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators,period);
-                this.dataSource.categories = [];
-                this.dataSource.categories.push({ "category": this.epiChartData.categories });
-                this.dataSource.dataset = [];
-                this.dataSource.dataset =this.epiChartData.allcases;
+                this.options.xAxis.categories = [];
+                this.options.xAxis.categories.push(this.epiChartData.categories);
+                this.options.series = [];
+                this.options.series =this.epiChartData.allcases;
 
               }
           }
@@ -287,7 +332,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       console.log("Please select the disease");
       this.epiChartData = [];
     }
-    return this.dataSource;
+    return this.options;
   }
 
   getProgramStages(program){

@@ -15,7 +15,7 @@
   <div id="header">
       <img id="headerBanner" src="../../../api/staticContent/logo_banner" onclick="window.location.href='../../../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="">
 
-  </div> 
+  </div>
   <app-root>Loading...</app-root>
   <script>
    window.dhis2 = window.dhis2 || {};
@@ -24,7 +24,7 @@
   </script>
    <!-- JQuery scripts -->
   <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
-  
+
 
   <!-- Menu dependencies -->
   <script type="text/javascript" src="../../../dhis-web-core-resource/react-15/react-15.min.js"></script>
@@ -61,7 +61,16 @@
         BASE_DHIS2_URL = baseHost + '/' + baseInstance;
       }
       if(basePort !==''){
-        BASE_DHIS2_URL = baseHost + ':' + basePort + '/' + baseInstance;
+        console.log("port:"+basePort);
+        console.log("host:"+baseHost);
+        console.log("instance:"+baseInstance);
+        if (baseInstance == 'api'){
+          BASE_DHIS2_URL = baseHost;
+        }
+        else{
+          BASE_DHIS2_URL = baseHost+'/'+baseInstance;
+        }
+
       }
       if( Dhis2HeaderBar ){
         Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), BASE_DHIS2_URL + '/api', { noLoadingIndicator: true });

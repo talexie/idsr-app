@@ -8,14 +8,6 @@ import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { TreeModule } from 'angular-tree-component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-// Import angular-fusioncharts
-import { FusionChartsModule } from 'angular-fusioncharts';
-
-// Import FusionCharts library and chart modules
-import * as FusionCharts from 'fusioncharts';
-import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
-
 import { AppComponent } from './app.component';
 
 import { OutbreakInventoryComponent } from './outbreak-inventory/outbreak-inventory.component';
@@ -24,13 +16,15 @@ import { AppNoContentComponent } from './app-no-content/app-no-content.component
 import { OrgUnitComponent } from './org-unit/org-unit.component';
 import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.component';
 
+import { HighchartsChartModule } from 'highcharts-angular';
+
 @NgModule({
   declarations: [
     AppComponent,
     OutbreakInventoryComponent,
     AppNoContentComponent,
     OrgUnitComponent,
-    OrgUnitLimitedComponent
+    OrgUnitLimitedComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +34,9 @@ import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.com
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
-    TreeModule,
+    TreeModule.forRoot(),
     NgxDatatableModule,
-    FusionChartsModule
+    HighchartsChartModule
   ],
   providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
   bootstrap: [AppComponent]
