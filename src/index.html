@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>IdsrApp</title>
+  <base href="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel='stylesheet' href='../../../dhis-web-commons/font-awesome/css/font-awesome.min.css'>
+    <link rel='stylesheet' media='screen' href='../../../dhis-web-commons/css/menu.css'>
+    <link rel='stylesheet' href='../../../dhis-web-commons/css/widgets.css'>
+</head>
+<body>
+  <div id="header">
+      <img id="headerBanner" src="../../../api/staticContent/logo_banner" onclick="window.location.href='../../../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="">
+
+  </div>
+  <app-root>Loading...</app-root>
+  <script>
+   window.dhis2 = window.dhis2 || {};
+   dhis2.settings = dhis2.settings || {};
+   dhis2.settings.baseUrl = '../../../';
+  </script>
+   <!-- JQuery scripts -->
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
+
+
+  <!-- Menu dependencies -->
+  <script type="text/javascript" src="../../../dhis-web-core-resource/react-15/react-15.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
+
+  <!-- Menu script is up here due to perceived loading time increase -->
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/babel-polyfill.js"></script>
+  <script type="text/javascript" src="../../../dhis-web-commons/javascripts/header-bar/header-bar.js"></script>
+  <!-- // End menu -->
+
+
+  <script>
+    // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
+    jQuery(document).ready(function () {
+
+      /** Initialise the baseUrl automatically
+      ** Need a better way to inject this.
+      **/
+      var baseInstance = '';
+      var baseHost = window.location.origin;
+      var basePort = window.location.port;
+      var basePath = window.location.pathname;
+      var baseInstancePath = basePath.split('/',7);
+      var BASE_DHIS2_URL = '';
+      if((baseInstancePath.indexOf('dhis-web-')) >= 0){
+        baseInstance = '';
+      }
+      else{
+        baseInstance = baseInstancePath[1];
+      }
+      if(basePort == ''){
+        BASE_DHIS2_URL = baseHost + '/' + baseInstance;
+      }
+      if(basePort !==''){
+        console.log("port:"+basePort);
+        console.log("host:"+baseHost);
+        console.log("instance:"+baseInstance);
+        if (baseInstance == 'api'){
+          BASE_DHIS2_URL = baseHost;
+        }
+        else{
+          BASE_DHIS2_URL = baseHost+'/'+baseInstance;
+        }
+
+      }
+      if( Dhis2HeaderBar ){
+        Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), BASE_DHIS2_URL + '/api', { noLoadingIndicator: true });
+      }
+    });
+  </script>
+</body>
+</html>
