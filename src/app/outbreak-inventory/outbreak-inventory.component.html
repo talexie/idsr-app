@@ -127,7 +127,7 @@
               </mat-form-field> 
 
               <br>
-              <div style="margin-left: 21%;">
+              <div style="margin-left: 10%;">
                 <mat-form-field>
                 <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
                   <mat-option>None</mat-option>
@@ -148,6 +148,10 @@
                 </mat-select>
               </mat-form-field>
 
+              <!-- A table search input box -->
+              <mat-form-field>
+                <input matInput [(ngModel)]="name" placeholder="Search anything ...">
+              </mat-form-field>
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
@@ -156,7 +160,8 @@
                   <button mat-menu-item >PDF</button>
                   <button mat-menu-item>Print</button>
                 </mat-menu>
-              </div>
+
+          </div>
               
             </div>
           </form>
