@@ -1823,10 +1823,11 @@ var OutbreakInventoryComponent = /** @class */ (function () {
                         _this.options.xAxis.title.text = "Period ( " + periodType_1 + " )";
                         if (periodType_1 === 'daily') {
                             _this.epiChartData = _this.piService.createEpiCurveData(analyticsData.rows, _this.diseaseProgramIndicators, period_1);
-                            _this.options.xAxis.categories = [];
                             _this.options.xAxis.categories = _this.epiChartData.categories;
-                            _this.options.series = [];
-                            _this.options.series = _this.epiChartData.data;
+                            //this.options.series = this.epiChartData.data;
+                            _this.options.series[0].setData(_this.epiChartData.data[0]);
+                            _this.options.series[1].setData(_this.epiChartData.data[1]);
+                            _this.options.series[2].setData(_this.epiChartData.data[2]);
                             /*
                             if (this.chart) {
                                  this.chart.addSeries(o.json(), true)
@@ -1835,10 +1836,11 @@ var OutbreakInventoryComponent = /** @class */ (function () {
                         }
                         else {
                             _this.epiChartData = _this.piService.createEpiCurveData(analyticsData.rows, _this.diseaseProgramIndicators, period_1);
-                            _this.options.xAxis.categories = [];
                             _this.options.xAxis.categories = _this.epiChartData.categories;
-                            _this.options.series = [];
-                            _this.options.series = _this.epiChartData.allcases;
+                            //this.options.series =this.epiChartData.data;
+                            _this.options.series[0].setData(_this.epiChartData.data[0]);
+                            _this.options.series[1].setData(_this.epiChartData.data[1]);
+                            _this.options.series[2].setData(_this.epiChartData.data[2]);
                         }
                     }
                     else {
