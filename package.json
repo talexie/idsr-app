@@ -26,6 +26,7 @@
     "@swimlane/ngx-datatable": "^15.0.2",
     "@types/highcharts": "^5.0.22",
     "ajv": "^6.10.0",
+    "angular-datatables": "^8.0.0",
     "angular-fusioncharts": "^3.0.2",
     "angular-tree-component": "^8.4.0",
     "core-js": "^2.4.1",

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelect, MatButton, MatTable,MatDatepicker } from '@angular/material';
 import { isNullOrUndefined } from 'util';
@@ -13,6 +13,11 @@ import * as Highcharts from 'highcharts';
 import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 /*DatatableComponent,TableColumn*/ 
+
+/*jQuery in Angular*/
+declare var $;
+
+
 
 @Component({
   selector: 'app-outbreak-inventory',
@@ -144,6 +149,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   @ViewChild('pgStages',{static: false}) pgStages: TemplateRef<any>;
   @ViewChild('pgStagesHeader',{static: false}) pgStagesHeader: TemplateRef<any>;
 
+  @ViewChild('dataTable', {static: false}) table;
+  dataTable: any;
+
   constructor(
     private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService
     ) {
@@ -220,6 +228,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.outbreakInventoryService.getPrograms().subscribe((programValues:any) => {
         this.programs = programValues.programs;
       });
+
+      this.dataTable = $(this.table.nativeElement);
+      this.dataTable.dataTable();
 
   }
   ngAfterViewInit(){
