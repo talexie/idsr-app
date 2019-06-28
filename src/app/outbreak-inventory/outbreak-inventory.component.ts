@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSelect, MatButton, MatTable,MatDatepicker } from '@angular/material';
+import { MatSelect, MatButton, MatTable, MatDatepicker,MatDialog  } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
 import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-component";
@@ -12,10 +12,8 @@ import * as Highcharts from 'highcharts';
 
 import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-/*DatatableComponent,TableColumn*/ 
 
-/*jQuery in Angular*/
-declare var $;
+import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
 
 
 
@@ -149,12 +147,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   @ViewChild('pgStages',{static: false}) pgStages: TemplateRef<any>;
   @ViewChild('pgStagesHeader',{static: false}) pgStagesHeader: TemplateRef<any>;
 
-  @ViewChild('dataTable', {static: false}) table;
-  dataTable: any;
 
   constructor(
     private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService
-    ) {
+    , public dialog: MatDialog) {
 
     this.outbreakInventoryForm = fb.group({
       'disease' : [null, Validators.required],
@@ -228,9 +224,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.outbreakInventoryService.getPrograms().subscribe((programValues:any) => {
         this.programs = programValues.programs;
       });
-
-      this.dataTable = $(this.table.nativeElement);
-      this.dataTable.dataTable();
 
   }
   ngAfterViewInit(){
@@ -425,6 +418,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
   exportToCsv(){
     
+  }
+
+    hideOrShowColumns(): void {
+    const dialogRef = this.dialog.open(ColumnsDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }
