@@ -174,6 +174,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'programEndDate' : [null, Validators.required],
       'disease' : [null, Validators.required],
       'outbreak' : [null, Validators.required],
+      'column' : [null, Validators.required],
     });
     this.outbreakEpiCurveForm = fb.group({
       'epiCurveDisease' : [null, Validators.required],
@@ -402,6 +403,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         });
       }
   }
+
+
+
+  // Remove or add some columns displayed in the table!
+    removeOrAddSomeColumns(){
+
+    }
+
+
+
   tableEvents(value: Event): void {
       if (value) {
           console.log(value);
