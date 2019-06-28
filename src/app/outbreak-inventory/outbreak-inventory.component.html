@@ -152,7 +152,7 @@
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item >CSV</button>
+                  <button mat-menu-item (click)="exportToCsv()">CSV</button>
                   <button mat-menu-item >PDF</button>
                   <button mat-menu-item>Print</button>
                 </mat-menu>

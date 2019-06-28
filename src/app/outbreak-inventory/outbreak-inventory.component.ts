@@ -406,6 +406,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'is-even': (row.$$index % 2) === 0
     };
   }
+  exportToCsv(){
+    
+  }
 
 }
 
