@@ -57,7 +57,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   selectedChoice: string;
   selectedProgramType: string = "";
 
-  public options: any = {
+  public options: any= {
     chart: {
       type: 'column',
       height: 700,
@@ -225,7 +225,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
 
   }
-
+  // Demonstrate chart instance
+  logChartInstance(chart: Highcharts.Chart) {
+    console.log('Chart instance: ', chart);
+  }
   getEpidemics(disease) {
   	this.piService.getDataStores(this.dataStore, 'epidemics').subscribe( (epiStoreValues:any) =>{
     		this.epidemics = epiStoreValues;
@@ -268,7 +271,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     }
     return this.programIndicatorData;
   }
-  drawEpiCurve(){
+  drawEpiCurve($event){
     //let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
     if(!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveDisease)){
       let disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
@@ -337,6 +340,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       console.log("Please select the disease");
       this.epiChartData = [];
     }
+    this.updateFlag = true
+    this.logChartInstance($event)
+    this.options = this.options;
     return this.options;
   }
 
