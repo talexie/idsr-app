@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule } from '@angular/material';
+import { MatButtonModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule } from '@angular/material';
+
+// CSV Module
+import { CsvModule } from '@ctrl/ngx-csv';
+
 import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { TreeModule } from 'angular-tree-component';
@@ -33,10 +37,11 @@ import { HighchartsChartModule } from 'highcharts-angular';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
+    MatButtonModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
     TreeModule.forRoot(),
     NgxDatatableModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    CsvModule
   ],
   providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
   bootstrap: [AppComponent]

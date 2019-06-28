@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^8.0.2",
     "@angular/platform-browser-dynamic": "^8.0.2",
     "@angular/router": "^8.0.2",
+    "@ctrl/ngx-csv": "^1.2.0",
     "@swimlane/ngx-datatable": "^15.0.2",
     "@types/highcharts": "^5.0.22",
     "ajv": "^6.10.0",

@@ -10,6 +10,10 @@ import { OrgUnitComponent } from "../org-unit";
 import { OrgUnitLimitedComponent } from "../org-unit-limited";
 import * as Highcharts from 'highcharts';
 
+import { CsvModule } from '@ctrl/ngx-csv';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+/*DatatableComponent,TableColumn*/ 
+
 @Component({
   selector: 'app-outbreak-inventory',
   templateUrl: './outbreak-inventory.component.html',
@@ -402,3 +406,59 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
 
 }
+
+
+
+
+
+
+
+// export function exportAsCSV(dataTable: DatatableComponent) {
+//   const columns: TableColumn[] = dataTable.columns || dataTable._internalColumns;
+//   const headers =
+//       columns
+//           .map((column: TableColumn) => column.name)
+//           .filter((e) => e);  // remove column without name (i.e. falsy value)
+
+//   const rows: any[] = dataTable.rows.map((row) => {
+//       let r = {};
+//       columns.forEach((column) => {
+//           if (!column.name) { return; }   // ignore column without name
+//           if (column.prop) {
+//               let prop = column.prop.toString();
+//               let value = getNestedPropertyValue(row, prop);
+              
+//               r[prop] = (typeof value === 'boolean') ? (value ? 'Yes' : 'No') : value;
+//           } else {
+//               // special cases handled here
+//           }
+//       })
+//       return r;
+//   });
+
+//   const options = {
+//       fieldSeparator  : ',',
+//       quoteStrings    : '"',
+//       decimalseparator: '.',
+//       showLabels      : true,
+//       headers         : headers,
+//       showTitle       : false,
+//       title           : 'Report',
+//       useBom          : true
+//   };
+
+//   return new CsvModule();
+// }
+
+// function getNestedPropertyValue(object: any, nestedPropertyName: string) {
+//     var dotIndex = nestedPropertyName.indexOf(".");
+//     if (dotIndex == -1) {
+//         return object[nestedPropertyName];
+//     } else {
+//         var propertyName = nestedPropertyName.substring(0, dotIndex);
+//         var nestedPropertyNames = nestedPropertyName.substring(dotIndex + 1);
+
+//         return getNestedPropertyValue(object[propertyName], nestedPropertyNames);
+//     }
+// }
+
