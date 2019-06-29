@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule } from '@angular/material';
+import { MatButtonModule,MatCheckboxModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule } from '@angular/material';
 
 // CSV Module
 import { CsvModule } from '@ctrl/ngx-csv';
@@ -21,6 +21,7 @@ import { OrgUnitComponent } from './org-unit/org-unit.component';
 import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.component';
 
 import { HighchartsChartModule } from 'highcharts-angular';
+import { ColumnsDialogComponent } from './columns-dialog/columns-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     AppNoContentComponent,
     OrgUnitComponent,
     OrgUnitLimitedComponent,
+    ColumnsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,11 +39,14 @@ import { HighchartsChartModule } from 'highcharts-angular';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
+    MatButtonModule,MatCheckboxModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
     TreeModule.forRoot(),
     NgxDatatableModule,
     HighchartsChartModule,
     CsvModule
+  ],
+  entryComponents: [
+    ColumnsDialogComponent
   ],
   providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
   bootstrap: [AppComponent]

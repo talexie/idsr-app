@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSelect, MatButton, MatTable,MatDatepicker } from '@angular/material';
+import { MatSelect, MatButton, MatTable, MatDatepicker,MatDialog  } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
 import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-component";
@@ -12,7 +12,14 @@ import * as Highcharts from 'highcharts';
 
 import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+<<<<<<< HEAD
 /*DatatableComponent,TableColumn*/
+=======
+
+import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
+
+
+>>>>>>> f060cf9a7445ae1945709c087288f6f397e70c55
 
 @Component({
   selector: 'app-outbreak-inventory',
@@ -144,9 +151,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   @ViewChild('pgStages',{static: false}) pgStages: TemplateRef<any>;
   @ViewChild('pgStagesHeader',{static: false}) pgStagesHeader: TemplateRef<any>;
 
+
   constructor(
     private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService
-    ) {
+    , public dialog: MatDialog) {
 
     this.outbreakInventoryForm = fb.group({
       'disease' : [null, Validators.required],
@@ -170,6 +178,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'programEndDate' : [null, Validators.required],
       'disease' : [null, Validators.required],
       'outbreak' : [null, Validators.required],
+      'column' : [null, Validators.required],
     });
     this.outbreakEpiCurveForm = fb.group({
       'epiCurveDisease' : [null, Validators.required],
@@ -399,6 +408,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         });
       }
   }
+
+
+
+  // Remove or add some columns displayed in the table!
+    removeOrAddSomeColumns(){
+
+    }
+
+
+
   tableEvents(value: Event): void {
       if (value) {
           console.log(value);
@@ -415,6 +434,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
   exportToCsv(){
 
+  }
+
+    hideOrShowColumns(): void {
+    const dialogRef = this.dialog.open(ColumnsDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }
