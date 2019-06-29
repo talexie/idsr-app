@@ -27,16 +27,16 @@
     "@types/highcharts": "^5.0.22",
     "ajv": "^6.10.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "angular-datatables": "^8.0.0",
     "angular-fusioncharts": "^3.0.2",
 >>>>>>> f060cf9a7445ae1945709c087288f6f397e70c55
+=======
+>>>>>>> 88fb4cfa3a860e56157372aecc545e9970ee73b0
     "angular-tree-component": "^8.4.0",
     "core-js": "^2.4.1",
-    "datatables.net": "^1.10.19",
-    "datatables.net-dt": "^1.10.19",
     "font-awesome": "^4.7.0",
-    "fusioncharts": "^3.13.5-sr.1",
     "hammerjs": "^2.0.8",
     "highcharts": "^7.1.2",
     "highcharts-angular": "^2.4.0",
