@@ -12,15 +12,7 @@ import * as Highcharts from 'highcharts';
 
 import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-<<<<<<< HEAD
-/*DatatableComponent,TableColumn*/
-=======
-
 import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
-
-
->>>>>>> f060cf9a7445ae1945709c087288f6f397e70c55
-
 @Component({
   selector: 'app-outbreak-inventory',
   templateUrl: './outbreak-inventory.component.html',
@@ -416,8 +408,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     const isChecked = this.isChecked(column);
 
     if(isChecked) {
-      this.columns = this.columns.filter(c => { 
-        return c.name !== column.name; 
+      this.columns = this.columns.filter(c => {
+        return c.name !== column.name;
       });
     } else {
       this.columns = [...this.columns, column];
