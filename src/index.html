@@ -19,12 +19,12 @@
   </div>
 
 
-  <app-root> 
+  <app-root>
     <center>
         <img src="favicon.ico" style="margin-top: 15%;">
         <h1 style="margin-top: 5%;">Loading ... </h1> <h4>Please wait!</h4>
     </center> </app-root>
- 
+
 
   <script>
    window.dhis2 = window.dhis2 || {};
@@ -66,18 +66,18 @@
       else{
         baseInstance = baseInstancePath[1];
       }
-      if(basePort == ''){
+      if(basePort === ''){
         BASE_DHIS2_URL = baseHost + '/' + baseInstance;
       }
       if(basePort !==''){
         console.log("port:"+basePort);
         console.log("host:"+baseHost);
         console.log("instance:"+baseInstance);
-        if (baseInstance == 'api'){
-          BASE_DHIS2_URL = baseHost;
+        if(baseInstance !== 'api'){
+          BASE_DHIS2_URL = baseHost+'/'+baseInstance;
         }
         else{
-          BASE_DHIS2_URL = baseHost+'/'+baseInstance;
+          BASE_DHIS2_URL = baseHost;
         }
       }
       if( Dhis2HeaderBar ){
