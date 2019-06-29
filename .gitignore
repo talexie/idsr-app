@@ -41,4 +41,5 @@ testem.log
 Thumbs.db
 #development
 idsr-app.zip
+dist.zip
 
