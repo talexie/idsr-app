@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>IdsrApp</title>
+  <title>IDSR Reporting Application - HISP Rwanda Ltd.</title>
   <base href="">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,11 +12,19 @@
     <link rel='stylesheet' href='../../../dhis-web-commons/css/widgets.css'>
 </head>
 <body>
+
   <div id="header">
       <img id="headerBanner" src="../../../api/staticContent/logo_banner" onclick="window.location.href='../../../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="">
 
   </div>
-  <app-root>Loading...</app-root>
+
+
+  <app-root> 
+    <center>
+        <h1 style="margin-top: 21%;">Loading ... </h1> <h4>Please wait!</h4>
+    </center> </app-root>
+ 
+
   <script>
    window.dhis2 = window.dhis2 || {};
    dhis2.settings = dhis2.settings || {};
@@ -70,12 +78,11 @@
         else{
           BASE_DHIS2_URL = baseHost+'/'+baseInstance;
         }
-
       }
       if( Dhis2HeaderBar ){
         Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), BASE_DHIS2_URL + '/api', { noLoadingIndicator: true });
       }
     });
   </script>
-<script src="runtime-es2015.js" type="module"></script><script src="polyfills-es2015.js" type="module"></script><script src="runtime-es5.js" nomodule></script><script src="polyfills-es5.js" nomodule></script><script src="styles-es2015.js" type="module"></script><script src="styles-es5.js" nomodule></script><script src="vendor-es2015.js" type="module"></script><script src="main-es2015.js" type="module"></script><script src="vendor-es5.js" nomodule></script><script src="main-es5.js" nomodule></script></body>
+<script src="runtime-es2015.js" type="module"></script><script src="polyfills-es2015.js" type="module"></script><script src="runtime-es5.js" nomodule></script><script src="polyfills-es5.js" nomodule></script><script src="styles-es2015.js" type="module"></script><script src="styles-es5.js" nomodule></script><script src="scripts.js"></script><script src="vendor-es2015.js" type="module"></script><script src="main-es2015.js" type="module"></script><script src="vendor-es5.js" nomodule></script><script src="main-es5.js" nomodule></script></body>
 </html>
