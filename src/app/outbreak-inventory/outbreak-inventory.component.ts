@@ -412,9 +412,24 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
   // Remove or add some columns displayed in the table!
-    removeOrAddSomeColumns(){
+  toggle(column) {
+    const isChecked = this.isChecked(column);
 
+    if(isChecked) {
+      this.columns = this.columns.filter(c => { 
+        return c.name !== column.name; 
+      });
+    } else {
+      this.columns = [...this.columns, column];
     }
+  }
+
+  isChecked(column) {
+    return this.columns.find(c => {
+      return c.name === column.name;
+    });
+  }
+
 
 
 

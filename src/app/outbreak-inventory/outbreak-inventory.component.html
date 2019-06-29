@@ -141,10 +141,10 @@
               </mat-form-field>
 
                <!-- Show or Hide some columns -->
-                <mat-form-field>
-                <mat-select (selectionChange)="removeOrAddSomeColumns()" multiple placeholder="Show / hide some columns" formControlName="column">
-                  <mat-option>Sample Column Name</mat-option>
-                  <mat-option *ngFor="let column of columns" [value]="column" >{{ column.name }}</mat-option>
+              <mat-form-field>
+                <mat-select (selectionChange)="removeOrAddSomeColumns()" multiple placeholder="Show / hide columns" formControlName="column">
+                  <!-- <mat-option (click)='toggle(column)'>Sample</mat-option> -->
+                  <mat-option *ngFor="let column of columns" [value]="column" (click)='toggle(column)'>{{ column.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
 
@@ -172,10 +172,14 @@
           </form>
         </div>
         <div>
+
+            <!-- The columns to display
+              [columns]="columns"
+            -->
+
           <ngx-datatable
             class="material"
             [rows]="rows"
-            [columns]="columns"
             [columnMode]="'toggling'"
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="50"
@@ -186,7 +190,14 @@
             [limit]="20"
             [scrollbarH]="true">
 
+            <!-- Dynamically rendering the table columns -->
+            <ngx-datatable-column 
+                *ngFor="let column of columns" 
+                [name]="column.name">
+            </ngx-datatable-column>
+
           </ngx-datatable>
+
           <ng-template #pgStagesHeader let-column="column">
               <table class="datatable-header">
                 <thead>
