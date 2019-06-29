@@ -40,7 +40,7 @@
         [options]="options"
         [(update)]="updateFlag"
         [oneToOne]="oneToOneFlag"
-        (chartInstance)="logChartInstance($event)"
+        (chartInstance)="getChartInstance($event)"
         style="width: 100%; height: 400px; display: block;"
       ></highcharts-chart>
     </div>
@@ -124,7 +124,7 @@
                 <input matInput [matDatepicker]="endDate" (dateChange)="getLineListingReport()" placeholder="End Date" formControlName="programEndDate">
                 <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
-              </mat-form-field> 
+              </mat-form-field>
 
               <br>
               <div style="margin-left: 10%;">
@@ -160,9 +160,14 @@
                   <button mat-menu-item >PDF</button>
                   <button mat-menu-item>Print</button>
                 </mat-menu>
+<<<<<<< HEAD
+              </div>
+
+=======
 
           </div>
               
+>>>>>>> f060cf9a7445ae1945709c087288f6f397e70c55
             </div>
           </form>
         </div>

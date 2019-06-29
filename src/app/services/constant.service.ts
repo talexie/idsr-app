@@ -8,7 +8,7 @@ export class ConstantService {
     ROOTURL: string = null;
 
     constructor( private http: HttpClient ){
-      this.ROOTURL = '../../../../../';
+      this.ROOTURL = '../../../../';
     }
 
   load() {
