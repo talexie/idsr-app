@@ -66,17 +66,19 @@
           		  <mat-option *ngFor="let outbreak of outbreaks" [value]="outbreak" >{{outbreak.epicode}}</mat-option>
           		</mat-select>
             </mat-form-field>
+            <button mat-raised-button (click)="downloadOutReport()">Download as PDF</button>
+            <button mat-raised-button style="margin-left: 2em;" (click)="printOutReport()">Print Now</button>
           </div>
         </div>
       </form>
     </div>
-    <div class="table-container table-responsive mat-elevation-z2">
+    <div class="table-container table-responsive mat-elevation-z2" id="outReport">
       <table *ngFor="let item of programIndicatorData" class="table table-bordered" style="width:70%">
         <tr *ngFor="let o of item.headers">
           <td class="tb-label">{{o.title}}</td><td>{{o.value}}</td>
         </tr>
         <tr class="trhbordered">
-          <th>No</th> <th>Indicator</th><th>Description</th><th class="indicator">Total Number</th>
+          <th>No</th> <th>Indicator</th><th>Description</th><th class="indicator">Value</th>
         </tr>
         <tr *ngFor="let i of item.dataValues; let n=index" class="trbordered">
          <td>{{(n+1)}}</td>
@@ -127,7 +129,7 @@
               </mat-form-field>
 
               <br>
-              <div style="margin-left: 10%;">
+              <div>
                 <mat-form-field>
                 <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
                   <mat-option>None</mat-option>
@@ -142,45 +144,37 @@
 
                <!-- Show or Hide some columns -->
               <mat-form-field>
-                <mat-select (selectionChange)="removeOrAddSomeColumns()" multiple placeholder="Show / hide columns" formControlName="column">
-                  <!-- <mat-option (click)='toggle(column)'>Sample</mat-option> -->
-                  <mat-option *ngFor="let column of columns" [value]="column" (click)='toggle(column)'>{{ column.name }}</mat-option>
+                <mat-select placeholder="Show / hide columns" formControlName="column">
+                  <mat-option *ngFor="let column of columns" [value]="column" [id]="column.name" (click)='toggle(column)'><mat-checkbox>{{ column.name }}</mat-checkbox>
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
 
               <!-- A table search input box -->
-              <mat-form-field>
-                <input matInput [(ngModel)]="name" placeholder="Search anything ...">
+              <mat-form-field appearance="outline">
+                <mat-label>Search from the table!</mat-label>
+                <input matInput placeholder="Type here ...">
               </mat-form-field>
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item (click)="exportToCsv()">CSV</button>
-                  <button mat-menu-item >PDF</button>
-                  <button mat-menu-item>Print</button>
+                  <button mat-menu-item (click)="downloadPdf()" >PDF</button>
+            <!--  <button mat-menu-item (click)="downloadPdf()">Print</button> -->
                 </mat-menu>
-<<<<<<< HEAD
-              </div>
 
-=======
-
-          </div>
-              
->>>>>>> f060cf9a7445ae1945709c087288f6f397e70c55
+                  </div>
+                </div>
+               </form>
             </div>
-          </form>
         </div>
-        <div>
-
-            <!-- The columns to display
-              [columns]="columns"
-            -->
+      <div>
 
           <ngx-datatable
             class="material"
             [rows]="rows"
-            [columnMode]="'toggling'"
+            [columnMode]="'force'"
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="50"
             [footerHeight]="50"
@@ -190,16 +184,18 @@
             [limit]="20"
             [scrollbarH]="true">
 
-            <!-- Dynamically rendering the table columns -->
-            <ngx-datatable-column 
-                *ngFor="let column of columns" 
-                [name]="column.name">
-            </ngx-datatable-column>
+          <ngx-datatable-column 
+            *ngFor="let column of columns" 
+            [name]="column.name">
+          </ngx-datatable-column>
 
-          </ngx-datatable>
+        </ngx-datatable>
+
+        <!-- A div to print the inner content! -->
 
           <ng-template #pgStagesHeader let-column="column">
-              <table class="datatable-header">
+            <div id="lineListingPdf">
+              <table class="datatable-header" #tableContentToPdf>
                 <thead>
                   <tr>
                     <th class="datatable-header-test-cell" colspan="(getProgramStageColumns(selectedProgramStages,column.prop)).length"><strong>{{ column.name }}</strong></th>
@@ -211,16 +207,18 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
           </ng-template>
+        
           <ng-template #pgStages let-value="value" let-column="column" cellClass="is-program-stage-cell">
               <table>
                 <tr *ngFor="let val of value">
                   <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)">{{ val[psColumnx.prop] }}</td>
                 </tr>
               </table>
-          </ng-template>
+          </ng-template>   
         </div>
       </div>
 
   </div>
-</div>
+

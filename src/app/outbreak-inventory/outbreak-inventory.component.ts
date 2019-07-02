@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { MatSelect, MatButton, MatTable, MatDatepicker,MatDialog  } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
@@ -13,12 +13,24 @@ import * as Highcharts from 'highcharts';
 import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
+
+/*Export Dependencies*/
+import { ExportToCsv } from 'export-to-csv';
+
+import * as jspdf from 'jspdf'; 
+import html2canvas from 'html2canvas';
+
+
+
 @Component({
   selector: 'app-outbreak-inventory',
   templateUrl: './outbreak-inventory.component.html',
   styleUrls: ['./outbreak-inventory.component.css'],
   providers: [OrgUnitService, ProgramIndicatorsService,OutbreakInventoryService, ConstantService]
 })
+
+
+
 export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   outbreakInventoryForm: FormGroup;
@@ -130,6 +142,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       }
     ]
   }
+
   chart:any;
   updateFlag:boolean = true; // optional boolean
   oneToOneFlag:boolean = true; // optional boolean, defaults to false
@@ -223,6 +236,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       });
 
   }
+
   ngAfterViewInit(){
 
   }
@@ -273,6 +287,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     }
     return this.programIndicatorData;
   }
+
   drawEpiCurve(chart:Highcharts.Chart){
 
     //let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
@@ -439,73 +454,94 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       'is-even': (row.$$index % 2) === 0
     };
   }
-  exportToCsv(){
 
+
+
+ // Export to csv from the table data!
+ 
+  exportToCsv(){
+      var data = [
+        {
+          name: 'John E.',
+          age: 13,
+          average: 8.2,
+          approved: true
+        },
+        {
+          name: 'Eric T.',
+          age: 11,
+          average: 8.2,
+          approved: true
+        },
+        {
+          name: 'Rukundo D.',
+          age: 10,
+          average: 8.2,
+          approved: true
+        }
+        ];
+
+     const options = { 
+      fieldSeparator: ',',
+      filename: 'CSV Test File',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true, 
+      showTitle: true,
+      title: 'Testing file in CSV format from Angular Json data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(data);
   }
 
-    hideOrShowColumns(): void {
-    const dialogRef = this.dialog.open(ColumnsDialogComponent, {
-      width: '250px'
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+/* Export to PDF */
+/*  saveAsPdf(){
+
+      var data = document.getElementById('contentToConvert');
+
+       html2canvas(data).then(canvas => {      
+          // Few necessary setting options
+            var imgWidth = 208;
+            var pageHeight = 250;
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+             
+            const contentDataURL = canvas.toDataURL('image/png')
+            let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+            var position = 0;
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+        pdf.save('Sample Pdf file generated.pdf'); // Generated PDF
+      
+      });
+      
+
+      }*/
+
+
+
+
+
+  // Download a Pdf file
+  
+  public downloadPdf(){
+    return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
+  }
+
+  public downloadOutReport(){
+        return xepOnline.Formatter.Format('outReport', {render: 'download'});
+  }
+
+  public printOutReport(){
+        return xepOnline.Formatter.Format('outReport', {render: 'print'});
   }
 
 }
 
 
 
-
-
-
-
-// export function exportAsCSV(dataTable: DatatableComponent) {
-//   const columns: TableColumn[] = dataTable.columns || dataTable._internalColumns;
-//   const headers =
-//       columns
-//           .map((column: TableColumn) => column.name)
-//           .filter((e) => e);  // remove column without name (i.e. falsy value)
-
-//   const rows: any[] = dataTable.rows.map((row) => {
-//       let r = {};
-//       columns.forEach((column) => {
-//           if (!column.name) { return; }   // ignore column without name
-//           if (column.prop) {
-//               let prop = column.prop.toString();
-//               let value = getNestedPropertyValue(row, prop);
-
-//               r[prop] = (typeof value === 'boolean') ? (value ? 'Yes' : 'No') : value;
-//           } else {
-//               // special cases handled here
-//           }
-//       })
-//       return r;
-//   });
-
-//   const options = {
-//       fieldSeparator  : ',',
-//       quoteStrings    : '"',
-//       decimalseparator: '.',
-//       showLabels      : true,
-//       headers         : headers,
-//       showTitle       : false,
-//       title           : 'Report',
-//       useBom          : true
-//   };
-
-//   return new CsvModule();
-// }
-
-// function getNestedPropertyValue(object: any, nestedPropertyName: string) {
-//     var dotIndex = nestedPropertyName.indexOf(".");
-//     if (dotIndex == -1) {
-//         return object[nestedPropertyName];
-//     } else {
-//         var propertyName = nestedPropertyName.substring(0, dotIndex);
-//         var nestedPropertyNames = nestedPropertyName.substring(dotIndex + 1);
-
-//         return getNestedPropertyValue(object[propertyName], nestedPropertyNames);
-//     }
-// }
