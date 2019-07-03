@@ -379,6 +379,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     this.selectedChoice = event;
     return this.selectedType;
   }
+
   getLineListingReport(){
 
       let orgUnit:any = this.orgTree.orgUnit.id;
@@ -417,6 +418,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       }
   }
 
+  rowDataToDisplay(){
+    return this.rows;
+  }
+
 
 
   // Remove or add some columns displayed in the table!
@@ -440,90 +445,22 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
 
-
   tableEvents(value: Event): void {
       if (value) {
           console.log(value);
       }
   }
+
   getProgramStageColumns(programStages,programStageId){
       let selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages,programStageId);
       return selectedStageColumns;
   }
+
   getRowClass(row) {
     return {
       'is-even': (row.$$index % 2) === 0
     };
   }
-
-
-
- // Export to csv from the table data!
- 
-/*  exportToCsv(){
-      var data = [
-        {
-          name: 'John E.',
-          age: 13,
-          average: 8.2,
-          approved: true
-        },
-        {
-          name: 'Eric T.',
-          age: 11,
-          average: 8.2,
-          approved: true
-        },
-        {
-          name: 'Rukundo D.',
-          age: 10,
-          average: 8.2,
-          approved: true
-        }
-        ];
-
-     const options = { 
-      fieldSeparator: ',',
-      filename: 'CSV Test File',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true, 
-      showTitle: true,
-      title: 'Testing file in CSV format from Angular Json data',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true
-    };
- 
-const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(data);
-  }*/
-
-
-/* Export to PDF */
-/*  saveAsPdf(){
-
-      var data = document.getElementById('contentToConvert');
-
-       html2canvas(data).then(canvas => {      
-          // Few necessary setting options
-            var imgWidth = 208;
-            var pageHeight = 250;
-            var imgHeight = canvas.height * imgWidth / canvas.width;
-            var heightLeft = imgHeight;
-             
-            const contentDataURL = canvas.toDataURL('image/png')
-            let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-            var position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-        pdf.save('Sample Pdf file generated.pdf'); // Generated PDF
-      
-      });
-      
-
-      }*/
-
 
     datatableToCsv(){
       var my_data = this.rows;
@@ -542,9 +479,6 @@ csvExporter.generateCsv(data);
           useBom: true,
           useKeysAsHeaders: true
         };
-
-        /*console.log(my_data);
-        console.log(my_new_data);*/
 
         const csvExporter = new ExportToCsv(options);
         csvExporter.generateCsv(my_data);

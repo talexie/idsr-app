@@ -145,7 +145,7 @@
                <!-- Show or Hide some columns -->
               <mat-form-field>
                 <mat-select placeholder="Show / hide columns" formControlName="column">
-                  <mat-option *ngFor="let column of columns" ><mat-checkbox>{{ column.name }}</mat-checkbox>
+                  <mat-option *ngFor="let column of columns" (click)="toggle(column)"><mat-checkbox>{{ column.name }}</mat-checkbox>
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -212,7 +212,7 @@
           <ng-template #pgStages let-value="value" let-column="column" cellClass="is-program-stage-cell">
               <table>
                 <tr *ngFor="let val of value">
-                  <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)">{{ val[psColumnx.prop] }}</td>
+                  <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)"><!-- {{ val[psColumnx.prop] }} --></td>
                 </tr>
               </table>
           </ng-template>   
