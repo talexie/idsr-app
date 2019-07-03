@@ -133,7 +133,8 @@ export class OutbreakInventoryService {
 			"prop":"orgUnitName",
 			"name":"Org Unit Name",
 			"headerClass":"datatable-header"
-		}];
+		}
+		];
 
 		if(!isNullOrUndefined(programStage) && !isNullOrUndefined(programStage.programStageDataElements)){
 			for(let dataElement of programStage.programStageDataElements){
@@ -319,7 +320,7 @@ export class OutbreakInventoryService {
 				eventObject.orgUnit = event.orgUnit;
 				eventObject.status = event.status;
 				eventObject.orgUnitName = event.orgUnitName;
-				rows.push(this.createObjectFromArrayDataValues(event.dataValues,eventObject));
+				rows.push(this.createObjectFromArrayDataValues(event.dataValues, eventObject));
 			}
 		}
 		return rows;

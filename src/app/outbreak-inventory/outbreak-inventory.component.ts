@@ -388,6 +388,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
       let programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
       let programEndDate:any  = this.outbreakLineListingForm.value.programEndDate;
+      
       if(programType === "WITH_REGISTRATION"){
         this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
         this.outbreakInventoryService.getTrackedEntityInstances(orgUnit,program.id,programStartDate,programEndDate).subscribe( (teis:any) =>{
@@ -459,7 +460,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
  // Export to csv from the table data!
  
-  exportToCsv(){
+/*  exportToCsv(){
       var data = [
         {
           name: 'John E.',
@@ -497,7 +498,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 const csvExporter = new ExportToCsv(options);
  
 csvExporter.generateCsv(data);
-  }
+  }*/
 
 
 /* Export to PDF */
@@ -524,7 +525,30 @@ csvExporter.generateCsv(data);
       }*/
 
 
+    datatableToCsv(){
+      var my_data = this.rows;
+      var my_new_data = this.columns;
 
+
+       const options = { 
+          fieldSeparator: ',',
+          filename: 'CSV Test File',
+          quoteStrings: '"',
+          decimalSeparator: '.',
+          showLabels: true, 
+          showTitle: true,
+          title: 'Testing file in CSV format from Angular Json data',
+          useTextFile: false,
+          useBom: true,
+          useKeysAsHeaders: true
+        };
+
+        /*console.log(my_data);
+        console.log(my_new_data);*/
+
+        const csvExporter = new ExportToCsv(options);
+        csvExporter.generateCsv(my_data);
+    }
 
 
   // Download a Pdf file
