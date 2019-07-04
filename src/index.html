@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>IDSR Reporting Application - HISP Rwanda Ltd.</title>
+  <title> idsr-report </title>
   <base href="">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,19 +10,27 @@
     <link rel='stylesheet' href='../../../dhis-web-commons/font-awesome/css/font-awesome.min.css'>
     <link rel='stylesheet' media='screen' href='../../../dhis-web-commons/css/menu.css'>
     <link rel='stylesheet' href='../../../dhis-web-commons/css/widgets.css'>
+
+
+               <!-- Downloading a PDF file - Plugins -->
+  <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://josuemutabazi.000webhostapp.com/xepOnline.jqPlugin.js"></script>
+  -->
 </head>
+
 <body>
 
   <div id="header">
-      <img id="headerBanner" src="../../../api/staticContent/logo_banner" onclick="window.location.href='../../../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="">
+      <img id="headerBanner" src="../../../api/staticContent/logo_banner" onclick="window.location.href='../../../dhis-web-commons-about/redirect.action'" style="cursor:pointer; margin-left: 45.5%; margin-top: 13.5%;" title="">
 
   </div>
 
-
   <app-root>
     <center>
-        <h1 style="margin-top: 21%;">Loading ... </h1> <h4>Please wait!</h4>
-    </center> </app-root>
+        <!-- <h1 style="margin-top: 5%;">Loading ... </h1> <h4>Please wait!</h4> -->
+        <img src="assets/preloader.gif" width="200" height="200">
+    </center> 
+  </app-root>
 
 
   <script>
