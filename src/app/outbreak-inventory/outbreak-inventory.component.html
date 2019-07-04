@@ -212,7 +212,7 @@
           <ng-template #pgStages let-value="value" let-column="column" cellClass="is-program-stage-cell">
               <table>
                 <tr *ngFor="let val of value">
-                  <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)"><!-- {{ val[psColumnx.prop] }} --></td>
+                  <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)">{{ val[psColumnx.prop] }}</td>
                 </tr>
               </table>
           </ng-template>   
