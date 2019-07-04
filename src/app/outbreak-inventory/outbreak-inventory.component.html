@@ -163,10 +163,14 @@
                   <button mat-menu-item (click)="downloadPdf()" >PDF</button>
             <!--  <button mat-menu-item (click)="downloadPdf()">Print</button> -->
                 </mat-menu>
+<<<<<<< HEAD
 
                   </div>
                 </div>
                </form>
+=======
+              </div>
+>>>>>>> master
             </div>
         </div>
       <div>
@@ -185,12 +189,20 @@
             [limit]="15"
             [scrollbarH]="true">
 
+<<<<<<< HEAD
           <ngx-datatable-column 
             *ngFor="let column of columns" 
             [name]="column.name">
           </ngx-datatable-column>
 
         </ngx-datatable>
+=======
+            <!-- Dynamically rendering the table columns -->
+            <ngx-datatable-column
+                *ngFor="let column of columns"
+                [name]="column.name">
+            </ngx-datatable-column>
+>>>>>>> master
 
         <!-- A div to print the inner content! -->
 
