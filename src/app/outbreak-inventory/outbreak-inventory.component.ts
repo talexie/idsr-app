@@ -17,7 +17,7 @@ import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.compone
 /*Export Dependencies*/
 import { ExportToCsv } from 'export-to-csv';
 
-import * as jspdf from 'jspdf'; 
+import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
 
@@ -59,6 +59,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   beginStartDate = moment(moment().subtract(30,'days')).format('YYYY-MM-DD');
   rows:any = [];
   columns: any = [];
+  toggleColumns: any = [];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   firstCaseDate: any = "";
@@ -389,11 +390,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
       let programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
       let programEndDate:any  = this.outbreakLineListingForm.value.programEndDate;
-      
+
       if(programType === "WITH_REGISTRATION"){
         this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
         this.outbreakInventoryService.getTrackedEntityInstances(orgUnit,program.id,programStartDate,programEndDate).subscribe( (teis:any) =>{
-          this.loadingIndicator = false;
 
           this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
 
@@ -404,18 +404,22 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
             let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
             let stageColumns  = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages,this.pgStages,this.pgStagesHeader);
             this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns,stageColumns);
+            setTimeout(() => { this.loadingIndicator = false; }, 1500);
+            console.log("this rows",this.rows);
+            console.log("this cols",this.columns);
           });
         });
       }
       else{
         this.selectedProgramStages = this.outbreakLineListingForm.value.program.programStages[0];
         this.outbreakInventoryService.getEvents(orgUnit,program.id,programStartDate,programEndDate).subscribe( (evs:any) =>{
-          this.loadingIndicator = false;
           this.events = evs.events;
           this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
           this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
+          setTimeout(() => { this.loadingIndicator = false; }, 1500);
         });
       }
+
   }
 
   rowDataToDisplay(){
@@ -467,12 +471,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       var my_new_data = this.columns;
 
 
-       const options = { 
+       const options = {
           fieldSeparator: ',',
           filename: 'CSV Test File',
           quoteStrings: '"',
           decimalSeparator: '.',
-          showLabels: true, 
+          showLabels: true,
           showTitle: true,
           title: 'Testing file in CSV format from Angular Json data',
           useTextFile: false,
@@ -486,7 +490,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
   // Download a Pdf file
-  
+
   public downloadPdf(){
     return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
   }
@@ -500,6 +504,3 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
 
 }
-
-
-
