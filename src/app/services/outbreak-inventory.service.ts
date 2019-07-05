@@ -22,7 +22,7 @@ export class OutbreakInventoryService {
 		if(!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate)){
 			programEndDate = moment(programEndDate).format('YYYY-MM-DD');
 			programStartDate = moment(programStartDate).format('YYYY-MM-DD');
-			fields = fields + '&programStartDate' + programStartDate + '&programEndDate' + programEndDate;
+			fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
 		}
 	  	return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
 	}
@@ -32,7 +32,7 @@ export class OutbreakInventoryService {
 		if(!isNullOrUndefined(startDate) && !isNullOrUndefined(endDate)){
 			startDate = moment(startDate).format('YYYY-MM-DD');
 			endDate = moment(endDate).format('YYYY-MM-DD');
-			fields = fields + '&startDate' + startDate + '&endDate' + endDate;
+			fields = fields + '&startDate=' + startDate + '&endDate=' + endDate;
 		}
 	  	return this.http.get(this.constant.ROOTURL + 'api/events.json?' + fields);
 	}

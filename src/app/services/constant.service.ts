@@ -8,12 +8,8 @@ export class ConstantService {
     ROOTURL: string = null;
 
     constructor( private http: HttpClient ){
-<<<<<<< HEAD
       /*this.ROOTURL = '../../../../';*/
       this.ROOTURL = 'https://dev.hisprwanda.org/idsr/';
-=======
-      this.ROOTURL = '../../../../../';
->>>>>>> master
     }
 
   load() {
