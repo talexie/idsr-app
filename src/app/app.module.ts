@@ -51,4 +51,5 @@ import { ColumnsDialogComponent } from './columns-dialog/columns-dialog.componen
   providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

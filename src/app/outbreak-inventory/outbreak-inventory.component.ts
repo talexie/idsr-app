@@ -1,25 +1,28 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
-import { MatSelect, MatButton, MatTable, MatDatepicker,MatDialog  } from '@angular/material';
+import { MatSelect, MatButton, MatTable, MatDatepicker } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
 import { TreeComponent, TREE_ACTIONS, IActionMapping } from "angular-tree-component";
 
-import { ProgramIndicatorsService,OrgUnitService,OutbreakInventoryService, ConstantService } from '../services';
+import { ProgramIndicatorsService,OrgUnitService, OutbreakInventoryService, ConstantService } from '../services';
 import { OrgUnitComponent } from "../org-unit";
 import { OrgUnitLimitedComponent } from "../org-unit-limited";
 import * as Highcharts from 'highcharts';
 
-import { CsvModule } from '@ctrl/ngx-csv';
+// import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
+// import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
 
 /*Export Dependencies*/
 import { ExportToCsv } from 'export-to-csv';
 
+<<<<<<< HEAD
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
+=======
+>>>>>>> 96e9859d64dc67806175ae2e4ce4b94692a4cf0f
 
 
 @Component({
@@ -159,8 +162,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService
-    , public dialog: MatDialog) {
+    private fb: FormBuilder,private piService: ProgramIndicatorsService,private orgUnitService: OrgUnitService,private outbreakInventoryService: OutbreakInventoryService) {
 
     this.outbreakInventoryForm = fb.group({
       'disease' : [null, Validators.required],
@@ -489,18 +491,28 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     }
 
 
+<<<<<<< HEAD
   // Download a Pdf file
 
   public downloadPdf(){
     return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
   }
+=======
+    // Download a Pdf file
+    
+    public downloadPdf(){
+      return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
+    }
 
-  public downloadOutReport(){
-        return xepOnline.Formatter.Format('outReport', {render: 'download'});
-  }
+    public downloadOutReport(){
+          return xepOnline.Formatter.Format('outReport', {render: 'download'});
+    }
 
-  public printOutReport(){
-        return xepOnline.Formatter.Format('outReport', {render: 'print'});
-  }
+    public printOutReport(){
+          return xepOnline.Formatter.Format('outReport', {render: 'print'});
+    }
+>>>>>>> 96e9859d64dc67806175ae2e4ce4b94692a4cf0f
+
+
 
 }
