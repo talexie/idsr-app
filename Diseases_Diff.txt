@@ -1,0 +1,23 @@
+	
+	Seasonal
+	========	
+	Malaria
+	Non-bloody Diahrear
+	Pneumonia
+	Flu
+
+
+	Non-seasonal
+	============
+	
+
+
+
+	Cased Based
+	===========
+	Malaria Severe
+
+
+
+
+	

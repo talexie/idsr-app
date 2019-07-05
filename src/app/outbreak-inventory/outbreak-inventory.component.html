@@ -95,7 +95,7 @@
       </table>
     </div>
   </div>
-  <div *ngIf="selectedType  == 'lineListing' && selectedType  != 'epiCurve' && selectedType  != 'outbreakReport'">
+  <div *ngIf="selectedType  == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'">
 
       <div class="form-container">
         <div class="row columns">
@@ -161,20 +161,23 @@
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item (click)="datatableToCsv()">CSV</button>
                   <button mat-menu-item (click)="downloadPdf()" >PDF</button>
-            <!--  <button mat-menu-item (click)="downloadPdf()">Print</button> -->
                 </mat-menu>
 
                   </div>
                 </div>
                </form>
+
+              </div>
+
             </div>
         </div>
-      <div>
 
+      <div>
           <ngx-datatable
             class="material"
             id="lineListingPdf"
             [rows]="rows"
+            [columns]="columns"
             [columnMode]="'force'"
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="50"
@@ -184,15 +187,7 @@
             [scrollbarV]="false"
             [limit]="15"
             [scrollbarH]="true">
-
-          <ngx-datatable-column 
-            *ngFor="let column of columns" 
-            [name]="column.name">
-          </ngx-datatable-column>
-
-        </ngx-datatable>
-
-        <!-- A div to print the inner content! -->
+          </ngx-datatable>
 
           <ng-template #pgStagesHeader let-column="column">
               <table class="datatable-header" #tableContentToPdf>
@@ -217,7 +212,9 @@
               </table>
           </ng-template>   
         </div>
-      </div>
 
-  </div>
+
+<!-- Parent Div closes -->
+</div>
+
 
