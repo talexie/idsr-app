@@ -2,9 +2,9 @@
 	Seasonal
 	========	
 	Malaria
-	Non-bloody Diahrear
+	Non-bloody Diahrearl
 	Pneumonia
-	Flu
+	Flu Syndrome
 
 
 	Non-seasonal
@@ -16,6 +16,18 @@
 	Cased Based
 	===========
 	Malaria Severe
+	Malaria Death
+
+
+
+
+Line listing app
+----------------
+. Selecting Org Unit not working well.
+. Not filtering diseases.
+. Date Filtering
+. Display names instead of IDs.
+. epiCurve No spaces between bars.
 
 
 

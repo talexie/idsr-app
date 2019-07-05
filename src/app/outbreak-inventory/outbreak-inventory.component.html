@@ -34,6 +34,7 @@
         </div>
       </form>
     </div>
+    
     <div class="table-container table-responsive mat-elevation-z2">
       <highcharts-chart
         [Highcharts]="Highcharts"
@@ -102,13 +103,14 @@
             <h1>Line Listing</h1>
           <form [formGroup]="outbreakLineListingForm">
             <div class="top-heading">
-              <app-org-unit #ouTree></app-org-unit>
+                 <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->
+                 <app-org-unit #ouTree></app-org-unit>       
             </div>
             <div class="top-heading">
               <mat-form-field>
                 <mat-select (selectionChange)="getProgramStages(outbreakLineListingForm.value.program)" placeholder="Programs" formControlName="program">
                   <mat-option>None</mat-option>
-                  <mat-option *ngFor="let program of programs" [value]="program" >{{program.name}}</mat-option>
+                  <mat-option *ngFor="let program of programs" [value]="program" >{{ program.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field *ngIf="selectedProgramType == 'WITH_REGISTRATION'">
@@ -145,7 +147,7 @@
                <!-- Show or Hide some columns -->
               <mat-form-field>
                 <mat-select placeholder="Show / hide columns" formControlName="column">
-                  <mat-option *ngFor="let column of columns" (click)="toggle(column)"><mat-checkbox>{{ column.name }}</mat-checkbox>
+                  <mat-option *ngFor="let column of allColumns" (click)="toggle(column)"><mat-checkbox>{{ column.name }}</mat-checkbox>
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -173,6 +175,7 @@
         </div>
 
       <div>
+    
           <ngx-datatable
             class="material"
             id="lineListingPdf"
@@ -198,7 +201,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="datatable-header-test-cell" *ngFor="let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)">{{ psColumn.name }}</td>
+                    <td class="datatable-header-test-cell" *ngFor="let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)"><!-- {{ psColumn.name }} --> Sample</td>
                   </tr>
                 </tbody>
               </table>
