@@ -133,20 +133,20 @@
               <br>
               <div>
                 <mat-form-field>
-                <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field>
+                  <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+<!--         <mat-form-field>
                 <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Outbreaks" formControlName="outbreak">
                   <mat-option>None</mat-option>
                 </mat-select>
-              </mat-form-field>
+              </mat-form-field> -->
 
                <!-- Show or Hide some columns -->
               <mat-form-field>
-                <mat-select placeholder="Show / hide columns" formControlName="column">
+                <mat-select placeholder="Show / hide columns" multiple formControlName="column">
                   <mat-option *ngFor="let column of allColumns" (click)="toggle(column)"><mat-checkbox>{{ column.name }}</mat-checkbox>
                   </mat-option>
                 </mat-select>
