@@ -485,7 +485,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     // Download a Pdf file
 
     public downloadPdf() {
-      return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
+      return xepOnline.Formatter.Format('downPdfFile', {render: 'download'});
     }
 
     public downloadOutReport() {
