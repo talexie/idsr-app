@@ -4,7 +4,7 @@
       {{choice.name}}
     </mat-radio-button>
   </mat-radio-group>
-  <div  *ngIf="selectedType == 'epiCurve' && selectedType  != 'lineListing' && selectedType  != 'outbreakReport'">
+  <div  *ngIf="selectedType == 'epiCurve' && selectedType != 'lineListing' && selectedType != 'outbreakReport'">
     <div>
       <form [formGroup]="outbreakEpiCurveForm">
         <div class="form-container">
@@ -97,7 +97,7 @@
     </div>
   </div>
 
-  <div *ngIf="selectedType  == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'">
+  <div *ngIf="selectedType == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'">
 
       <div class="form-container">
         <div class="row columns">
@@ -117,7 +117,7 @@
               <mat-form-field *ngIf="selectedProgramType == 'WITH_REGISTRATION'">
                 <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Program Stages" formControlName="programStages">
                   <mat-option>None</mat-option>
-                  <mat-option *ngFor="let programStage of programStages" [value]="programStage" >{{programStage.name }}</mat-option>
+                  <mat-option *ngFor="let programStage of programStages" [value]="programStage" >{{ programStage.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field>
@@ -131,11 +131,11 @@
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
 
-              <br>
+
               <div style="margin-left: 21%;">
                 <mat-form-field>
                   <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
-                    <mat-option>None</mat-option>
+                    <!-- <mat-option>None</mat-option> -->
                     <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -156,7 +156,7 @@
               <!-- A table search input box -->
               <mat-form-field appearance="outline">
                 <mat-label>Search from the table!</mat-label>
-                <input matInput placeholder="Type here ...">
+                <input matInput placeholder="Type here ..." [(ngModel)]="searChItem">
               </mat-form-field>
 
                 <!-- Export Buttons -->
@@ -181,19 +181,19 @@
             class="material"
             [rows]="rows"
             [columns]="columns"
-            [columnMode]="'force'"
+            [columnMode]="'toggling'"
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="50"
             [footerHeight]="50"
             [rowHeight]="'auto'"
             [reorderable]="reorderable"
             [scrollbarV]="false"
-            [limit]="15"
+            [limit]="20"
             [scrollbarH]="true">
           </ngx-datatable>
 
           <ng-template #pgStagesHeader let-column="column">
-              <table class="datatable-header" #tableContentToPdf>
+              <table class="datatable-header">
                 <thead>
                   <tr>
                     <th class="datatable-header-test-cell" colspan="(getProgramStageColumns(selectedProgramStages,column.prop)).length"><strong>{{ column.name }}</strong></th>
@@ -201,7 +201,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="datatable-header-test-cell" *ngFor="let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)"><!-- {{ psColumn.name }} --> Sample</td>
+                    <td class="datatable-header-test-cell" *ngFor="let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)">{{ psColumn.name }}</td>
                   </tr>
                 </tbody>
               </table>
