@@ -136,11 +136,18 @@
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/joe_dev
               <div style="margin-left: 21%;">
                 <mat-form-field>
                   <!-- (selectionChange)="updateFilter($event)"  -->
                   <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
+<<<<<<< HEAD
                     <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
+=======
+>>>>>>> refs/remotes/origin/joe_dev
                     <!-- <mat-option>None</mat-option> -->
                     <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
                   </mat-select>
@@ -154,11 +161,19 @@
                 </mat-select>
               </mat-form-field>
 
+<<<<<<< HEAD
             <!-- A table search input box -->
             <mat-form-field appearance="outline">
               <mat-label>Search from the table!</mat-label>
               <input matInput placeholder="Type here ...">
             </mat-form-field>
+=======
+              <!-- A table search input box -->
+              <mat-form-field appearance="outline">
+                <mat-label>Search from the table!</mat-label>
+                <input matInput placeholder="Type here ..." [(ngModel)]="searChItem">
+              </mat-form-field>
+>>>>>>> refs/remotes/origin/joe_dev
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
@@ -181,14 +196,18 @@
             class="material"
             [rows]="rows"
             [columns]="columns"
+<<<<<<< HEAD
             [columnMode]="'fixed'"
+=======
+            [columnMode]="'toggling'"
+>>>>>>> refs/remotes/origin/joe_dev
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="40"
             [footerHeight]="30"
             [rowHeight]="'auto'"
             [reorderable]="reorderable"
             [scrollbarV]="false"
-            [limit]="15"
+            [limit]="20"
             [scrollbarH]="true">
           </ngx-datatable>
 

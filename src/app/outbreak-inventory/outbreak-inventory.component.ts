@@ -88,18 +88,18 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       }
     },
     yAxis: {
-        min: 0,
-        title: {
-            text: '',
-            enabled: true
-        },
-        stackLabels: {
-            enabled: true,
-            style: {
-                fontWeight: 'bold',
-                color: 'gray'
-            }
+      min: 0,
+      title: {
+        text: '',
+        enabled: true
+      },
+      stackLabels: {
+        enabled: true,
+        style: {
+          fontWeight: 'bold',
+          color: 'gray'
         }
+      }
     },
     legend: {
       align: 'right',
@@ -113,17 +113,17 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       shadow: false
     },
     tooltip: {
-        headerFormat: '<b>{point.x}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      headerFormat: '<b>{point.x}</b><br/>',
+      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
     },
     plotOptions: {
-        column: {
-            stacking: 'normal',
-            dataLabels: {
-                enabled: true,
-                color: 'white'
-            }
+      column: {
+        stacking: 'normal',
+        dataLabels: {
+          enabled: true,
+          color: 'white'
         }
+      }
     },
     series: [
       {
@@ -145,26 +145,26 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   updateFlag = true; // optional boolean
   oneToOneFlag = true; // optional boolean, defaults to false
 
-  @ViewChild('ouTree', { static: false})
+  @ViewChild('ouTree', { static: false })
   orgTree: OrgUnitComponent;
 
-  @ViewChild('ouTreeOutbreaks', { static: false})
+  @ViewChild('ouTreeOutbreaks', { static: false })
   orgTreeOutbreaks: OrgUnitLimitedComponent;
 
-  @ViewChild('pgStages', { static: false}) pgStages: TemplateRef<any>;
-  @ViewChild('pgStagesHeader', {static: false}) pgStagesHeader: TemplateRef<any>;
+  @ViewChild('pgStages', { static: false }) pgStages: TemplateRef<any>;
+  @ViewChild('pgStagesHeader', { static: false }) pgStagesHeader: TemplateRef<any>;
 
   temp: [];
 
 
   constructor(
-// tslint:disable-next-line: max-line-length
+    // tslint:disable-next-line: max-line-length
     private fb: FormBuilder, private piService: ProgramIndicatorsService, private orgUnitService: OrgUnitService, private outbreakInventoryService: OutbreakInventoryService) {
 
     this.outbreakInventoryForm = fb.group({
-      'disease' : [null, Validators.required],
-      'location' : [null, Validators.required],
-      'epidemic' : [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
+      'disease': [null, Validators.required],
+      'location': [null, Validators.required],
+      'epidemic': [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
     });
 
     this.selectedChoice = 'epiCurve';
@@ -172,69 +172,69 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
     this.selectEpiCurveForm = fb.group({
-      'selectedPeriodType' : [null, Validators.required],
+      'selectedPeriodType': [null, Validators.required],
     });
 
     this.outbreakLineListingForm = fb.group({
-      'orgUnit' : [null, Validators.required],
-      'program' : [null, Validators.required],
-      'programStages' : [null, Validators.required],
-      'programStartDate' : [null, Validators.required],
-      'programEndDate' : [null, Validators.required],
-      'disease' : [null, Validators.required],
-      'outbreak' : [null, Validators.required],
-      'column' : [null, Validators.required],
+      'orgUnit': [null, Validators.required],
+      'program': [null, Validators.required],
+      'programStages': [null, Validators.required],
+      'programStartDate': [null, Validators.required],
+      'programEndDate': [null, Validators.required],
+      'disease': [null, Validators.required],
+      'outbreak': [null, Validators.required],
+      'column': [null, Validators.required],
     });
     this.outbreakEpiCurveForm = fb.group({
-      'epiCurveDisease' : [null, Validators.required],
+      'epiCurveDisease': [null, Validators.required],
       'selectedPeriodType': [null, Validators.required],
-      'epiCurveEpidemic' : [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
+      'epiCurveEpidemic': [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
     });
 
 
     this.periodTypes = [
-    {
-      'name': 'Weekly',
-      'id': 'weekly',
-      'checked': false
-    },
-    {
-      'name': 'Daily',
-      'id': 'daily',
-      'checked': true
-    }];
+      {
+        'name': 'Weekly',
+        'id': 'weekly',
+        'checked': false
+      },
+      {
+        'name': 'Daily',
+        'id': 'daily',
+        'checked': true
+      }];
 
     this.choices = [
-    {
-      'name': 'Outbreak Report',
-      'id': 'outbreakReport',
-      'prop': 'Outbreaks'
-    },
-    {
-      'name': 'epi Curve',
-      'id': 'epiCurve',
-      'prop': 'epiCurve'
-    },
-    {
-      'name': 'Line Listing',
-      'id': 'lineListing',
-      'prop': 'Listing'
-    },
-    {
-      'name': 'Epi Docs',
-      'id': 'epiDocs',
-      'prop': 'epiDocs'
-    }];
+      {
+        'name': 'Outbreak Report',
+        'id': 'outbreakReport',
+        'prop': 'Outbreaks'
+      },
+      {
+        'name': 'epi Curve',
+        'id': 'epiCurve',
+        'prop': 'epiCurve'
+      },
+      {
+        'name': 'Line Listing',
+        'id': 'lineListing',
+        'prop': 'Listing'
+      },
+      {
+        'name': 'Epi Docs',
+        'id': 'epiDocs',
+        'prop': 'epiDocs'
+      }];
   }
   ngOnInit() {
-    	this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues: any) => {
-    		this.dataStores = dataStoreValues.diseases;
+    this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues: any) => {
+      this.dataStores = dataStoreValues.diseases;
 
-    	});
+    });
 
-      this.outbreakInventoryService.getPrograms().subscribe((programValues: any) => {
-        this.programs = programValues.programs;
-      });
+    this.outbreakInventoryService.getPrograms().subscribe((programValues: any) => {
+      this.programs = programValues.programs;
+    });
   }
 
   ngAfterViewInit() {
@@ -246,22 +246,22 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     this.drawEpiCurve(this.chart);
   }
   getEpidemics(disease) {
-  	this.piService.getDataStores(this.dataStore, 'epidemics').subscribe( (epiStoreValues: any) => {
-    		this.epidemics = epiStoreValues;
-    		this.outbreaks = this.piService.getEpiCode(this.epidemics, disease);
-        this.epiChartData = [];
-        this.programIndicatorData = [];
+    this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues: any) => {
+      this.epidemics = epiStoreValues;
+      this.outbreaks = this.piService.getEpiCode(this.epidemics, disease);
+      this.epiChartData = [];
+      this.programIndicatorData = [];
 
-    	});
+    });
   }
   getIndicatorDiseaseData(dataStoreValues, disease, outbreak) {
     const orgUnitOutbreaks: any = this.orgTreeOutbreaks.orgUnit.id;
-  	this.programIndicators = this.piService.getProgramIndicators(dataStoreValues, disease);
-  	this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programOutbreakIndicators);
-  	// Query analytics to return report
-  	const period = 'LAST_12_MONTHS';
+    this.programIndicators = this.piService.getProgramIndicators(dataStoreValues, disease);
+    this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programOutbreakIndicators);
+    // Query analytics to return report
+    const period = 'LAST_12_MONTHS';
 
-  	// let ou = 'QYiQ2KqgCxj';
+    // let ou = 'QYiQ2KqgCxj';
     if (!isNullOrUndefined(outbreak)) {
       const ou = outbreak.orgUnit;
       this.firstCaseDate = moment(outbreak.firstCaseDate).format('DD-MM-YYYY');
@@ -269,18 +269,18 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       // let ou = outbreak.reportingOrgUnit;
 
       const outbreakInds: any = this.diseaseProgramIndicators.join(';');
-    	this.piService.getAnalyticsData(outbreakInds, ou, period).subscribe((analyticsData: any) => {
+      this.piService.getAnalyticsData(outbreakInds, ou, period).subscribe((analyticsData: any) => {
         if (!isNullOrUndefined(analyticsData.headers) && !isNullOrUndefined(this.programIndicators.programOutbreakIndicators)) {
           let headerdata = 0;
           headerdata = analyticsData.headers.length - this.programIndicators.programOutbreakIndicators.length;
           // ou = analyticsData.rows[0][headerdata - 4]
-          this.orgUnitService.getOrgUnitParents(ou).subscribe( (orgUnit: any) => {
+          this.orgUnitService.getOrgUnitParents(ou).subscribe((orgUnit: any) => {
             this.programIndicatorData = this.piService.displayAnalyticsEpidemics(analyticsData.rows, this.programIndicators.programOutbreakIndicators, orgUnit, headerdata, outbreak);
 
           });
         }
 
-    	});
+      });
     } else {
       this.programIndicatorData = [];
     }
@@ -314,31 +314,31 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         const periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData: any) => {
           if (!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)) {
-              this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName
-              this.options.xAxis.title.text = 'Period ( ' + periodType + ' )'
-              if (periodType === 'daily') {
+            this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName
+            this.options.xAxis.title.text = 'Period ( ' + periodType + ' )'
+            if (periodType === 'daily') {
 
-                 this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
+              this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
 
-                 this.chart.xAxis.categories = this.epiChartData.categories;
-                 // this.options.series = this.epiChartData.data;
-                 this.chart.series[0].setData(this.epiChartData.data[0]);
-                 this.chart.series[1].setData(this.epiChartData.data[1]);
-                 this.chart.series[2].setData(this.epiChartData.data[2]);
-                 /*
-                 if (this.chart) {
-                      this.chart.addSeries(o.json(), true)
-                 }
-                 */
-              } else {
-                 this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
-                this.chart.xAxis.categories = this.epiChartData.categories;
-                // this.options.series =this.epiChartData.data;
-                this.chart.series[0].setData(this.epiChartData.data[0]);
-                this.chart.series[1].setData(this.epiChartData.data[1]);
-                this.chart.series[2].setData(this.epiChartData.data[2]);
-
+              this.chart.xAxis.categories = this.epiChartData.categories;
+              // this.options.series = this.epiChartData.data;
+              this.chart.series[0].setData(this.epiChartData.data[0]);
+              this.chart.series[1].setData(this.epiChartData.data[1]);
+              this.chart.series[2].setData(this.epiChartData.data[2]);
+              /*
+              if (this.chart) {
+                   this.chart.addSeries(o.json(), true)
               }
+              */
+            } else {
+              this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
+              this.chart.xAxis.categories = this.epiChartData.categories;
+              // this.options.series =this.epiChartData.data;
+              this.chart.series[0].setData(this.epiChartData.data[0]);
+              this.chart.series[1].setData(this.epiChartData.data[1]);
+              this.chart.series[2].setData(this.epiChartData.data[2]);
+
+            }
           } else {
             this.epiChartData = [];
           }
@@ -364,7 +364,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     if (this.selectedProgramType === 'WITHOUT_REGISTRATION') {
       this.getLineListingReport();
     }
-   return this.programStages;
+    return this.programStages;
   }
 
   setReportType(event) {
@@ -376,46 +376,46 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   getLineListingReport() {
 
-      const orgUnit: any = this.orgTree.orgUnit.id;
-      const program: any = this.outbreakLineListingForm.value.program;
-      const programType: any = this.outbreakLineListingForm.value.program.programType;
-      this.selectedProgramType = programType;
+    const orgUnit: any = this.orgTree.orgUnit.id;
+    const program: any = this.outbreakLineListingForm.value.program;
+    const programType: any = this.outbreakLineListingForm.value.program.programType;
+    this.selectedProgramType = programType;
 
-      const programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
-      const programEndDate: any  = this.outbreakLineListingForm.value.programEndDate;
+    const programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
+    const programEndDate: any = this.outbreakLineListingForm.value.programEndDate;
 
-      const selectedDiseases: any = this.outbreakLineListingForm.value.disease;
+    const selectedDiseases: any = this.outbreakLineListingForm.value.disease;
 
 
-      // console.log(programStartDate);
+    // console.log(programStartDate);
 
-      if (programType === 'WITH_REGISTRATION') {
-        this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
-        this.outbreakInventoryService.getTrackedEntityInstances(orgUnit, program.id, programStartDate, programEndDate).subscribe( (teis: any) => {
-          this.loadingIndicator = false;
+    if (programType === 'WITH_REGISTRATION') {
+      this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
+      this.outbreakInventoryService.getTrackedEntityInstances(orgUnit, program.id, programStartDate, programEndDate).subscribe((teis: any) => {
+        this.loadingIndicator = false;
 
-          this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
+        this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
 
-          this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe( (evs: any) => {
-            this.events = evs.events;
-            const eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
-            this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
-            const programColumns = this.outbreakInventoryService.getColumns(teis.headers);
-            const stageColumns  = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
-            this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
-            this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
-          });
-        });
-      } else {
-        this.selectedProgramStages = this.outbreakLineListingForm.value.program.programStages[0];
-        this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe( (evs: any) => {
-          this.loadingIndicator = false;
+        this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
           this.events = evs.events;
-          this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
-          this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
-          this.allColumns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
+          const eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+          this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
+          const programColumns = this.outbreakInventoryService.getColumns(teis.headers);
+          const stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
+          this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
+          this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
         });
-      }
+      });
+    } else {
+      this.selectedProgramStages = this.outbreakLineListingForm.value.program.programStages[0];
+      this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
+        this.loadingIndicator = false;
+        this.events = evs.events;
+        this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
+        this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
+        this.allColumns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
+      });
+    }
   }
 
   rowDataToDisplay() {
@@ -446,14 +446,14 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
   tableEvents(value: Event): void {
-      if (value) {
-          console.log(value);
-      }
+    if (value) {
+      console.log(value);
+    }
   }
 
   getProgramStageColumns(programStages, programStageId) {
-      const selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
-      return selectedStageColumns;
+    const selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
+    return selectedStageColumns;
   }
 
   getRowClass(row) {
@@ -462,39 +462,39 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     };
   }
 
-    datatableToCsv() {
-      const my_data = this.rows;
+  datatableToCsv() {
+    const my_data = this.rows;
 
-       const options = {
-          fieldSeparator: ',',
-          filename: 'IDSR report in csv',
-          quoteStrings: '"',
-          decimalSeparator: '.',
-          showLabels: true,
-          showTitle: true,
-          title: 'Testing file in a CSV Format',
-          useTextFile: false,
-          useBom: true,
-          useKeysAsHeaders: true
-        };
+    const options = {
+      fieldSeparator: ',',
+      filename: 'IDSR report in csv',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Testing file in a CSV Format',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
 
-        const csvExporter = new ExportToCsv(options);
-        csvExporter.generateCsv(my_data);
-    }
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(my_data);
+  }
 
-    // Download a Pdf file
+  // Download a Pdf file
 
-    public downloadPdf() {
-      return xepOnline.Formatter.Format('downPdfFile', {render: 'download'});
-    }
+  public downloadPdf() {
+    return xepOnline.Formatter.Format('downPdfFile', { render: 'download' });
+  }
 
-    public downloadOutReport() {
-          return xepOnline.Formatter.Format('outReport', {render: 'download'});
-    }
+  public downloadOutReport() {
+    return xepOnline.Formatter.Format('outReport', { render: 'download' });
+  }
 
-    public printOutReport() {
-          return xepOnline.Formatter.Format('outReport', {render: 'print'});
-    }
+  public printOutReport() {
+    return xepOnline.Formatter.Format('outReport', { render: 'print' });
+  }
 
 }
 

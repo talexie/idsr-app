@@ -17,6 +17,7 @@ export class OutbreakInventoryService {
 	  	return this.http.get(this.constant.ROOTURL + 'api/programs.json?' + fields);
 	}
 
+<<<<<<< HEAD
 	getDiseases() {
 		const fields_diseases = 'fields=options[id,name]';
 		return this.http.get(this.constant.ROOTURL + 'api/29/optionSets/ADQhuzGAauC.json?' + fields_diseases);
@@ -25,14 +26,22 @@ export class OutbreakInventoryService {
 	getTrackedEntityInstances(ou, program, programStartDate, programEndDate) {
 		let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
 		if (!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate)) {
+=======
+	getTrackedEntityInstances(ou, program, programStartDate, programEndDate, selectedDisease) {
+		let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
+		if (!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate) && !isNullOrUndefined(selectedDisease)) {
+>>>>>>> refs/remotes/origin/joe_dev
 			programEndDate = moment(programEndDate).format('YYYY-MM-DD');
 			programStartDate = moment(programStartDate).format('YYYY-MM-DD');
-			fields = fields + '&programStartDate' + programStartDate + '&programEndDate' + programEndDate;
+			fields = fields + '&programStartDate' + programStartDate + '&programEndDate' + programEndDate + '&selectedDisease' + selectedDisease;
 		}
 		
 	  	return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/joe_dev
 	// api/27/events.json?ouMode=ACCESSIBLE&trackedEntityInstance=pPOlRYW0XJB&skipPaging=true
 	getEvents(ou, program, startDate, endDate) {
 		let fields = 'ouMode=ACCESSIBLE&skipPaging=true&fields=dueDate,program,event,programStage,enrollment,enrollmentStatus,orgUnit,trackedEntityInstance,status,orgUnitName,eventDate,coordinate,dataValues[dataElement,value]&program=' + program + '&ou=' + ou;
@@ -120,6 +129,7 @@ export class OutbreakInventoryService {
 	}
 	getSingleEventColumns(programStage) {
 		const columns: any = [
+<<<<<<< HEAD
 				{
 					'prop':'event',
 					'name': "Event",
@@ -136,6 +146,24 @@ export class OutbreakInventoryService {
 					'headerClass': "datatable-header"
 				}
 			];
+=======
+		{
+			'prop':'event',
+			'name': "Event",
+			'headerClass':'datatable-header'
+		},
+		{
+			'prop': "eventDate",
+			'name': "Report Date",
+			'headerClass': "datatable-header"
+		},
+		{
+			'prop':'orgUnitName',
+			'name': "Org Unit Name",
+			'headerClass': "datatable-header"
+		}
+		];
+>>>>>>> refs/remotes/origin/joe_dev
 
 		if (!isNullOrUndefined(programStage) && !isNullOrUndefined(programStage.programStageDataElements)) {
 			for (const dataElement of programStage.programStageDataElements) {
