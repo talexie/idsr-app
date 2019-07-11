@@ -383,15 +383,15 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   getLineListingReport() {
 
-    const orgUnit: any = this.orgTree.orgUnit.id;
-    const program: any = this.outbreakLineListingForm.value.program;
-    const programType: any = this.outbreakLineListingForm.value.program.programType;
+    let orgUnit: any = this.orgTree.orgUnit.id;
+    let program: any = this.outbreakLineListingForm.value.program;
+    let programType: any = this.outbreakLineListingForm.value.program.programType;
     this.selectedProgramType = programType;
 
-    const programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
-    const programEndDate: any = this.outbreakLineListingForm.value.programEndDate;
+    let programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
+    let programEndDate: any = this.outbreakLineListingForm.value.programEndDate;
 
-    const selectedDiseases: any = this.outbreakLineListingForm.value.disease;
+    let selectedDiseases: any = this.outbreakLineListingForm.value.disease;
 
 
     // console.log(programStartDate);
@@ -508,11 +508,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   // Filter diseases
   diseaseFilter(event) {
    //const val = event.target.value.toLowerCase();
-   const val = this.outbreakLineListingForm.value.disease;
+   const val = this.outbreakLineListingForm.value.disease[0];
+   console.log("disease",this.outbreakLineListingForm.value)
 
    // filter our data
    const temp = this.rows.filter(function(d) {
-     return d.disease.toLowerCase().indexOf(val) !== -1 || !val;
+     return d.disease.indexOf(val) !== -1 || !val;
    });
 
    // update the rows

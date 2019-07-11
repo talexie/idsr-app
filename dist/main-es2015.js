@@ -1882,13 +1882,13 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         return this.selectedType;
     }
     getLineListingReport() {
-        const orgUnit = this.orgTree.orgUnit.id;
-        const program = this.outbreakLineListingForm.value.program;
-        const programType = this.outbreakLineListingForm.value.program.programType;
+        let orgUnit = this.orgTree.orgUnit.id;
+        let program = this.outbreakLineListingForm.value.program;
+        let programType = this.outbreakLineListingForm.value.program.programType;
         this.selectedProgramType = programType;
-        const programStartDate = this.outbreakLineListingForm.value.programStartDate;
-        const programEndDate = this.outbreakLineListingForm.value.programEndDate;
-        const selectedDiseases = this.outbreakLineListingForm.value.disease;
+        let programStartDate = this.outbreakLineListingForm.value.programStartDate;
+        let programEndDate = this.outbreakLineListingForm.value.programEndDate;
+        let selectedDiseases = this.outbreakLineListingForm.value.disease;
         // console.log(programStartDate);
         if (programType === 'WITH_REGISTRATION') {
             this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
@@ -1981,10 +1981,11 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     // Filter diseases
     diseaseFilter(event) {
         //const val = event.target.value.toLowerCase();
-        const val = this.outbreakLineListingForm.value.disease;
+        const val = this.outbreakLineListingForm.value.disease[0];
+        console.log("disease", this.outbreakLineListingForm.value);
         // filter our data
         const temp = this.rows.filter(function (d) {
-            return d.disease.toLowerCase().indexOf(val) !== -1 || !val;
+            return d.disease.indexOf(val) !== -1 || !val;
         });
         // update the rows
         this.rows = temp;
