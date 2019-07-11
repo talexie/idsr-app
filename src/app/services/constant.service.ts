@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 /**
  * Created by kelvin on 9/19/16.
  */
@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class ConstantService {
     ROOTURL: string = null;
 
-    constructor( private http: HttpClient ) {
+    constructor( private http: HttpClient ){
 
       /*this.ROOTURL = '../../../../';*/
       this.ROOTURL = 'https://dev.hisprwanda.org/idsr/';
@@ -15,7 +15,7 @@ export class ConstantService {
     }
 
   load() {
-    return this.http.get('manifest.webapp');
+    return this.http.get("manifest.webapp");
   }
 
   handleError (error) {

@@ -1,22 +1,14 @@
 
-<nav>
-      <a [routerLink]=" ['../../../../'] " routerLinkActive="active">
-        Dashboard
-      </a>
-      <a [routerLink]=" ['./outbreak-inventory'] ">
-        Outbreak Report
-      </a>
+<main>
+  <router-outlet></router-outlet>
+  <app-outbreak-inventory></app-outbreak-inventory>
+</main>  
+
+<footer>
+  <span>
       
-</nav>
-
-    <main>
-      <router-outlet></router-outlet>
-      <app-outbreak-inventory></app-outbreak-inventory>
-    </main>  
-
-    <footer>
-      <span></span>
-      <div>
-        
-      </div>
-    </footer>
+  </span>
+  <div>
+    
+  </div>
+</footer>

@@ -288,7 +288,7 @@ module.exports = "<p>\r\n  Error occurred.\r\n</p>\r\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<nav>\r\n      <a [routerLink]=\" ['../../../../'] \" routerLinkActive=\"active\">\r\n        Dashboard\r\n      </a>\r\n      <a [routerLink]=\" ['./outbreak-inventory'] \">\r\n        Outbreak Report\r\n      </a>\r\n      \r\n</nav>\r\n\r\n    <main>\r\n      <router-outlet></router-outlet>\r\n      <app-outbreak-inventory></app-outbreak-inventory>\r\n    </main>  \r\n\r\n    <footer>\r\n      <span></span>\r\n      <div>\r\n        \r\n      </div>\r\n    </footer>\r\n"
+module.exports = "\r\n<main>\r\n  <router-outlet></router-outlet>\r\n  <app-outbreak-inventory></app-outbreak-inventory>\r\n</main>  \r\n\r\n<footer>\r\n  <span>\r\n      \r\n  </span>\r\n  <div>\r\n    \r\n  </div>\r\n</footer>\r\n"
 
 /***/ }),
 
@@ -300,6 +300,17 @@ module.exports = "\r\n<nav>\r\n      <a [routerLink]=\" ['../../../../'] \" rout
 /***/ (function(module, exports) {
 
 module.exports = "<!-- <p>columns-dialog works!</p>\r\n<mat-checkbox>Check me!</mat-checkbox> -->\r\n\r\n\r\n<mat-form-field>\r\n  <mat-label>Cars</mat-label>\r\n  <select matNativeControl required>\r\n    <option value=\"volvo\">Volvo</option>\r\n    <option value=\"saab\">Saab</option>\r\n    <option value=\"mercedes\">Mercedes</option>\r\n    <option value=\"audi\">Audi</option>\r\n  </select>\r\n</mat-form-field>\r\n\r\n\r\n\r\n<h2 mat-dialog-title style=\"text-align: center;\">Show / Hide Columns</h2>\r\n\r\n\t<div mat-dialog-content >\r\n\t  <p style=\"text-align: center;\">Check a column to hide OR uncheck to show!</p>\r\n\r\n\t  <mat-checkbox>First Name</mat-checkbox>\r\n\r\n\r\n\t</div>\r\n\r\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/datatable/datatable.component.html":
+/*!******************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/datatable/datatable.component.html ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>datatable works!</p>\n"
 
 /***/ }),
 
@@ -332,7 +343,7 @@ module.exports = "<div class=\"tree-input disabled\" appClickOutside (clickOutsi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <mat-radio-group class=\"idsr-radio-group\"  [(ngModel)]=\"selectedChoice\" name=\"selectChoice\">\r\n    <mat-radio-button (change)=\"setReportType(choice.id)\" class=\"idsr-radio-button\" *ngFor=\"let choice of choices\" [value]=\"choice.id\">\r\n      {{choice.name}}\r\n    </mat-radio-button>\r\n  </mat-radio-group>\r\n  <div  *ngIf=\"selectedType == 'epiCurve' && selectedType  != 'lineListing' && selectedType  != 'outbreakReport'\">\r\n    <div>\r\n      <form [formGroup]=\"outbreakEpiCurveForm\">\r\n        <div class=\"form-container\">\r\n          <div class=\"row columns\">\r\n            <h1>epi Curve</h1>\r\n            <div class=\"top-heading\">\r\n              <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>\r\n            </div>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getEpidemics(outbreakEpiCurveForm.value.epiCurveDisease)\" placeholder=\"Diseases\" formControlName=\"epiCurveDisease\">\r\n                <mat-option>None</mat-option>\r\n                <mat-option *ngFor=\"let disv of dataStores\" [value]=\"disv.disease\" >{{disv.disease}}</mat-option>\r\n              </mat-select>\r\n            </mat-form-field>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"drawEpiCurve()\" placeholder=\"Outbreaks\" formControlName=\"epiCurveEpidemic\">\r\n                <mat-option>None</mat-option>\r\n                <mat-option *ngFor=\"let outbreakv of outbreaks\" [value]=\"outbreakv\" >{{outbreakv.epicode}}</mat-option>\r\n              </mat-select>\r\n            </mat-form-field>\r\n            <mat-radio-group  (change)=\"drawEpiCurve()\" class=\"idsr-radio-group\" formControlName=\"selectedPeriodType\">\r\n              <mat-radio-button class=\"idsr-radio-button\" *ngFor=\"let periodType of periodTypes\" [value]=\"periodType.id\">\r\n                {{periodType.name}}\r\n              </mat-radio-button>\r\n            </mat-radio-group>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n    \r\n    <div class=\"table-container table-responsive mat-elevation-z2\">\r\n      <highcharts-chart\r\n        [Highcharts]=\"Highcharts\"\r\n        [options]=\"options\"\r\n        [(update)]=\"updateFlag\"\r\n        [oneToOne]=\"oneToOneFlag\"\r\n        (chartInstance)=\"getChartInstance($event)\"\r\n        style=\"width: 100%; height: 400px; display: block;\"\r\n      ></highcharts-chart>\r\n    </div>\r\n  </div>\r\n  <div *ngIf=\"selectedType == 'outbreakReport' && selectedType  != 'epiCurve' && selectedType  != 'lineListing'\">\r\n    <div>\r\n      <form [formGroup]=\"outbreakInventoryForm\">\r\n        <div class=\"form-container\">\r\n          <div class=\"row columns\">\r\n            <h1>Outbreak Report</h1>\r\n            <div class=\"top-heading\">\r\n              <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>\r\n            </div>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getEpidemics(outbreakInventoryForm.value.disease)\" placeholder=\"Diseases\" formControlName=\"disease\">\r\n      \t\t      <mat-option>None</mat-option>\r\n      \t\t      <mat-option *ngFor=\"let dis of dataStores\" [value]=\"dis.disease\" >{{dis.disease}}</mat-option>\r\n          \t\t</mat-select>\r\n            </mat-form-field>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getIndicatorDiseaseData(dataStores,outbreakInventoryForm.value.disease,outbreakInventoryForm.value.epidemic)\" placeholder=\"Outbreaks\" formControlName=\"epidemic\">\r\n          \t\t  <mat-option>None</mat-option>\r\n          \t\t  <mat-option *ngFor=\"let outbreak of outbreaks\" [value]=\"outbreak\" >{{outbreak.epicode}}</mat-option>\r\n          \t\t</mat-select>\r\n            </mat-form-field>\r\n            <button mat-raised-button (click)=\"downloadOutReport()\">Download as PDF</button>\r\n            <button mat-raised-button style=\"margin-left: 2em;\" (click)=\"printOutReport()\">Print Now</button>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n    <div class=\"table-container table-responsive mat-elevation-z2\" id=\"outReport\">\r\n      <table *ngFor=\"let item of programIndicatorData\" class=\"table table-bordered\" style=\"width:70%\">\r\n        <tr *ngFor=\"let o of item.headers\">\r\n          <td class=\"tb-label\">{{o.title}}</td><td>{{o.value}}</td>\r\n        </tr>\r\n        <tr class=\"trhbordered\">\r\n          <th>No</th> <th>Indicator</th><th>Description</th><th class=\"indicator\">Value</th>\r\n        </tr>\r\n        <tr *ngFor=\"let i of item.dataValues; let n=index\" class=\"trbordered\">\r\n         <td>{{(n+1)}}</td>\r\n         <td>{{i.title}}</td><td>{{i.description}}</td><td class=\"indicator\">{{i.value}}</td>\r\n        </tr>\r\n        <tr class=\"trbordered\">\r\n          <td>{{item.dataValues?.length + 1}}</td>\r\n          <td>Date First Case Admitted</td><td>Date First Case Admitted</td><td class=\"indicator\">{{ firstCaseDate}}</td>\r\n        </tr>\r\n        <tr class=\"trbordered\">\r\n          <td>{{item.dataValues?.length + 2}}</td>\r\n          <td>Date Last Case Admitted</td><td>Date Last Case Admitted</td><td class=\"indicator\">{{ lastCaseDate}}</td>\r\n        </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n  <div *ngIf=\"selectedType  == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'\">\r\n\r\n      <div class=\"form-container\">\r\n        <div class=\"row columns\">\r\n            <h1>Line Listing</h1>\r\n          <form [formGroup]=\"outbreakLineListingForm\">\r\n            <div class=\"top-heading\">\r\n                 <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->\r\n                 <app-org-unit #ouTree></app-org-unit>       \r\n            </div>\r\n            <div class=\"top-heading\">\r\n              <mat-form-field>\r\n                <mat-select (selectionChange)=\"getProgramStages(outbreakLineListingForm.value.program)\" placeholder=\"Programs\" formControlName=\"program\">\r\n                  <mat-option>None</mat-option>\r\n                  <mat-option *ngFor=\"let program of programs\" [value]=\"program\" >{{ program.name }}</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n              <mat-form-field *ngIf=\"selectedProgramType == 'WITH_REGISTRATION'\">\r\n                <mat-select (selectionChange)=\"getLineListingReport()\" multiple placeholder=\"Program Stages\" formControlName=\"programStages\">\r\n                  <mat-option>None</mat-option>\r\n                  <mat-option *ngFor=\"let programStage of programStages\" [value]=\"programStage\" >{{programStage.name }}</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n              <mat-form-field>\r\n                <input matInput [matDatepicker]=\"startDate\" (dateChange)=\"getLineListingReport()\" placeholder=\"Start Date\" formControlName=\"programStartDate\">\r\n                <mat-datepicker-toggle matSuffix [for]=\"startDate\"></mat-datepicker-toggle>\r\n                <mat-datepicker #startDate touchUi=\"true\" startView=\"month\" [startAt]=\"beginStartDate\"></mat-datepicker>\r\n              </mat-form-field>\r\n              <mat-form-field>\r\n                <input matInput [matDatepicker]=\"endDate\" (dateChange)=\"getLineListingReport()\" placeholder=\"End Date\" formControlName=\"programEndDate\">\r\n                <mat-datepicker-toggle matSuffix [for]=\"endDate\"></mat-datepicker-toggle>\r\n                <mat-datepicker #endDate touchUi=\"true\" startView=\"month\" [startAt]=\"beginEndDate\"></mat-datepicker>\r\n              </mat-form-field>\r\n\r\n              <br>\r\n              <div>\r\n                <mat-form-field>\r\n                <mat-select (selectionChange)=\"getLineListingReport()\" multiple placeholder=\"Disease\" formControlName=\"disease\">\r\n                  <mat-option>None</mat-option>\r\n                  <mat-option *ngFor=\"let ldis of dataStores\" [value]=\"ldis.disease\" >{{ldis.disease}}</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n              <mat-form-field>\r\n                <mat-select (selectionChange)=\"getLineListingReport()\" multiple placeholder=\"Outbreaks\" formControlName=\"outbreak\">\r\n                  <mat-option>None</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n\r\n               <!-- Show or Hide some columns -->\r\n              <mat-form-field>\r\n                <mat-select placeholder=\"Show / hide columns\" formControlName=\"column\">\r\n                  <mat-option *ngFor=\"let column of allColumns\" (click)=\"toggle(column)\"><mat-checkbox>{{ column.name }}</mat-checkbox>\r\n                  </mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n\r\n              <!-- A table search input box -->\r\n              <mat-form-field appearance=\"outline\">\r\n                <mat-label>Search from the table!</mat-label>\r\n                <input matInput placeholder=\"Type here ...\">\r\n              </mat-form-field>\r\n\r\n                <!-- Export Buttons -->\r\n              <button mat-raised-button [matMenuTriggerFor]=\"menu\">Export</button>\r\n                <mat-menu #menu=\"matMenu\">\r\n                  <button mat-menu-item (click)=\"datatableToCsv()\">CSV</button>\r\n                  <button mat-menu-item (click)=\"downloadPdf()\" >PDF</button>\r\n                </mat-menu>\r\n\r\n                  </div>\r\n                </div>\r\n               </form>\r\n\r\n              </div>\r\n\r\n            </div>\r\n        </div>\r\n\r\n      <div>\r\n    \r\n          <ngx-datatable\r\n            class=\"material\"\r\n            id=\"lineListingPdf\"\r\n            [rows]=\"rows\"\r\n            [columns]=\"columns\"\r\n            [columnMode]=\"'force'\"\r\n            [loadingIndicator]=\"loadingIndicator\"\r\n            [headerHeight]=\"50\"\r\n            [footerHeight]=\"50\"\r\n            [rowHeight]=\"'auto'\"\r\n            [reorderable]=\"reorderable\"\r\n            [scrollbarV]=\"false\"\r\n            [limit]=\"15\"\r\n            [scrollbarH]=\"true\">\r\n          </ngx-datatable>\r\n\r\n          <ng-template #pgStagesHeader let-column=\"column\">\r\n              <table class=\"datatable-header\" #tableContentToPdf>\r\n                <thead>\r\n                  <tr>\r\n                    <th class=\"datatable-header-test-cell\" colspan=\"(getProgramStageColumns(selectedProgramStages,column.prop)).length\"><strong>{{ column.name }}</strong></th>\r\n                  </tr>\r\n                </thead>\r\n                <tbody>\r\n                  <tr>\r\n                    <td class=\"datatable-header-test-cell\" *ngFor=\"let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)\"><!-- {{ psColumn.name }} --> Sample</td>\r\n                  </tr>\r\n                </tbody>\r\n              </table>\r\n          </ng-template>\r\n        \r\n          <ng-template #pgStages let-value=\"value\" let-column=\"column\" cellClass=\"is-program-stage-cell\">\r\n              <table>\r\n                <tr *ngFor=\"let val of value\">\r\n                  <td class=\"datatable-header-test-cell\" *ngFor=\"let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)\">{{ val[psColumnx.prop] }}</td>\r\n                </tr>\r\n              </table>\r\n          </ng-template>   \r\n        </div>\r\n\r\n\r\n<!-- Parent Div closes -->\r\n</div>\r\n\r\n\r\n"
+module.exports = "<div class=\"container-all\">\r\n  <mat-radio-group class=\"idsr-radio-group\"  [(ngModel)]=\"selectedChoice\" name=\"selectChoice\">\r\n    <mat-radio-button (change)=\"setReportType(choice.id)\" class=\"idsr-radio-button\" *ngFor=\"let choice of choices\" [value]=\"choice.id\">\r\n      {{choice.name}}\r\n    </mat-radio-button>\r\n  </mat-radio-group>\r\n  <div  *ngIf=\"selectedType == 'epiCurve' && selectedType != 'lineListing' && selectedType != 'outbreakReport'\">\r\n    <div>\r\n      <form [formGroup]=\"outbreakEpiCurveForm\">\r\n        <div class=\"form-container\">\r\n          <div class=\"row columns\">\r\n            <h1>epi Curve</h1>\r\n            <div class=\"top-heading\">\r\n              <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>\r\n            </div>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getEpidemics(outbreakEpiCurveForm.value.epiCurveDisease)\" placeholder=\"Diseases\" formControlName=\"epiCurveDisease\">\r\n                <mat-option>None</mat-option>\r\n                <mat-option *ngFor=\"let disv of dataStores\" [value]=\"disv.disease\" >{{ disv.disease }}</mat-option>\r\n              </mat-select>\r\n            </mat-form-field>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"drawEpiCurve()\" placeholder=\"Outbreaks\" formControlName=\"epiCurveEpidemic\">\r\n                <mat-option>None</mat-option>\r\n                <mat-option *ngFor=\"let outbreakv of outbreaks\" [value]=\"outbreakv\" >{{ outbreakv.epicode }}</mat-option>\r\n              </mat-select>\r\n            </mat-form-field>\r\n            <mat-radio-group  (change)=\"drawEpiCurve()\" class=\"idsr-radio-group\" formControlName=\"selectedPeriodType\">\r\n              <mat-radio-button class=\"idsr-radio-button\" *ngFor=\"let periodType of periodTypes\" [value]=\"periodType.id\">\r\n                {{ periodType.name }}\r\n              </mat-radio-button>\r\n            </mat-radio-group>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n    \r\n    <div class=\"table-container table-responsive mat-elevation-z2\">\r\n      <highcharts-chart\r\n        [Highcharts]=\"Highcharts\"\r\n        [options]=\"options\"\r\n        [(update)]=\"updateFlag\"\r\n        [oneToOne]=\"oneToOneFlag\"\r\n        (chartInstance)=\"getChartInstance($event)\"\r\n        style=\"width: 100%; height: 400px; display: block;\"\r\n      ></highcharts-chart>\r\n    </div>\r\n  </div>\r\n  <div *ngIf=\"selectedType == 'outbreakReport' && selectedType  != 'epiCurve' && selectedType  != 'lineListing'\">\r\n    <div>\r\n      <form [formGroup]=\"outbreakInventoryForm\">\r\n        <div class=\"form-container\">\r\n          <div class=\"row columns\">\r\n            <h1>Outbreak Report</h1>\r\n            \r\n            <div class=\"top-heading\">\r\n              <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>\r\n            </div>\r\n\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getEpidemics(outbreakInventoryForm.value.disease)\" placeholder=\"Diseases\" formControlName=\"disease\">\r\n      \t\t      <mat-option>None</mat-option>\r\n      \t\t      <mat-option *ngFor=\"let dis of dataStores\" [value]=\"dis.disease\" >{{ dis.disease }}</mat-option>\r\n          \t\t</mat-select>\r\n            </mat-form-field>\r\n            <mat-form-field>\r\n              <mat-select (selectionChange)=\"getIndicatorDiseaseData(dataStores,outbreakInventoryForm.value.disease,outbreakInventoryForm.value.epidemic)\" placeholder=\"Outbreaks\" formControlName=\"epidemic\">\r\n          \t\t  <mat-option>None</mat-option>\r\n          \t\t  <mat-option *ngFor=\"let outbreak of outbreaks\" [value]=\"outbreak\" >{{outbreak.epicode}}</mat-option>\r\n          \t\t</mat-select>\r\n            </mat-form-field>\r\n            <button mat-raised-button (click)=\"downloadOutReport()\"> Download as PDF </button>\r\n            <button mat-raised-button style=\"margin-left: 2em;\" (click)=\"printOutReport()\">Print Now</button>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n    <div class=\"table-container table-responsive mat-elevation-z2\" id=\"outReport\">\r\n      <table *ngFor=\"let item of programIndicatorData\" class=\"table table-bordered\" style=\"width:70%\">\r\n          <tr *ngFor=\"let o of item.headers\">\r\n              <td class=\"tb-label\">{{ o.title }}</td><td>{{ o.value }}</td>\r\n          </tr>\r\n\r\n\r\n          <tr class=\"trhbordered\">\r\n              <th>No</th> <th>Indicator</th><!-- <th>Description</th> --><th class=\"indicator\"> Value </th>\r\n          </tr>\r\n          <tr *ngFor=\"let i of item.dataValues; let n=index\" class=\"trbordered\">\r\n              <td>{{ (n+1) }}</td>\r\n              <td>{{ i.title }}</td><!-- <td>{{i.description}}</td> --><td class=\"indicator\">{{ i.value }}</td>\r\n          </tr>\r\n\r\n          <tr class=\"trbordered\">\r\n              <td>{{ item.dataValues?.length + 1 }}</td>\r\n              <td>Date First Case Admitted</td><!-- <td>Date First Case Admitted</td> --><td class=\"indicator\">{{ firstCaseDate }}</td>\r\n          </tr>\r\n          <tr class=\"trbordered\">\r\n              <td>{{ item.dataValues?.length + 2 }}</td>\r\n              <td>Date Last Case Admitted</td><!-- <td>Date Last Case Admitted</td> --><td class=\"indicator\">{{ lastCaseDate }}</td>\r\n          </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"selectedType == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'\">\r\n\r\n      <div class=\"form-container\">\r\n        <div class=\"row columns\">\r\n            <h1>Line Listing</h1>\r\n          <form [formGroup]=\"outbreakLineListingForm\">\r\n            <div class=\"top-heading\">\r\n                 <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->\r\n                 <app-org-unit #ouTree></app-org-unit>       \r\n            </div>\r\n            <div class=\"top-heading\">\r\n              <mat-form-field>\r\n                <mat-select (selectionChange)=\"getProgramStages(outbreakLineListingForm.value.program)\" placeholder=\"Programs\" formControlName=\"program\">\r\n                  <mat-option>None</mat-option>\r\n                  <mat-option *ngFor=\"let program of programs\" [value]=\"program\" >{{ program.name }}</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n              <mat-form-field *ngIf=\"selectedProgramType == 'WITH_REGISTRATION'\">\r\n                <mat-select (selectionChange)=\"getLineListingReport()\" multiple placeholder=\"Program Stages\" formControlName=\"programStages\">\r\n                  <mat-option>None</mat-option>\r\n                  <mat-option *ngFor=\"let programStage of programStages\" [value]=\"programStage\" >{{ programStage.name }}</mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n              <mat-form-field>\r\n                <input matInput [matDatepicker]=\"startDate\" (dateChange)=\"getLineListingReport()\" placeholder=\"Start Date\" formControlName=\"programStartDate\">\r\n                <mat-datepicker-toggle matSuffix [for]=\"startDate\"></mat-datepicker-toggle>\r\n                <mat-datepicker #startDate touchUi=\"true\" startView=\"month\" [startAt]=\"beginStartDate\"></mat-datepicker>\r\n              </mat-form-field>\r\n              <mat-form-field>\r\n                <input matInput [matDatepicker]=\"endDate\" (dateChange)=\"getLineListingReport()\" placeholder=\"End Date\" formControlName=\"programEndDate\">\r\n                <mat-datepicker-toggle matSuffix [for]=\"endDate\"></mat-datepicker-toggle>\r\n                <mat-datepicker #endDate touchUi=\"true\" startView=\"month\" [startAt]=\"beginEndDate\"></mat-datepicker>\r\n              </mat-form-field>\r\n\r\n              <div style=\"margin-left: 21%;\">\r\n                <mat-form-field>\r\n                  <!-- (selectionChange)=\"updateFilter($event)\"  -->\r\n                  <mat-select (selectionChange)=\"getLineListingReport()\" multiple placeholder=\"Disease\" formControlName=\"disease\">\r\n                    <mat-option *ngFor=\"let ldis of dataStores\" [value]=\"ldis.disease\" >{{ ldis.disease }}</mat-option>\r\n                    <!-- <mat-option>None</mat-option> -->\r\n                    <mat-option *ngFor=\"let ldis of dataStores\" [value]=\"ldis.disease\" >{{ldis.disease}}</mat-option>\r\n                  </mat-select>\r\n                </mat-form-field>\r\n\r\n               <!-- Show or Hide some columns -->\r\n              <mat-form-field>\r\n                <mat-select placeholder=\"Show / hide columns\" multiple formControlName=\"column\">\r\n                  <mat-option *ngFor=\"let column of allColumns\" (click)=\"toggle(column)\">{{ column.name }}\r\n                  </mat-option>\r\n                </mat-select>\r\n              </mat-form-field>\r\n\r\n            <!-- A table search input box -->\r\n            <mat-form-field appearance=\"outline\">\r\n              <mat-label>Search from the table!</mat-label>\r\n              <input matInput placeholder=\"Type here ...\">\r\n            </mat-form-field>\r\n\r\n                <!-- Export Buttons -->\r\n              <button mat-raised-button [matMenuTriggerFor]=\"menu\">Export</button>\r\n                <mat-menu #menu=\"matMenu\">\r\n                  <button mat-menu-item (click)=\"datatableToCsv()\">CSV</button>\r\n                  <button mat-menu-item (click)=\"downloadPdf()\" >PDF</button>\r\n                </mat-menu>\r\n\r\n                  </div>\r\n                </div>\r\n               </form>\r\n\r\n              </div>\r\n\r\n            </div>\r\n\r\n      <div id=\"downPdfFile\">\r\n    \r\n          <ngx-datatable\r\n            class=\"material\"\r\n            [rows]=\"rows\"\r\n            [columns]=\"columns\"\r\n            [columnMode]=\"'fixed'\"\r\n            [loadingIndicator]=\"loadingIndicator\"\r\n            [headerHeight]=\"40\"\r\n            [footerHeight]=\"30\"\r\n            [rowHeight]=\"'auto'\"\r\n            [reorderable]=\"reorderable\"\r\n            [scrollbarV]=\"false\"\r\n            [limit]=\"15\"\r\n            [scrollbarH]=\"true\">\r\n          </ngx-datatable>\r\n\r\n          <ng-template #pgStagesHeader let-column=\"column\">\r\n              <table class=\"datatable-header\">\r\n                <thead>\r\n                  <tr>\r\n                    <th class=\"datatable-header-test-cell\" colspan=\"(getProgramStageColumns(selectedProgramStages,column.prop)).length\"><strong>{{ column.name }}</strong></th>\r\n                  </tr>\r\n                </thead>\r\n                <tbody>\r\n                  <tr>\r\n                    <td class=\"datatable-header-test-cell\" *ngFor=\"let psColumn of getProgramStageColumns(selectedProgramStages, column.prop)\">{{ psColumn.name }}</td>\r\n                  </tr>\r\n                </tbody>\r\n              </table>\r\n          </ng-template>\r\n        \r\n          <ng-template #pgStages let-value=\"value\" let-column=\"column\" cellClass=\"is-program-stage-cell\">\r\n              <table>\r\n                <tr *ngFor=\"let val of value\">\r\n                  <td class=\"datatable-header-test-cell\" *ngFor=\"let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)\">{{ val[psColumnx.prop] }}</td>\r\n                </tr>\r\n              </table>\r\n          </ng-template>\r\n        </div>\r\n\r\n      <!-- Closing line listing div -->\r\n  </div>\r\n\r\n\r\n<!-- Parent Div closes -->\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -531,6 +542,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _org_unit_limited_org_unit_limited_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./org-unit-limited/org-unit-limited.component */ "./src/app/org-unit-limited/org-unit-limited.component.ts");
 /* harmony import */ var highcharts_angular__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! highcharts-angular */ "./node_modules/highcharts-angular/fesm2015/highcharts-angular.js");
 /* harmony import */ var _columns_dialog_columns_dialog_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./columns-dialog/columns-dialog.component */ "./src/app/columns-dialog/columns-dialog.component.ts");
+/* harmony import */ var _datatable_datatable_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./datatable/datatable.component */ "./src/app/datatable/datatable.component.ts");
 
 
 
@@ -539,6 +551,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // CSV Module
+
 
 
 
@@ -563,6 +576,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _org_unit_org_unit_component__WEBPACK_IMPORTED_MODULE_16__["OrgUnitComponent"],
             _org_unit_limited_org_unit_limited_component__WEBPACK_IMPORTED_MODULE_17__["OrgUnitLimitedComponent"],
             _columns_dialog_columns_dialog_component__WEBPACK_IMPORTED_MODULE_19__["ColumnsDialogComponent"],
+            _datatable_datatable_component__WEBPACK_IMPORTED_MODULE_20__["DatatableComponent"],
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -627,6 +641,49 @@ ColumnsDialogComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     }),
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
 ], ColumnsDialogComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/datatable/datatable.component.scss":
+/*!****************************************************!*\
+  !*** ./src/app/datatable/datatable.component.scss ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RhdGF0YWJsZS9kYXRhdGFibGUuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/datatable/datatable.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/datatable/datatable.component.ts ***!
+  \**************************************************/
+/*! exports provided: DatatableComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DatatableComponent", function() { return DatatableComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let DatatableComponent = class DatatableComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+};
+DatatableComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-datatable',
+        template: __webpack_require__(/*! raw-loader!./datatable.component.html */ "./node_modules/raw-loader/index.js!./src/app/datatable/datatable.component.html"),
+        styles: [__webpack_require__(/*! ./datatable.component.scss */ "./src/app/datatable/datatable.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+], DatatableComponent);
 
 
 
@@ -1474,7 +1531,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".tree-view {\r\n  text-align: left;\r\n  background-color: #fff;\r\n  position: absolute;\r\n  z-index: 1000;\r\n  border: 1px solid rgba(0, 0, 0, .15);\r\n  border-radius: 4px;\r\n  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n  min-width: 370px;\r\n  margin-right: 30px;\r\n  max-height: 360px;\r\n  overflow: auto;\r\n  padding: 10px 5px;\r\n  margin-top: 38px;\r\n}\r\n.top-heading{\r\n   padding: 10px 15px;\r\n}\r\n.datatable-row-odd{\r\n  background: grey;\r\n}\r\n.mat-form-field {\r\n    padding-left: 30px;\r\n    padding-right: 30px;\r\n}\r\n.is-program-stage {\r\n  min-height: 90px !important;\r\n  min-width:50px;\r\n  min-width:250px;\r\n  display: table;\r\n}\r\n.is-program-stage-cell {\r\n  width:50px;\r\n  padding: 5px 10px;\r\n  display: table-cell;\r\n}\r\n.datatable-header {\r\n  min-height: 90px !important;\r\n}\r\n.datatable-header-cell {\r\n    text-align: center;\r\n    padding: .9rem 1.2rem;\r\n    font-weight: 400;\r\n    vertical-align: top !important;\r\n    font-size: 14px;\r\n}\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3V0YnJlYWstaW52ZW50b3J5L291dGJyZWFrLWludmVudG9yeS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0VBQ2hCLHNCQUFzQjtFQUN0QixrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLG9DQUFvQztFQUNwQyxrQkFBa0I7RUFFbEIsMENBQTBDO0VBQzFDLGdCQUFnQjtFQUNoQixrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLGNBQWM7RUFDZCxpQkFBaUI7RUFDakIsZ0JBQWdCO0FBQ2xCO0FBQ0E7R0FDRyxrQkFBa0I7QUFDckI7QUFDQTtFQUNFLGdCQUFnQjtBQUNsQjtBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLG1CQUFtQjtBQUN2QjtBQUNBO0VBQ0UsMkJBQTJCO0VBQzNCLGNBQWM7RUFDZCxlQUFlO0VBQ2YsY0FBYztBQUNoQjtBQUNBO0VBQ0UsVUFBVTtFQUNWLGlCQUFpQjtFQUNqQixtQkFBbUI7QUFDckI7QUFDQTtFQUNFLDJCQUEyQjtBQUM3QjtBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLHFCQUFxQjtJQUNyQixnQkFBZ0I7SUFDaEIsOEJBQThCO0lBQzlCLGVBQWU7QUFDbkIiLCJmaWxlIjoic3JjL2FwcC9vdXRicmVhay1pbnZlbnRvcnkvb3V0YnJlYWstaW52ZW50b3J5LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudHJlZS12aWV3IHtcclxuICB0ZXh0LWFsaWduOiBsZWZ0O1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XHJcbiAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gIHotaW5kZXg6IDEwMDA7XHJcbiAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAuMTUpO1xyXG4gIGJvcmRlci1yYWRpdXM6IDRweDtcclxuICAtd2Via2l0LWJveC1zaGFkb3c6IDAgNnB4IDEycHggcmdiYSgwLCAwLCAwLCAuMTc1KTtcclxuICBib3gtc2hhZG93OiAwIDZweCAxMnB4IHJnYmEoMCwgMCwgMCwgLjE3NSk7XHJcbiAgbWluLXdpZHRoOiAzNzBweDtcclxuICBtYXJnaW4tcmlnaHQ6IDMwcHg7XHJcbiAgbWF4LWhlaWdodDogMzYwcHg7XHJcbiAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgcGFkZGluZzogMTBweCA1cHg7XHJcbiAgbWFyZ2luLXRvcDogMzhweDtcclxufVxyXG4udG9wLWhlYWRpbmd7XHJcbiAgIHBhZGRpbmc6IDEwcHggMTVweDtcclxufVxyXG4uZGF0YXRhYmxlLXJvdy1vZGR7XHJcbiAgYmFja2dyb3VuZDogZ3JleTtcclxufVxyXG4ubWF0LWZvcm0tZmllbGQge1xyXG4gICAgcGFkZGluZy1sZWZ0OiAzMHB4O1xyXG4gICAgcGFkZGluZy1yaWdodDogMzBweDtcclxufVxyXG4uaXMtcHJvZ3JhbS1zdGFnZSB7XHJcbiAgbWluLWhlaWdodDogOTBweCAhaW1wb3J0YW50O1xyXG4gIG1pbi13aWR0aDo1MHB4O1xyXG4gIG1pbi13aWR0aDoyNTBweDtcclxuICBkaXNwbGF5OiB0YWJsZTtcclxufVxyXG4uaXMtcHJvZ3JhbS1zdGFnZS1jZWxsIHtcclxuICB3aWR0aDo1MHB4O1xyXG4gIHBhZGRpbmc6IDVweCAxMHB4O1xyXG4gIGRpc3BsYXk6IHRhYmxlLWNlbGw7XHJcbn1cclxuLmRhdGF0YWJsZS1oZWFkZXIge1xyXG4gIG1pbi1oZWlnaHQ6IDkwcHggIWltcG9ydGFudDtcclxufVxyXG4uZGF0YXRhYmxlLWhlYWRlci1jZWxsIHtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIHBhZGRpbmc6IC45cmVtIDEuMnJlbTtcclxuICAgIGZvbnQtd2VpZ2h0OiA0MDA7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogdG9wICFpbXBvcnRhbnQ7XHJcbiAgICBmb250LXNpemU6IDE0cHg7XHJcbn1cclxuXHJcbiJdfQ== */"
+module.exports = ".tree-view {\r\n  text-align: left;\r\n  background-color: #fff;\r\n  position: absolute;\r\n  z-index: 1000;\r\n  border: 1px solid rgba(0, 0, 0, .15);\r\n  border-radius: 4px;\r\n  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n  min-width: 370px;\r\n  margin-right: 30px;\r\n  max-height: 360px;\r\n  overflow: auto;\r\n  padding: 10px 5px;\r\n  margin-top: 38px;\r\n}\r\n.top-heading{\r\n   padding: 10px 15px;\r\n}\r\n.datatable-row-odd{\r\n  background: grey;\r\n}\r\n.mat-form-field {\r\n    padding-left: 30px;\r\n    padding-right: 30px;\r\n}\r\n.is-program-stage {\r\n  min-height: 90px !important;\r\n  min-width:50px;\r\n  min-width:250px;\r\n  display: table;\r\n}\r\n.is-program-stage-cell {\r\n  width:50px;\r\n  padding: 5px 10px;\r\n  display: table-cell;\r\n}\r\n.datatable-header {\r\n  min-height: 90px !important;\r\n}\r\n.datatable-header-cell {\r\n    text-align: center;\r\n    padding: .9rem 1.2rem;\r\n    font-weight: 400;\r\n    vertical-align: top !important;\r\n    font-size: 14px;\r\n}\r\n.container-all {\r\n  margin-top: 5%;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3V0YnJlYWstaW52ZW50b3J5L291dGJyZWFrLWludmVudG9yeS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0VBQ2hCLHNCQUFzQjtFQUN0QixrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLG9DQUFvQztFQUNwQyxrQkFBa0I7RUFFbEIsMENBQTBDO0VBQzFDLGdCQUFnQjtFQUNoQixrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLGNBQWM7RUFDZCxpQkFBaUI7RUFDakIsZ0JBQWdCO0FBQ2xCO0FBQ0E7R0FDRyxrQkFBa0I7QUFDckI7QUFDQTtFQUNFLGdCQUFnQjtBQUNsQjtBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLG1CQUFtQjtBQUN2QjtBQUNBO0VBQ0UsMkJBQTJCO0VBQzNCLGNBQWM7RUFDZCxlQUFlO0VBQ2YsY0FBYztBQUNoQjtBQUNBO0VBQ0UsVUFBVTtFQUNWLGlCQUFpQjtFQUNqQixtQkFBbUI7QUFDckI7QUFDQTtFQUNFLDJCQUEyQjtBQUM3QjtBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLHFCQUFxQjtJQUNyQixnQkFBZ0I7SUFDaEIsOEJBQThCO0lBQzlCLGVBQWU7QUFDbkI7QUFFQTtFQUNFLGNBQWM7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC9vdXRicmVhay1pbnZlbnRvcnkvb3V0YnJlYWstaW52ZW50b3J5LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudHJlZS12aWV3IHtcclxuICB0ZXh0LWFsaWduOiBsZWZ0O1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XHJcbiAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gIHotaW5kZXg6IDEwMDA7XHJcbiAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAuMTUpO1xyXG4gIGJvcmRlci1yYWRpdXM6IDRweDtcclxuICAtd2Via2l0LWJveC1zaGFkb3c6IDAgNnB4IDEycHggcmdiYSgwLCAwLCAwLCAuMTc1KTtcclxuICBib3gtc2hhZG93OiAwIDZweCAxMnB4IHJnYmEoMCwgMCwgMCwgLjE3NSk7XHJcbiAgbWluLXdpZHRoOiAzNzBweDtcclxuICBtYXJnaW4tcmlnaHQ6IDMwcHg7XHJcbiAgbWF4LWhlaWdodDogMzYwcHg7XHJcbiAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgcGFkZGluZzogMTBweCA1cHg7XHJcbiAgbWFyZ2luLXRvcDogMzhweDtcclxufVxyXG4udG9wLWhlYWRpbmd7XHJcbiAgIHBhZGRpbmc6IDEwcHggMTVweDtcclxufVxyXG4uZGF0YXRhYmxlLXJvdy1vZGR7XHJcbiAgYmFja2dyb3VuZDogZ3JleTtcclxufVxyXG4ubWF0LWZvcm0tZmllbGQge1xyXG4gICAgcGFkZGluZy1sZWZ0OiAzMHB4O1xyXG4gICAgcGFkZGluZy1yaWdodDogMzBweDtcclxufVxyXG4uaXMtcHJvZ3JhbS1zdGFnZSB7XHJcbiAgbWluLWhlaWdodDogOTBweCAhaW1wb3J0YW50O1xyXG4gIG1pbi13aWR0aDo1MHB4O1xyXG4gIG1pbi13aWR0aDoyNTBweDtcclxuICBkaXNwbGF5OiB0YWJsZTtcclxufVxyXG4uaXMtcHJvZ3JhbS1zdGFnZS1jZWxsIHtcclxuICB3aWR0aDo1MHB4O1xyXG4gIHBhZGRpbmc6IDVweCAxMHB4O1xyXG4gIGRpc3BsYXk6IHRhYmxlLWNlbGw7XHJcbn1cclxuLmRhdGF0YWJsZS1oZWFkZXIge1xyXG4gIG1pbi1oZWlnaHQ6IDkwcHggIWltcG9ydGFudDtcclxufVxyXG4uZGF0YXRhYmxlLWhlYWRlci1jZWxsIHtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIHBhZGRpbmc6IC45cmVtIDEuMnJlbTtcclxuICAgIGZvbnQtd2VpZ2h0OiA0MDA7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogdG9wICFpbXBvcnRhbnQ7XHJcbiAgICBmb250LXNpemU6IDE0cHg7XHJcbn1cclxuXHJcbi5jb250YWluZXItYWxsIHtcclxuICBtYXJnaW4tdG9wOiA1JTtcclxufSJdfQ== */"
 
 /***/ }),
 
@@ -1545,8 +1602,8 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         this.allColumns = [];
         this.loadingIndicator = true;
         this.reorderable = true;
-        this.firstCaseDate = "";
-        this.lastCaseDate = "";
+        this.firstCaseDate = '';
+        this.lastCaseDate = '';
         this.epiChartData = [];
         this.selectedType = 'epiCurve';
         this.selectedProgramType = '';
@@ -1668,17 +1725,17 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
             {
                 'name': 'Outbreak Report',
                 'id': 'outbreakReport',
-                'prop': "Outbreaks"
+                'prop': 'Outbreaks'
             },
             {
                 'name': 'epi Curve',
                 'id': 'epiCurve',
-                'prop': "epiCurve"
+                'prop': 'epiCurve'
             },
             {
                 'name': 'Line Listing',
                 'id': 'lineListing',
-                'prop': "Listing"
+                'prop': 'Listing'
             },
             {
                 'name': 'Epi Docs',
@@ -1711,23 +1768,23 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         });
     }
     getIndicatorDiseaseData(dataStoreValues, disease, outbreak) {
-        let orgUnitOutbreaks = this.orgTreeOutbreaks.orgUnit.id;
+        const orgUnitOutbreaks = this.orgTreeOutbreaks.orgUnit.id;
         this.programIndicators = this.piService.getProgramIndicators(dataStoreValues, disease);
         this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programOutbreakIndicators);
         // Query analytics to return report
-        let period = 'LAST_12_MONTHS';
-        //let ou = 'QYiQ2KqgCxj';
+        const period = 'LAST_12_MONTHS';
+        // let ou = 'QYiQ2KqgCxj';
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(outbreak)) {
-            let ou = outbreak.orgUnit;
-            this.firstCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate).format("DD-MM-YYYY");
-            this.lastCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.lastCaseDate).format("DD-MM-YYYY");
-            //let ou = outbreak.reportingOrgUnit;
-            let outbreakInds = this.diseaseProgramIndicators.join(';');
+            const ou = outbreak.orgUnit;
+            this.firstCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate).format('DD-MM-YYYY');
+            this.lastCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.lastCaseDate).format('DD-MM-YYYY');
+            // let ou = outbreak.reportingOrgUnit;
+            const outbreakInds = this.diseaseProgramIndicators.join(';');
             this.piService.getAnalyticsData(outbreakInds, ou, period).subscribe((analyticsData) => {
                 if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(analyticsData.headers) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.programIndicators.programOutbreakIndicators)) {
                     let headerdata = 0;
                     headerdata = analyticsData.headers.length - this.programIndicators.programOutbreakIndicators.length;
-                    //ou = analyticsData.rows[0][headerdata - 4]
+                    // ou = analyticsData.rows[0][headerdata - 4]
                     this.orgUnitService.getOrgUnitParents(ou).subscribe((orgUnit) => {
                         this.programIndicatorData = this.piService.displayAnalyticsEpidemics(analyticsData.rows, this.programIndicators.programOutbreakIndicators, orgUnit, headerdata, outbreak);
                     });
@@ -1740,21 +1797,21 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         return this.programIndicatorData;
     }
     drawEpiCurve(chart) {
-        //let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
+        // let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.outbreakEpiCurveForm.value.epiCurveDisease)) {
-            let disease = this.outbreakEpiCurveForm.value.epiCurveDisease;
+            const disease = this.outbreakEpiCurveForm.value.epiCurveDisease;
             this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
             this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
             if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
-                let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
-                let ou = outbreak.orgUnit;
-                let ouName = outbreak.orgUnitName;
+                const outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
+                const ou = outbreak.orgUnit;
+                const ouName = outbreak.orgUnitName;
                 let periodType = this.outbreakEpiCurveForm.value.selectedPeriodType;
-                let outbreakInds = this.diseaseProgramIndicators.join(';');
-                let startDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate);
+                const outbreakInds = this.diseaseProgramIndicators.join(';');
+                const startDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate);
                 let endDate = outbreak.endDate;
                 if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(endDate)) {
-                    endDate = moment__WEBPACK_IMPORTED_MODULE_4__().add(1, 'days').format("YYYY-MM-DD");
+                    endDate = moment__WEBPACK_IMPORTED_MODULE_4__().add(1, 'days').format('YYYY-MM-DD');
                 }
                 else {
                     endDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.endDate);
@@ -1762,16 +1819,16 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
                 if (Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(periodType)) {
                     periodType = 'daily';
                 }
-                let period = this.piService.generatePeriods(startDate, endDate, periodType);
-                let periods = period.join(';');
+                const period = this.piService.generatePeriods(startDate, endDate, periodType);
+                const periods = period.join(';');
                 this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData) => {
                     if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(analyticsData.rows) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.programIndicators.programIndicators)) {
-                        this.options.title = "epi Curve: " + outbreak.disease + " in " + ouName;
-                        this.options.xAxis.title.text = "Period ( " + periodType + " )";
+                        this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName;
+                        this.options.xAxis.title.text = 'Period ( ' + periodType + ' )';
                         if (periodType === 'daily') {
                             this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
                             this.chart.xAxis.categories = this.epiChartData.categories;
-                            //this.options.series = this.epiChartData.data;
+                            // this.options.series = this.epiChartData.data;
                             this.chart.series[0].setData(this.epiChartData.data[0]);
                             this.chart.series[1].setData(this.epiChartData.data[1]);
                             this.chart.series[2].setData(this.epiChartData.data[2]);
@@ -1784,7 +1841,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
                         else {
                             this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
                             this.chart.xAxis.categories = this.epiChartData.categories;
-                            //this.options.series =this.epiChartData.data;
+                            // this.options.series =this.epiChartData.data;
                             this.chart.series[0].setData(this.epiChartData.data[0]);
                             this.chart.series[1].setData(this.epiChartData.data[1]);
                             this.chart.series[2].setData(this.epiChartData.data[2]);
@@ -1796,12 +1853,12 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
                 });
             }
             else {
-                console.log("Select the outbreak/epidemic");
+                console.log('Select the outbreak/epidemic');
                 this.epiChartData = [];
             }
         }
         else {
-            console.log("Please select the disease");
+            console.log('Please select the disease');
             this.epiChartData = [];
         }
         this.updateFlag = true;
@@ -1810,37 +1867,38 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     }
     getProgramStages(program) {
         this.programStages = program.programStages;
-        let programType = this.outbreakLineListingForm.value.program.programType;
+        const programType = this.outbreakLineListingForm.value.program.programType;
         this.selectedProgramType = programType;
-        if (this.selectedProgramType === "WITHOUT_REGISTRATION") {
+        if (this.selectedProgramType === 'WITHOUT_REGISTRATION') {
             this.getLineListingReport();
         }
         return this.programStages;
     }
     setReportType(event) {
-        this.selectedType = "";
+        this.selectedType = '';
         this.selectedType = event;
         this.selectedChoice = event;
         return this.selectedType;
     }
     getLineListingReport() {
-        let orgUnit = this.orgTree.orgUnit.id;
-        let program = this.outbreakLineListingForm.value.program;
-        let programType = this.outbreakLineListingForm.value.program.programType;
+        const orgUnit = this.orgTree.orgUnit.id;
+        const program = this.outbreakLineListingForm.value.program;
+        const programType = this.outbreakLineListingForm.value.program.programType;
         this.selectedProgramType = programType;
-        let programStartDate = this.outbreakLineListingForm.value.programStartDate;
-        let programEndDate = this.outbreakLineListingForm.value.programEndDate;
-        if (programType === "WITH_REGISTRATION") {
+        const programStartDate = this.outbreakLineListingForm.value.programStartDate;
+        const programEndDate = this.outbreakLineListingForm.value.programEndDate;
+        const selectedDiseases = this.outbreakLineListingForm.value.disease;
+        // console.log(programStartDate);
+        if (programType === 'WITH_REGISTRATION') {
             this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
             this.outbreakInventoryService.getTrackedEntityInstances(orgUnit, program.id, programStartDate, programEndDate).subscribe((teis) => {
                 this.loadingIndicator = false;
                 this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
                 this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs) => {
                     this.events = evs.events;
-                    let eventsModified = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+                    const eventsModified = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
                     this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
-                    let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
-                    // tslint:disable-next-line: max-line-length
+                    const programColumns = this.outbreakInventoryService.getColumns(teis.headers);
                     const stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
                     this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
                     this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
@@ -1896,12 +1954,12 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         const my_data = this.rows;
         const options = {
             fieldSeparator: ',',
-            filename: 'IDSR report application',
+            filename: 'IDSR report in csv',
             quoteStrings: '"',
             decimalSeparator: '.',
             showLabels: true,
             showTitle: true,
-            title: 'Testing file in CSV format from Angular Json data',
+            title: 'Testing file in a CSV Format',
             useTextFile: false,
             useBom: true,
             useKeysAsHeaders: true
@@ -1911,7 +1969,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     }
     // Download a Pdf file
     downloadPdf() {
-        return xepOnline.Formatter.Format('lineListingPdf', { render: 'download' });
+        return xepOnline.Formatter.Format('downPdfFile', { render: 'download' });
     }
     downloadOutReport() {
         return xepOnline.Formatter.Format('outReport', { render: 'download' });
@@ -2330,14 +2388,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let OutbreakInventoryService = class OutbreakInventoryService {
-    //constructor(private http: Http, @Inject(forwardRef(() => ConstantService)) constantService) { }
+    // constructor(private http: Http, @Inject(forwardRef(() => ConstantService)) constantService) { }
     constructor(http, constant) {
         this.http = http;
         this.constant = constant;
     }
     getPrograms() {
-        let fields = 'paging=false&fields=id,name,programType,programTrackedEntityAttributes[trackedEntityAttribute[id,name]],programStages[id,name,programStageDataElements[dataElement[id,name]]]';
+        const fields = 'paging=false&fields=id,name,programType,programTrackedEntityAttributes[trackedEntityAttribute[id,name]],programStages[id,name,programStageDataElements[dataElement[id,name]]]';
         return this.http.get(this.constant.ROOTURL + 'api/programs.json?' + fields);
+    }
+    getDiseases() {
+        const fields_diseases = 'fields=options[id,name]';
+        return this.http.get(this.constant.ROOTURL + 'api/29/optionSets/ADQhuzGAauC.json?' + fields_diseases);
     }
     getTrackedEntityInstances(ou, program, programStartDate, programEndDate) {
         let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
@@ -2348,21 +2410,21 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         }
         return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
     }
-    //api/27/events.json?ouMode=ACCESSIBLE&trackedEntityInstance=pPOlRYW0XJB&skipPaging=true
+    // api/27/events.json?ouMode=ACCESSIBLE&trackedEntityInstance=pPOlRYW0XJB&skipPaging=true
     getEvents(ou, program, startDate, endDate) {
         let fields = 'ouMode=ACCESSIBLE&skipPaging=true&fields=dueDate,program,event,programStage,enrollment,enrollmentStatus,orgUnit,trackedEntityInstance,status,orgUnitName,eventDate,coordinate,dataValues[dataElement,value]&program=' + program + '&ou=' + ou;
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(startDate) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(endDate)) {
             startDate = moment__WEBPACK_IMPORTED_MODULE_5__(startDate).format('YYYY-MM-DD');
             endDate = moment__WEBPACK_IMPORTED_MODULE_5__(endDate).format('YYYY-MM-DD');
-            fields = fields + '&startDate' + startDate + '&endDate' + endDate;
+            fields = fields + '&startDate=' + startDate + '&endDate=' + endDate;
         }
         return this.http.get(this.constant.ROOTURL + 'api/events.json?' + fields);
     }
     getEventsByTrackedEntityInstance(trackedEntityInstances, events, programStages) {
         let mergedEventsAndTeis = [];
         if ((!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(trackedEntityInstances)) && (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(events))) {
-            for (let trackedEntityInstance of trackedEntityInstances) {
-                for (let event of events) {
+            for (const trackedEntityInstance of trackedEntityInstances) {
+                for (const event of events) {
                     if (trackedEntityInstance.instance === event.trackedEntityInstance) {
                         mergedEventsAndTeis.push(this.addTeiToEventData(trackedEntityInstance, event, programStages));
                     }
@@ -2379,7 +2441,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     **/
     addTeiToEventData(teiData, eventData, programStages) {
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(eventData)) {
-            for (let ps of programStages) {
+            for (const ps of programStages) {
                 teiData[ps.id] = eventData[ps.id];
             }
         }
@@ -2388,7 +2450,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     getProgramStagesByProgram(programs, program) {
         let programStages = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programs)) {
-            for (let program of programs) {
+            for (const program of programs) {
                 if (program.id = program.id) {
                     programStages = program.programStages;
                 }
@@ -2397,38 +2459,38 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         return programStages;
     }
     getColumns(headers) {
-        let columns = [];
+        const columns = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(headers)) {
-            for (let header of headers) {
-                let colHeader = {};
+            for (const header of headers) {
+                const colHeader = {};
                 if (header.name === 'instance') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else if (header.name === 'created') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else if (header.name === 'lastupdated') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else if (header.name === 'ou') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else if (header.name === 'te') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else if (header.name === 'inactive') {
-                    //colHeader.prop = header.name;
-                    //colHeader.name = header.column;
+                    // colHeader.prop = header.name;
+                    // colHeader.name = header.column;
                 }
                 else {
                     colHeader.prop = header.name;
                     colHeader.name = header.column;
-                    colHeader.headerClass = "datatable-header";
+                    colHeader.headerClass = 'datatable-header';
                     columns.push(colHeader);
                 }
             }
@@ -2436,42 +2498,42 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         return columns;
     }
     getSingleEventColumns(programStage) {
-        let columns = [
+        const columns = [
             {
-                "prop": "event",
-                "name": "Event",
-                "headerClass": "datatable-header"
+                'prop': 'event',
+                'name': "Event",
+                'headerClass': 'datatable-header'
             },
             {
-                "prop": "eventDate",
-                "name": "Report Date",
-                "headerClass": "datatable-header"
+                'prop': "eventDate",
+                'name': "Report Date",
+                'headerClass': "datatable-header"
             },
             {
-                "prop": "orgUnitName",
-                "name": "Org Unit Name",
-                "headerClass": "datatable-header"
+                'prop': 'orgUnitName',
+                'name': "Org Unit Name",
+                'headerClass': "datatable-header"
             }
         ];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStage) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStage.programStageDataElements)) {
-            for (let dataElement of programStage.programStageDataElements) {
-                let colHeader = {};
+            for (const dataElement of programStage.programStageDataElements) {
+                const colHeader = {};
                 colHeader.prop = dataElement.dataElement.id;
                 colHeader.name = dataElement.dataElement.name;
-                colHeader.headerClass = "datatable-header";
+                colHeader.headerClass = 'datatable-header';
                 columns.push(colHeader);
             }
         }
         return columns;
     }
     createColumnData(data) {
-        let columnData = [];
+        const columnData = [];
         if ((!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(data.headers)) && (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(data))) {
             if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(data.rows)) {
-                for (let val of data.rows) {
-                    let colHeader = {};
+                for (const val of data.rows) {
+                    const colHeader = {};
                     let count = 0;
-                    for (let header of data.headers) {
+                    for (const header of data.headers) {
                         colHeader[header.name] = val[count];
                         count++;
                     }
@@ -2485,14 +2547,14 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         Create program Stages column headings
     **/
     createProgramStageColumns(programStages, stage, header) {
-        let columns = [];
+        const columns = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStages)) {
-            for (let programStage of programStages) {
-                let columnObject = {};
+            for (const programStage of programStages) {
+                const columnObject = {};
                 columnObject.prop = programStage.id;
                 columnObject.name = programStage.name;
                 columnObject.width = (programStage.programStageDataElements.length * 150);
-                //columnObject.headerClass = "is-program-stage";
+                // columnObject.headerClass = "is-program-stage";
                 columnObject.cellTemplate = stage;
                 columnObject.headerTemplate = header;
                 columns.push(columnObject);
@@ -2505,7 +2567,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     **/
     mergeProgramAndProgramStageColumns(programColumns, stageColumns) {
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(stageColumns)) {
-            for (let stageColumn of stageColumns) {
+            for (const stageColumn of stageColumns) {
                 programColumns.push(stageColumn);
             }
         }
@@ -2515,13 +2577,13 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         Create program Stages Data Element column headings
     **/
     createProgramStageDataElementColumns(programStages, programStageId) {
-        let columns = [];
+        const columns = [];
         if ((!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStages))) {
-            for (let programStage of programStages) {
+            for (const programStage of programStages) {
                 if (programStage.id === programStageId) {
                     if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStage.programStageDataElements)) {
-                        for (let programStageDataElement of programStage.programStageDataElements) {
-                            let columnObject = {};
+                        for (const programStageDataElement of programStage.programStageDataElements) {
+                            const columnObject = {};
                             columnObject.prop = programStageDataElement.dataElement.id;
                             columnObject.name = programStageDataElement.dataElement.name;
                             columns.push(columnObject);
@@ -2533,18 +2595,18 @@ let OutbreakInventoryService = class OutbreakInventoryService {
         return columns;
     }
     /**
-    Filter events and arrange them ny tracked Entity Instances and program Stages
+    Filter events and arrange them by tracked Entity Instances and program Stages
     **/
     filterEventsByTrackedEntityInstance(events) {
-        let eventsByTeis = [];
-        let eventsByTeisCheck = [];
+        const eventsByTeis = [];
+        const eventsByTeisCheck = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(events)) {
-            for (let event of events) {
+            for (const event of events) {
                 if ((eventsByTeisCheck.indexOf(event.trackedEntityInstance)) === -1) {
                     eventsByTeisCheck.push(event.trackedEntityInstance);
-                    let tei = {};
+                    const tei = {};
                     tei[event.programStage] = [];
-                    let programStageEvent = {};
+                    const programStageEvent = {};
                     tei.trackedEntityInstance = event.trackedEntityInstance;
                     tei.orgUnit = event.orgUnit;
                     programStageEvent.event = event.event;
@@ -2554,10 +2616,10 @@ let OutbreakInventoryService = class OutbreakInventoryService {
                     eventsByTeis.push(tei);
                 }
                 else {
-                    let teiExists = this.filterByTrackedEntityInstance(eventsByTeis, event.trackedEntityInstance);
-                    for (let teiObject in teiExists) {
+                    const teiExists = this.filterByTrackedEntityInstance(eventsByTeis, event.trackedEntityInstance);
+                    for (const teiObject in teiExists) {
                         if (teiObject === event.programStage) {
-                            let programStageEvent = {};
+                            const programStageEvent = {};
                             programStageEvent.event = event.event;
                             programStageEvent.status = event.status;
                             programStageEvent.eventDate = event.eventDate;
@@ -2565,7 +2627,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
                         }
                         else {
                             teiExists[event.programStage] = [];
-                            let programStageEvent = {};
+                            const programStageEvent = {};
                             programStageEvent.event = event.event;
                             programStageEvent.status = event.status;
                             programStageEvent.eventDate = event.eventDate;
@@ -2583,7 +2645,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     filterByTrackedEntityInstance(events, trackedEntityInstance) {
         let tei = {};
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(events)) {
-            for (let event of events) {
+            for (const event of events) {
                 if (event.trackedEntityInstance === trackedEntityInstance) {
                     tei = event;
                 }
@@ -2597,7 +2659,7 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     filterByProgramStage(events, programStage) {
         let programStageValues = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(events)) {
-            for (let event of events) {
+            for (const event of events) {
                 if (event.programStage === programStage) {
                     programStageValues = event[programStage];
                 }
@@ -2609,9 +2671,9 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     Create Object from array
     **/
     createObjectFromArrayDataValues(arrayValues, oldObject) {
-        let arrayObject = oldObject;
+        const arrayObject = oldObject;
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(arrayValues)) {
-            for (let arrayValue of arrayValues) {
+            for (const arrayValue of arrayValues) {
                 arrayObject[arrayValue.dataElement] = arrayValue.value;
             }
         }
@@ -2621,15 +2683,17 @@ let OutbreakInventoryService = class OutbreakInventoryService {
      Create data from singe event
     **/
     getSingleEventData(events) {
-        let rows = [];
+        const rows = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(events)) {
-            for (let event of events) {
-                let eventObject = {};
+            for (const event of events) {
+                const eventObject = {};
                 eventObject.event = event.event;
                 eventObject.eventDate = event.eventDate;
                 eventObject.orgUnit = event.orgUnit;
                 eventObject.status = event.status;
                 eventObject.orgUnitName = event.orgUnitName;
+                // if () {
+                // }
                 rows.push(this.createObjectFromArrayDataValues(event.dataValues, eventObject));
             }
         }
