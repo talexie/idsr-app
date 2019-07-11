@@ -17,12 +17,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 /*Export Dependencies*/
 import { ExportToCsv } from 'export-to-csv';
 
-<<<<<<< HEAD
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
-=======
->>>>>>> 96e9859d64dc67806175ae2e4ce4b94692a4cf0f
 
 @Component({
   selector: 'app-outbreak-inventory',
@@ -62,19 +59,14 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   beginStartDate = moment(moment().subtract(30, 'days')).format('YYYY-MM-DD');
   rows: any = [];
   columns: any = [];
-<<<<<<< HEAD
+
   toggleColumns: any = [];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   firstCaseDate: any = "";
   lastCaseDate: any = "";
-=======
+
   allColumns: any = [];
-  loadingIndicator = true;
-  reorderable = true;
-  firstCaseDate: any = '';
-  lastCaseDate: any = '';
->>>>>>> 403ba3f60cf666bc5a9a60021cf99da132c9e02d
   epiChartData: any = [];
   selectedType: any = 'epiCurve';
   selectedChoice: string;
@@ -388,47 +380,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     return this.selectedType;
   }
 
-<<<<<<< HEAD
-  getLineListingReport(){
 
-      let orgUnit:any = this.orgTree.orgUnit.id;
-      let program:any = this.outbreakLineListingForm.value.program;
-      let programType: any = this.outbreakLineListingForm.value.program.programType;
-      this.selectedProgramType = programType;
-
-      let programStartDate: any = this.outbreakLineListingForm.value.programStartDate;
-      let programEndDate:any  = this.outbreakLineListingForm.value.programEndDate;
-
-      if(programType === "WITH_REGISTRATION"){
-        this.selectedProgramStages = this.outbreakLineListingForm.value.programStages;
-        this.outbreakInventoryService.getTrackedEntityInstances(orgUnit,program.id,programStartDate,programEndDate).subscribe( (teis:any) =>{
-
-          this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
-
-          this.outbreakInventoryService.getEvents(orgUnit,program.id,programStartDate,programEndDate).subscribe( (evs:any) =>{
-            this.events = evs.events;
-            let eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
-            this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances,eventsModified,this.selectedProgramStages);
-            let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
-            let stageColumns  = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages,this.pgStages,this.pgStagesHeader);
-            this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns,stageColumns);
-            setTimeout(() => { this.loadingIndicator = false; }, 1500);
-            console.log("this rows",this.rows);
-            console.log("this cols",this.columns);
-          });
-        });
-      }
-      else{
-        this.selectedProgramStages = this.outbreakLineListingForm.value.program.programStages[0];
-        this.outbreakInventoryService.getEvents(orgUnit,program.id,programStartDate,programEndDate).subscribe( (evs:any) =>{
-          this.events = evs.events;
-          this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
-          this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
-          setTimeout(() => { this.loadingIndicator = false; }, 1500);
-        });
-      }
-
-=======
   getLineListingReport() {
 
     const orgUnit: any = this.orgTree.orgUnit.id;
@@ -471,7 +423,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         this.allColumns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
       });
     }
->>>>>>> 403ba3f60cf666bc5a9a60021cf99da132c9e02d
   }
 
   rowDataToDisplay() {
@@ -518,43 +469,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     };
   }
 
-<<<<<<< HEAD
-    datatableToCsv(){
-      var my_data = this.rows;
-      var my_new_data = this.columns;
 
-
-       const options = {
-          fieldSeparator: ',',
-          filename: 'CSV Test File',
-          quoteStrings: '"',
-          decimalSeparator: '.',
-          showLabels: true,
-          showTitle: true,
-          title: 'Testing file in CSV format from Angular Json data',
-          useTextFile: false,
-          useBom: true,
-          useKeysAsHeaders: true
-        };
-
-        const csvExporter = new ExportToCsv(options);
-        csvExporter.generateCsv(my_data);
-    }
-
-
-<<<<<<< HEAD
-  // Download a Pdf file
-
-  public downloadPdf(){
-    return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
-  }
-=======
-    // Download a Pdf file
-    
-    public downloadPdf(){
-      return xepOnline.Formatter.Format('lineListingPdf', {render: 'download'});
-    }
-=======
   datatableToCsv() {
     const my_data = this.rows;
 
@@ -574,20 +489,14 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     const csvExporter = new ExportToCsv(options);
     csvExporter.generateCsv(my_data);
   }
->>>>>>> 403ba3f60cf666bc5a9a60021cf99da132c9e02d
+
 
   // Download a Pdf file
 
-<<<<<<< HEAD
-    public printOutReport(){
-          return xepOnline.Formatter.Format('outReport', {render: 'print'});
-    }
->>>>>>> 96e9859d64dc67806175ae2e4ce4b94692a4cf0f
-=======
   public downloadPdf() {
     return xepOnline.Formatter.Format('downPdfFile', { render: 'download' });
   }
->>>>>>> 403ba3f60cf666bc5a9a60021cf99da132c9e02d
+
 
   public downloadOutReport() {
     return xepOnline.Formatter.Format('outReport', { render: 'download' });
@@ -596,10 +505,19 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   public printOutReport() {
     return xepOnline.Formatter.Format('outReport', { render: 'print' });
   }
+  // Filter diseases
+  diseaseFilter(event) {
+   //const val = event.target.value.toLowerCase();
+   const val = this.outbreakLineListingForm.value.disease;
 
+   // filter our data
+   const temp = this.rows.filter(function(d) {
+     return d.disease.toLowerCase().indexOf(val) !== -1 || !val;
+   });
+
+   // update the rows
+   this.rows = temp;
+   // Whenever the filter changes, always go back to the first page
+   //this.table.offset = 0;
+ }
 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 403ba3f60cf666bc5a9a60021cf99da132c9e02d

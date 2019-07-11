@@ -34,7 +34,7 @@
         </div>
       </form>
     </div>
-    
+
     <div class="table-container table-responsive mat-elevation-z2">
       <highcharts-chart
         [Highcharts]="Highcharts"
@@ -52,7 +52,7 @@
         <div class="form-container">
           <div class="row columns">
             <h1>Outbreak Report</h1>
-            
+
             <div class="top-heading">
               <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>
             </div>
@@ -110,7 +110,7 @@
           <form [formGroup]="outbreakLineListingForm">
             <div class="top-heading">
                  <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->
-                 <app-org-unit #ouTree></app-org-unit>       
+                 <app-org-unit #ouTree></app-org-unit>
             </div>
             <div class="top-heading">
               <mat-form-field>
@@ -136,20 +136,12 @@
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/joe_dev
               <div style="margin-left: 21%;">
                 <mat-form-field>
                   <!-- (selectionChange)="updateFilter($event)"  -->
-                  <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
-<<<<<<< HEAD
+                  <mat-select (selectionChange)="diseaseFilter($event)" multiple placeholder="Disease" formControlName="disease">
+
                     <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
-=======
->>>>>>> refs/remotes/origin/joe_dev
-                    <!-- <mat-option>None</mat-option> -->
-                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
                   </mat-select>
                 </mat-form-field>
 
@@ -161,19 +153,12 @@
                 </mat-select>
               </mat-form-field>
 
-<<<<<<< HEAD
+
             <!-- A table search input box -->
             <mat-form-field appearance="outline">
               <mat-label>Search from the table!</mat-label>
               <input matInput placeholder="Type here ...">
             </mat-form-field>
-=======
-              <!-- A table search input box -->
-              <mat-form-field appearance="outline">
-                <mat-label>Search from the table!</mat-label>
-                <input matInput placeholder="Type here ..." [(ngModel)]="searChItem">
-              </mat-form-field>
->>>>>>> refs/remotes/origin/joe_dev
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
@@ -191,16 +176,15 @@
             </div>
 
       <div id="downPdfFile">
-    
+
           <ngx-datatable
             class="material"
             [rows]="rows"
             [columns]="columns"
-<<<<<<< HEAD
+
             [columnMode]="'fixed'"
-=======
+
             [columnMode]="'toggling'"
->>>>>>> refs/remotes/origin/joe_dev
             [loadingIndicator]="loadingIndicator"
             [headerHeight]="40"
             [footerHeight]="30"
@@ -225,7 +209,7 @@
                 </tbody>
               </table>
           </ng-template>
-        
+
           <ng-template #pgStages let-value="value" let-column="column" cellClass="is-program-stage-cell">
               <table>
                 <tr *ngFor="let val of value">
@@ -241,4 +225,3 @@
 
 <!-- Parent Div closes -->
 </div>
-
