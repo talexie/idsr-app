@@ -2117,10 +2117,11 @@ var OutbreakInventoryComponent = /** @class */ (function () {
     // Filter diseases
     OutbreakInventoryComponent.prototype.diseaseFilter = function (event) {
         //const val = event.target.value.toLowerCase();
-        var val = this.outbreakLineListingForm.value.disease;
+        var val = this.outbreakLineListingForm.value.disease[0];
+        console.log("disease", this.outbreakLineListingForm.value);
         // filter our data
         var temp = this.rows.filter(function (d) {
-            return d.disease.toLowerCase().indexOf(val) !== -1 || !val;
+            return d.disease.indexOf(val) !== -1 || !val;
         });
         // update the rows
         this.rows = temp;
