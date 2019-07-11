@@ -1,10 +1,10 @@
-<div>
+<div class="container-all">
   <mat-radio-group class="idsr-radio-group"  [(ngModel)]="selectedChoice" name="selectChoice">
     <mat-radio-button (change)="setReportType(choice.id)" class="idsr-radio-button" *ngFor="let choice of choices" [value]="choice.id">
       {{choice.name}}
     </mat-radio-button>
   </mat-radio-group>
-  <div  *ngIf="selectedType == 'epiCurve' && selectedType  != 'lineListing' && selectedType  != 'outbreakReport'">
+  <div  *ngIf="selectedType == 'epiCurve' && selectedType != 'lineListing' && selectedType != 'outbreakReport'">
     <div>
       <form [formGroup]="outbreakEpiCurveForm">
         <div class="form-container">
@@ -16,24 +16,25 @@
             <mat-form-field>
               <mat-select (selectionChange)="getEpidemics(outbreakEpiCurveForm.value.epiCurveDisease)" placeholder="Diseases" formControlName="epiCurveDisease">
                 <mat-option>None</mat-option>
-                <mat-option *ngFor="let disv of dataStores" [value]="disv.disease" >{{disv.disease}}</mat-option>
+                <mat-option *ngFor="let disv of dataStores" [value]="disv.disease" >{{ disv.disease }}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field>
               <mat-select (selectionChange)="drawEpiCurve()" placeholder="Outbreaks" formControlName="epiCurveEpidemic">
                 <mat-option>None</mat-option>
-                <mat-option *ngFor="let outbreakv of outbreaks" [value]="outbreakv" >{{outbreakv.epicode}}</mat-option>
+                <mat-option *ngFor="let outbreakv of outbreaks" [value]="outbreakv" >{{ outbreakv.epicode }}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-radio-group  (change)="drawEpiCurve()" class="idsr-radio-group" formControlName="selectedPeriodType">
               <mat-radio-button class="idsr-radio-button" *ngFor="let periodType of periodTypes" [value]="periodType.id">
-                {{periodType.name}}
+                {{ periodType.name }}
               </mat-radio-button>
             </mat-radio-group>
           </div>
         </div>
       </form>
     </div>
+    
     <div class="table-container table-responsive mat-elevation-z2">
       <highcharts-chart
         [Highcharts]="Highcharts"
@@ -51,13 +52,15 @@
         <div class="form-container">
           <div class="row columns">
             <h1>Outbreak Report</h1>
+            
             <div class="top-heading">
               <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>
             </div>
+
             <mat-form-field>
               <mat-select (selectionChange)="getEpidemics(outbreakInventoryForm.value.disease)" placeholder="Diseases" formControlName="disease">
       		      <mat-option>None</mat-option>
-      		      <mat-option *ngFor="let dis of dataStores" [value]="dis.disease" >{{dis.disease}}</mat-option>
+      		      <mat-option *ngFor="let dis of dataStores" [value]="dis.disease" >{{ dis.disease }}</mat-option>
           		</mat-select>
             </mat-form-field>
             <mat-form-field>
@@ -66,7 +69,7 @@
           		  <mat-option *ngFor="let outbreak of outbreaks" [value]="outbreak" >{{outbreak.epicode}}</mat-option>
           		</mat-select>
             </mat-form-field>
-            <button mat-raised-button (click)="downloadOutReport()">Download as PDF</button>
+            <button mat-raised-button (click)="downloadOutReport()"> Download as PDF </button>
             <button mat-raised-button style="margin-left: 2em;" (click)="printOutReport()">Print Now</button>
           </div>
         </div>
@@ -74,47 +77,52 @@
     </div>
     <div class="table-container table-responsive mat-elevation-z2" id="outReport">
       <table *ngFor="let item of programIndicatorData" class="table table-bordered" style="width:70%">
-        <tr *ngFor="let o of item.headers">
-          <td class="tb-label">{{o.title}}</td><td>{{o.value}}</td>
-        </tr>
-        <tr class="trhbordered">
-          <th>No</th> <th>Indicator</th><th>Description</th><th class="indicator">Value</th>
-        </tr>
-        <tr *ngFor="let i of item.dataValues; let n=index" class="trbordered">
-         <td>{{(n+1)}}</td>
-         <td>{{i.title}}</td><td>{{i.description}}</td><td class="indicator">{{i.value}}</td>
-        </tr>
-        <tr class="trbordered">
-          <td>{{item.dataValues?.length + 1}}</td>
-          <td>Date First Case Admitted</td><td>Date First Case Admitted</td><td class="indicator">{{ firstCaseDate}}</td>
-        </tr>
-        <tr class="trbordered">
-          <td>{{item.dataValues?.length + 2}}</td>
-          <td>Date Last Case Admitted</td><td>Date Last Case Admitted</td><td class="indicator">{{ lastCaseDate}}</td>
-        </tr>
+          <tr *ngFor="let o of item.headers">
+              <td class="tb-label">{{ o.title }}</td><td>{{ o.value }}</td>
+          </tr>
+
+
+          <tr class="trhbordered">
+              <th>No</th> <th>Indicator</th><!-- <th>Description</th> --><th class="indicator"> Value </th>
+          </tr>
+          <tr *ngFor="let i of item.dataValues; let n=index" class="trbordered">
+              <td>{{ (n+1) }}</td>
+              <td>{{ i.title }}</td><!-- <td>{{i.description}}</td> --><td class="indicator">{{ i.value }}</td>
+          </tr>
+
+          <tr class="trbordered">
+              <td>{{ item.dataValues?.length + 1 }}</td>
+              <td>Date First Case Admitted</td><!-- <td>Date First Case Admitted</td> --><td class="indicator">{{ firstCaseDate }}</td>
+          </tr>
+          <tr class="trbordered">
+              <td>{{ item.dataValues?.length + 2 }}</td>
+              <td>Date Last Case Admitted</td><!-- <td>Date Last Case Admitted</td> --><td class="indicator">{{ lastCaseDate }}</td>
+          </tr>
       </table>
     </div>
   </div>
-  <div *ngIf="selectedType  == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'">
+
+  <div *ngIf="selectedType == 'lineListing' && selectedType != 'epiCurve' && selectedType != 'outbreakReport'">
 
       <div class="form-container">
         <div class="row columns">
             <h1>Line Listing</h1>
           <form [formGroup]="outbreakLineListingForm">
             <div class="top-heading">
-              <app-org-unit #ouTree></app-org-unit>
+                 <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->
+                 <app-org-unit #ouTree></app-org-unit>       
             </div>
             <div class="top-heading">
               <mat-form-field>
                 <mat-select (selectionChange)="getProgramStages(outbreakLineListingForm.value.program)" placeholder="Programs" formControlName="program">
                   <mat-option>None</mat-option>
-                  <mat-option *ngFor="let program of programs" [value]="program" >{{program.name}}</mat-option>
+                  <mat-option *ngFor="let program of programs" [value]="program" >{{ program.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field *ngIf="selectedProgramType == 'WITH_REGISTRATION'">
                 <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Program Stages" formControlName="programStages">
                   <mat-option>None</mat-option>
-                  <mat-option *ngFor="let programStage of programStages" [value]="programStage" >{{programStage.name }}</mat-option>
+                  <mat-option *ngFor="let programStage of programStages" [value]="programStage" >{{ programStage.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field>
@@ -128,33 +136,44 @@
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
 
-              <br>
-              <div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/joe_dev
+              <div style="margin-left: 21%;">
                 <mat-form-field>
-                <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field>
-                <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Outbreaks" formControlName="outbreak">
-                  <mat-option>None</mat-option>
-                </mat-select>
-              </mat-form-field>
+                  <!-- (selectionChange)="updateFilter($event)"  -->
+                  <mat-select (selectionChange)="getLineListingReport()" multiple placeholder="Disease" formControlName="disease">
+<<<<<<< HEAD
+                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
+=======
+>>>>>>> refs/remotes/origin/joe_dev
+                    <!-- <mat-option>None</mat-option> -->
+                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
 
                <!-- Show or Hide some columns -->
               <mat-form-field>
-                <mat-select placeholder="Show / hide columns" formControlName="column">
-                  <mat-option *ngFor="let column of columns" (click)="toggle(column)"><mat-checkbox>{{ column.name }}</mat-checkbox>
+                <mat-select placeholder="Show / hide columns" multiple formControlName="column">
+                  <mat-option *ngFor="let column of allColumns" (click)="toggle(column)">{{ column.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
 
+<<<<<<< HEAD
+            <!-- A table search input box -->
+            <mat-form-field appearance="outline">
+              <mat-label>Search from the table!</mat-label>
+              <input matInput placeholder="Type here ...">
+            </mat-form-field>
+=======
               <!-- A table search input box -->
               <mat-form-field appearance="outline">
                 <mat-label>Search from the table!</mat-label>
-                <input matInput placeholder="Type here ...">
+                <input matInput placeholder="Type here ..." [(ngModel)]="searChItem">
               </mat-form-field>
+>>>>>>> refs/remotes/origin/joe_dev
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
@@ -170,27 +189,30 @@
               </div>
 
             </div>
-        </div>
 
-      <div>
+      <div id="downPdfFile">
+    
           <ngx-datatable
             class="material"
-            id="lineListingPdf"
             [rows]="rows"
             [columns]="columns"
-            [columnMode]="'force'"
+<<<<<<< HEAD
+            [columnMode]="'fixed'"
+=======
+            [columnMode]="'toggling'"
+>>>>>>> refs/remotes/origin/joe_dev
             [loadingIndicator]="loadingIndicator"
-            [headerHeight]="50"
-            [footerHeight]="50"
+            [headerHeight]="40"
+            [footerHeight]="30"
             [rowHeight]="'auto'"
             [reorderable]="reorderable"
             [scrollbarV]="false"
-            [limit]="15"
+            [limit]="20"
             [scrollbarH]="true">
           </ngx-datatable>
 
           <ng-template #pgStagesHeader let-column="column">
-              <table class="datatable-header" #tableContentToPdf>
+              <table class="datatable-header">
                 <thead>
                   <tr>
                     <th class="datatable-header-test-cell" colspan="(getProgramStageColumns(selectedProgramStages,column.prop)).length"><strong>{{ column.name }}</strong></th>
@@ -210,11 +232,13 @@
                   <td class="datatable-header-test-cell" *ngFor="let psColumnx of getProgramStageColumns(selectedProgramStages,column.prop)">{{ val[psColumnx.prop] }}</td>
                 </tr>
               </table>
-          </ng-template>   
+          </ng-template>
         </div>
+
+      <!-- Closing line listing div -->
+  </div>
 
 
 <!-- Parent Div closes -->
 </div>
-
 

@@ -22,6 +22,7 @@ import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.com
 
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ColumnsDialogComponent } from './columns-dialog/columns-dialog.component';
+import { DatatableComponent } from './datatable/datatable.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ColumnsDialogComponent } from './columns-dialog/columns-dialog.componen
     OrgUnitComponent,
     OrgUnitLimitedComponent,
     ColumnsDialogComponent,
+    DatatableComponent,
   ],
   imports: [
     BrowserModule,
