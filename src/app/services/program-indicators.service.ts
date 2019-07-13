@@ -161,6 +161,22 @@ export class ProgramIndicatorsService {
   	return this.removeDuplicates(epiArray);
   }
   /**
+   Get epidemic codes within an orgUnit
+  **/
+  getEpiCodeWithOutbreaks(epidemics,orgUnits){
+    let epiArray:any = [];
+    if(!isNullOrUndefined(epidemics)){
+      for(let epidemic of epidemics){
+        for(let orgUnit of orgUnits){
+          if(epidemic.orgUnit === orgUnit.id){
+            epiArray.push(epidemic)
+          }
+        }
+      }
+    }
+    return epiArray;
+  }
+  /**
    Generate categories from periods
   **/
   generateSeriesCategories(periods){

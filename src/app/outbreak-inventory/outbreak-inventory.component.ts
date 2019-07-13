@@ -237,7 +237,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.dataStores = dataStoreValues.diseases;
 
     });
-
+    this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues: any) => {
+        this.epidemics = epiStoreValues;
+    });
     this.outbreakInventoryService.getPrograms().subscribe((programValues: any) => {
       this.programs = programValues.programs;
     });
@@ -252,29 +254,30 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     this.drawEpiCurve(this.chart);
   }
   getEpidemics(disease) {
-    this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues: any) => {
-      this.epidemics = epiStoreValues;
-      this.outbreaks = this.piService.getEpiCode(this.epidemics, disease);
+    let selectedOrgUnit: any = this.orgTreeOutbreaks.orgUnit.id;
+    this.orgUnitService.getOrgUnitChildren(selectedOrgUnit).subscribe((orgUnitChilds: any)=> {
+
+      let filteredOutbreaks = this.piService.getEpiCode(this.epidemics, disease);
+      this.outbreaks = this.piService.getEpiCodeWithOutbreaks(filteredOutbreaks,orgUnitChilds.organisationUnits);
       this.epiChartData = [];
       this.programIndicatorData = [];
-
     });
   }
   getIndicatorDiseaseData(dataStoreValues, disease, outbreak) {
-    const orgUnitOutbreaks: any = this.orgTreeOutbreaks.orgUnit.id;
+    let orgUnitOutbreaks: any = this.orgTreeOutbreaks.orgUnit.id;
     this.programIndicators = this.piService.getProgramIndicators(dataStoreValues, disease);
     this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programOutbreakIndicators);
     // Query analytics to return report
-    const period = 'LAST_12_MONTHS';
+    let period = 'LAST_12_MONTHS';
 
     // let ou = 'QYiQ2KqgCxj';
     if (!isNullOrUndefined(outbreak)) {
-      const ou = outbreak.orgUnit;
+      let ou = outbreak.orgUnit;
       this.firstCaseDate = moment(outbreak.firstCaseDate).format('DD-MM-YYYY');
       this.lastCaseDate = moment(outbreak.lastCaseDate).format('DD-MM-YYYY');
       // let ou = outbreak.reportingOrgUnit;
 
-      const outbreakInds: any = this.diseaseProgramIndicators.join(';');
+      let outbreakInds: any = this.diseaseProgramIndicators.join(';');
       this.piService.getAnalyticsData(outbreakInds, ou, period).subscribe((analyticsData: any) => {
         if (!isNullOrUndefined(analyticsData.headers) && !isNullOrUndefined(this.programIndicators.programOutbreakIndicators)) {
           let headerdata = 0;
@@ -297,16 +300,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
     // let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
     if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveDisease)) {
-      const disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
+      let disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
       this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
       this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
       if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
-        const outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
-        const ou = outbreak.orgUnit;
-        const ouName = outbreak.orgUnitName;
+        let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
+        let ou = outbreak.orgUnit;
+        let ouName = outbreak.orgUnitName;
         let periodType = this.outbreakEpiCurveForm.value.selectedPeriodType;
-        const outbreakInds: any = this.diseaseProgramIndicators.join(';');
-        const startDate: any = moment(outbreak.firstCaseDate);
+        let outbreakInds: any = this.diseaseProgramIndicators.join(';');
+        let startDate: any = moment(outbreak.firstCaseDate);
         let endDate: any = outbreak.endDate;
         if (!isNullOrUndefined(endDate)) {
           endDate = moment().add(1, 'days').format('YYYY-MM-DD');
@@ -316,8 +319,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         if (isNullOrUndefined(periodType)) {
           periodType = 'daily';
         }
-        const period: any = this.piService.generatePeriods(startDate, endDate, periodType);
-        const periods: any = period.join(';');
+        let period: any = this.piService.generatePeriods(startDate, endDate, periodType);
+        let periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData: any) => {
           if (!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)) {
             this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName
@@ -365,7 +368,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   getProgramStages(program) {
     this.programStages = program.programStages;
-    const programType: any = this.outbreakLineListingForm.value.program.programType;
+    let programType: any = this.outbreakLineListingForm.value.program.programType;
     this.selectedProgramType = programType;
     if (this.selectedProgramType === 'WITHOUT_REGISTRATION') {
       this.getLineListingReport();
@@ -405,10 +408,10 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
         this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
           this.events = evs.events;
-          const eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+          let eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
           this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
-          const programColumns = this.outbreakInventoryService.getColumns(teis.headers);
-          const stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
+          let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
+          let stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
           this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
           this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
         });
@@ -433,7 +436,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   // Remove or add some columns displayed in the table!
   toggle(column) {
-    const isChecked = this.isChecked(column);
+    let isChecked = this.isChecked(column);
 
     if (isChecked) {
       this.columns = this.columns.filter(c => {
@@ -459,7 +462,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
 
   getProgramStageColumns(programStages, programStageId) {
-    const selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
+    let selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
     return selectedStageColumns;
   }
 
@@ -471,9 +474,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
   datatableToCsv() {
-    const my_data = this.rows;
+    let my_data = this.rows;
 
-    const options = {
+    let options = {
       fieldSeparator: ',',
       filename: 'IDSR report in csv',
       quoteStrings: '"',
@@ -486,7 +489,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       useKeysAsHeaders: true
     };
 
-    const csvExporter = new ExportToCsv(options);
+    let csvExporter = new ExportToCsv(options);
     csvExporter.generateCsv(my_data);
   }
 
@@ -507,9 +510,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
   // Filter diseases
   diseaseFilter(event) {
-   //const val = event.target.value.toLowerCase();
-   const val = this.outbreakLineListingForm.value.disease[0];
-   console.log("disease",this.outbreakLineListingForm.value)
+   //let val = event.target.value.toLowerCase();
+   let val = this.outbreakLineListingForm.value.disease[0];
 
    // filter our data
    const temp = this.rows.filter(function(d) {

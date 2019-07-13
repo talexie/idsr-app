@@ -1749,6 +1749,9 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues) => {
             this.dataStores = dataStoreValues.diseases;
         });
+        this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues) => {
+            this.epidemics = epiStoreValues;
+        });
         this.outbreakInventoryService.getPrograms().subscribe((programValues) => {
             this.programs = programValues.programs;
         });
@@ -1761,26 +1764,27 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         this.drawEpiCurve(this.chart);
     }
     getEpidemics(disease) {
-        this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues) => {
-            this.epidemics = epiStoreValues;
-            this.outbreaks = this.piService.getEpiCode(this.epidemics, disease);
+        let selectedOrgUnit = this.orgTreeOutbreaks.orgUnit.id;
+        this.orgUnitService.getOrgUnitChildren(selectedOrgUnit).subscribe((orgUnitChilds) => {
+            let filteredOutbreaks = this.piService.getEpiCode(this.epidemics, disease);
+            this.outbreaks = this.piService.getEpiCodeWithOutbreaks(filteredOutbreaks, orgUnitChilds.organisationUnits);
             this.epiChartData = [];
             this.programIndicatorData = [];
         });
     }
     getIndicatorDiseaseData(dataStoreValues, disease, outbreak) {
-        const orgUnitOutbreaks = this.orgTreeOutbreaks.orgUnit.id;
+        let orgUnitOutbreaks = this.orgTreeOutbreaks.orgUnit.id;
         this.programIndicators = this.piService.getProgramIndicators(dataStoreValues, disease);
         this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programOutbreakIndicators);
         // Query analytics to return report
-        const period = 'LAST_12_MONTHS';
+        let period = 'LAST_12_MONTHS';
         // let ou = 'QYiQ2KqgCxj';
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(outbreak)) {
-            const ou = outbreak.orgUnit;
+            let ou = outbreak.orgUnit;
             this.firstCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate).format('DD-MM-YYYY');
             this.lastCaseDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.lastCaseDate).format('DD-MM-YYYY');
             // let ou = outbreak.reportingOrgUnit;
-            const outbreakInds = this.diseaseProgramIndicators.join(';');
+            let outbreakInds = this.diseaseProgramIndicators.join(';');
             this.piService.getAnalyticsData(outbreakInds, ou, period).subscribe((analyticsData) => {
                 if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(analyticsData.headers) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.programIndicators.programOutbreakIndicators)) {
                     let headerdata = 0;
@@ -1800,16 +1804,16 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     drawEpiCurve(chart) {
         // let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.outbreakEpiCurveForm.value.epiCurveDisease)) {
-            const disease = this.outbreakEpiCurveForm.value.epiCurveDisease;
+            let disease = this.outbreakEpiCurveForm.value.epiCurveDisease;
             this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
             this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
             if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
-                const outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
-                const ou = outbreak.orgUnit;
-                const ouName = outbreak.orgUnitName;
+                let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
+                let ou = outbreak.orgUnit;
+                let ouName = outbreak.orgUnitName;
                 let periodType = this.outbreakEpiCurveForm.value.selectedPeriodType;
-                const outbreakInds = this.diseaseProgramIndicators.join(';');
-                const startDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate);
+                let outbreakInds = this.diseaseProgramIndicators.join(';');
+                let startDate = moment__WEBPACK_IMPORTED_MODULE_4__(outbreak.firstCaseDate);
                 let endDate = outbreak.endDate;
                 if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(endDate)) {
                     endDate = moment__WEBPACK_IMPORTED_MODULE_4__().add(1, 'days').format('YYYY-MM-DD');
@@ -1820,8 +1824,8 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
                 if (Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(periodType)) {
                     periodType = 'daily';
                 }
-                const period = this.piService.generatePeriods(startDate, endDate, periodType);
-                const periods = period.join(';');
+                let period = this.piService.generatePeriods(startDate, endDate, periodType);
+                let periods = period.join(';');
                 this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData) => {
                     if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(analyticsData.rows) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(this.programIndicators.programIndicators)) {
                         this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName;
@@ -1868,7 +1872,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     }
     getProgramStages(program) {
         this.programStages = program.programStages;
-        const programType = this.outbreakLineListingForm.value.program.programType;
+        let programType = this.outbreakLineListingForm.value.program.programType;
         this.selectedProgramType = programType;
         if (this.selectedProgramType === 'WITHOUT_REGISTRATION') {
             this.getLineListingReport();
@@ -1897,10 +1901,10 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
                 this.trackedEntityInstances = this.outbreakInventoryService.createColumnData(teis);
                 this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs) => {
                     this.events = evs.events;
-                    const eventsModified = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+                    let eventsModified = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
                     this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
-                    const programColumns = this.outbreakInventoryService.getColumns(teis.headers);
-                    const stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
+                    let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
+                    let stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
                     this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
                     this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
                 });
@@ -1922,7 +1926,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     }
     // Remove or add some columns displayed in the table!
     toggle(column) {
-        const isChecked = this.isChecked(column);
+        let isChecked = this.isChecked(column);
         if (isChecked) {
             this.columns = this.columns.filter(c => {
                 return c.name !== column.name;
@@ -1943,7 +1947,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         }
     }
     getProgramStageColumns(programStages, programStageId) {
-        const selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
+        let selectedStageColumns = this.outbreakInventoryService.createProgramStageDataElementColumns(programStages, programStageId);
         return selectedStageColumns;
     }
     getRowClass(row) {
@@ -1952,8 +1956,8 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
         };
     }
     datatableToCsv() {
-        const my_data = this.rows;
-        const options = {
+        let my_data = this.rows;
+        let options = {
             fieldSeparator: ',',
             filename: 'IDSR report in csv',
             quoteStrings: '"',
@@ -1965,7 +1969,7 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
             useBom: true,
             useKeysAsHeaders: true
         };
-        const csvExporter = new export_to_csv__WEBPACK_IMPORTED_MODULE_9__["ExportToCsv"](options);
+        let csvExporter = new export_to_csv__WEBPACK_IMPORTED_MODULE_9__["ExportToCsv"](options);
         csvExporter.generateCsv(my_data);
     }
     // Download a Pdf file
@@ -1980,9 +1984,8 @@ let OutbreakInventoryComponent = class OutbreakInventoryComponent {
     }
     // Filter diseases
     diseaseFilter(event) {
-        //const val = event.target.value.toLowerCase();
-        const val = this.outbreakLineListingForm.value.disease[0];
-        console.log("disease", this.outbreakLineListingForm.value);
+        //let val = event.target.value.toLowerCase();
+        let val = this.outbreakLineListingForm.value.disease[0];
         // filter our data
         const temp = this.rows.filter(function (d) {
             return d.disease.indexOf(val) !== -1 || !val;
@@ -2360,6 +2363,14 @@ let OrgUnitService = class OrgUnitService {
     getOrgUnitParents(orgUnit) {
         return this.http.get(this.constant.ROOTURL + 'api/organisationUnits/' + orgUnit + '.json?fields=id,name,code,ancestors[id,name]&paging=false');
     }
+    /**
+      Get orgUnit children
+      @param orgUnit
+      @return parents[]
+    **/
+    getOrgUnitChildren(orgUnit) {
+        return this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?fields=id,name,code&includeDescendants=true&paging=false&filter=ancestors.id:eq:' + orgUnit);
+    }
     // Handling error
     handleError(error) {
         return rxjs__WEBPACK_IMPORTED_MODULE_3__["Observable"].throw(error);
@@ -2419,13 +2430,11 @@ let OutbreakInventoryService = class OutbreakInventoryService {
     getTrackedEntityInstances(ou, program, programStartDate, programEndDate) {
         let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStartDate) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programEndDate)) {
-            if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStartDate) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programEndDate)) {
-                programEndDate = moment__WEBPACK_IMPORTED_MODULE_5__(programEndDate).format('YYYY-MM-DD');
-                programStartDate = moment__WEBPACK_IMPORTED_MODULE_5__(programStartDate).format('YYYY-MM-DD');
-                fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
-            }
-            return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
+            programEndDate = moment__WEBPACK_IMPORTED_MODULE_5__(programEndDate).format('YYYY-MM-DD');
+            programStartDate = moment__WEBPACK_IMPORTED_MODULE_5__(programStartDate).format('YYYY-MM-DD');
+            fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
         }
+        return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
     }
     // api/27/events.json?ouMode=ACCESSIBLE&trackedEntityInstance=pPOlRYW0XJB&skipPaging=true
     getEvents(ou, program, startDate, endDate) {
@@ -2898,6 +2907,22 @@ let ProgramIndicatorsService = class ProgramIndicatorsService {
             }
         }
         return this.removeDuplicates(epiArray);
+    }
+    /**
+     Get epidemic codes within an orgUnit
+    **/
+    getEpiCodeWithOutbreaks(epidemics, orgUnits) {
+        let epiArray = [];
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(epidemics)) {
+            for (let epidemic of epidemics) {
+                for (let orgUnit of orgUnits) {
+                    if (epidemic.orgUnit === orgUnit.id) {
+                        epiArray.push(epidemic);
+                    }
+                }
+            }
+        }
+        return epiArray;
     }
     /**
      Generate categories from periods

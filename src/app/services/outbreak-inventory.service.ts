@@ -25,15 +25,12 @@ export class OutbreakInventoryService {
 	getTrackedEntityInstances(ou, program, programStartDate, programEndDate) {
 		let fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
 		if (!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate)) {
-	
-		if (!isNullOrUndefined(programStartDate) && !isNullOrUndefined(programEndDate)) {
 			programEndDate = moment(programEndDate).format('YYYY-MM-DD');
 			programStartDate = moment(programStartDate).format('YYYY-MM-DD');
 			fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
 		}
-		
-	  	return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
-		}
+
+	  return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
 	}
 
 
@@ -325,15 +322,14 @@ export class OutbreakInventoryService {
 				eventObject.orgUnitName = event.orgUnitName;
 
 				// if () {
-					
+
 				// }
 				rows.push(this.createObjectFromArrayDataValues(event.dataValues, eventObject));
 			}
-			
+
 		}
 		return rows;
 
 	}
 
 }
-

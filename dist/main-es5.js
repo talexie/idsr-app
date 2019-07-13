@@ -1881,6 +1881,9 @@ var OutbreakInventoryComponent = /** @class */ (function () {
         this.piService.getDataStores(this.dataStore, 'diseases').subscribe(function (dataStoreValues) {
             _this.dataStores = dataStoreValues.diseases;
         });
+        this.piService.getDataStores(this.dataStore, 'epidemics').subscribe(function (epiStoreValues) {
+            _this.epidemics = epiStoreValues;
+        });
         this.outbreakInventoryService.getPrograms().subscribe(function (programValues) {
             _this.programs = programValues.programs;
         });
@@ -1894,9 +1897,10 @@ var OutbreakInventoryComponent = /** @class */ (function () {
     };
     OutbreakInventoryComponent.prototype.getEpidemics = function (disease) {
         var _this = this;
-        this.piService.getDataStores(this.dataStore, 'epidemics').subscribe(function (epiStoreValues) {
-            _this.epidemics = epiStoreValues;
-            _this.outbreaks = _this.piService.getEpiCode(_this.epidemics, disease);
+        var selectedOrgUnit = this.orgTreeOutbreaks.orgUnit.id;
+        this.orgUnitService.getOrgUnitChildren(selectedOrgUnit).subscribe(function (orgUnitChilds) {
+            var filteredOutbreaks = _this.piService.getEpiCode(_this.epidemics, disease);
+            _this.outbreaks = _this.piService.getEpiCodeWithOutbreaks(filteredOutbreaks, orgUnitChilds.organisationUnits);
             _this.epiChartData = [];
             _this.programIndicatorData = [];
         });
@@ -2116,9 +2120,8 @@ var OutbreakInventoryComponent = /** @class */ (function () {
     };
     // Filter diseases
     OutbreakInventoryComponent.prototype.diseaseFilter = function (event) {
-        //const val = event.target.value.toLowerCase();
+        //let val = event.target.value.toLowerCase();
         var val = this.outbreakLineListingForm.value.disease[0];
-        console.log("disease", this.outbreakLineListingForm.value);
         // filter our data
         var temp = this.rows.filter(function (d) {
             return d.disease.indexOf(val) !== -1 || !val;
@@ -2507,6 +2510,14 @@ var OrgUnitService = /** @class */ (function () {
     OrgUnitService.prototype.getOrgUnitParents = function (orgUnit) {
         return this.http.get(this.constant.ROOTURL + 'api/organisationUnits/' + orgUnit + '.json?fields=id,name,code,ancestors[id,name]&paging=false');
     };
+    /**
+      Get orgUnit children
+      @param orgUnit
+      @return parents[]
+    **/
+    OrgUnitService.prototype.getOrgUnitChildren = function (orgUnit) {
+        return this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?fields=id,name,code&includeDescendants=true&paging=false&filter=ancestors.id:eq:' + orgUnit);
+    };
     // Handling error
     OrgUnitService.prototype.handleError = function (error) {
         return rxjs__WEBPACK_IMPORTED_MODULE_3__["Observable"].throw(error);
@@ -2567,13 +2578,11 @@ var OutbreakInventoryService = /** @class */ (function () {
     OutbreakInventoryService.prototype.getTrackedEntityInstances = function (ou, program, programStartDate, programEndDate) {
         var fields = 'ou=' + ou + '&ouMode=DESCENDANTS&program=' + program + '&skipPaging=true';
         if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStartDate) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programEndDate)) {
-            if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programStartDate) && !Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(programEndDate)) {
-                programEndDate = moment__WEBPACK_IMPORTED_MODULE_5__(programEndDate).format('YYYY-MM-DD');
-                programStartDate = moment__WEBPACK_IMPORTED_MODULE_5__(programStartDate).format('YYYY-MM-DD');
-                fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
-            }
-            return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
+            programEndDate = moment__WEBPACK_IMPORTED_MODULE_5__(programEndDate).format('YYYY-MM-DD');
+            programStartDate = moment__WEBPACK_IMPORTED_MODULE_5__(programStartDate).format('YYYY-MM-DD');
+            fields = fields + '&programStartDate=' + programStartDate + '&programEndDate=' + programEndDate;
         }
+        return this.http.get(this.constant.ROOTURL + 'api/trackedEntityInstances/query.json?' + fields);
     };
     // api/27/events.json?ouMode=ACCESSIBLE&trackedEntityInstance=pPOlRYW0XJB&skipPaging=true
     OutbreakInventoryService.prototype.getEvents = function (ou, program, startDate, endDate) {
@@ -3287,10 +3296,47 @@ var ProgramIndicatorsService = /** @class */ (function () {
         return this.removeDuplicates(epiArray);
     };
     /**
+     Get epidemic codes within an orgUnit
+    **/
+    ProgramIndicatorsService.prototype.getEpiCodeWithOutbreaks = function (epidemics, orgUnits) {
+        var e_6, _a, e_7, _b;
+        var epiArray = [];
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(epidemics)) {
+            try {
+                for (var epidemics_2 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](epidemics), epidemics_2_1 = epidemics_2.next(); !epidemics_2_1.done; epidemics_2_1 = epidemics_2.next()) {
+                    var epidemic = epidemics_2_1.value;
+                    try {
+                        for (var orgUnits_1 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](orgUnits), orgUnits_1_1 = orgUnits_1.next(); !orgUnits_1_1.done; orgUnits_1_1 = orgUnits_1.next()) {
+                            var orgUnit = orgUnits_1_1.value;
+                            if (epidemic.orgUnit === orgUnit.id) {
+                                epiArray.push(epidemic);
+                            }
+                        }
+                    }
+                    catch (e_7_1) { e_7 = { error: e_7_1 }; }
+                    finally {
+                        try {
+                            if (orgUnits_1_1 && !orgUnits_1_1.done && (_b = orgUnits_1.return)) _b.call(orgUnits_1);
+                        }
+                        finally { if (e_7) throw e_7.error; }
+                    }
+                }
+            }
+            catch (e_6_1) { e_6 = { error: e_6_1 }; }
+            finally {
+                try {
+                    if (epidemics_2_1 && !epidemics_2_1.done && (_a = epidemics_2.return)) _a.call(epidemics_2);
+                }
+                finally { if (e_6) throw e_6.error; }
+            }
+        }
+        return epiArray;
+    };
+    /**
      Generate categories from periods
     **/
     ProgramIndicatorsService.prototype.generateSeriesCategories = function (periods) {
-        var e_6, _a;
+        var e_8, _a;
         var seriesCategories = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(periods)) {
             try {
@@ -3299,12 +3345,12 @@ var ProgramIndicatorsService = /** @class */ (function () {
                     seriesCategories.push(moment__WEBPACK_IMPORTED_MODULE_4__(period).format("YYYY-MM-DD"));
                 }
             }
-            catch (e_6_1) { e_6 = { error: e_6_1 }; }
+            catch (e_8_1) { e_8 = { error: e_8_1 }; }
             finally {
                 try {
                     if (periods_2_1 && !periods_2_1.done && (_a = periods_2.return)) _a.call(periods_2);
                 }
-                finally { if (e_6) throw e_6.error; }
+                finally { if (e_8) throw e_8.error; }
             }
         }
         return seriesCategories;
@@ -3333,7 +3379,7 @@ var ProgramIndicatorsService = /** @class */ (function () {
      Construct the table result
     **/
     ProgramIndicatorsService.prototype.displayAnalyticsEpidemics = function (data, indicators, orgUnit, headerdata, outbreak) {
-        var e_7, _a, e_8, _b;
+        var e_9, _a, e_10, _b;
         var tableData = [];
         if (!Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(data) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(indicators) && !Object(util__WEBPACK_IMPORTED_MODULE_3__["isNullOrUndefined"])(outbreak)) {
             try {
@@ -3389,22 +3435,22 @@ var ProgramIndicatorsService = /** @class */ (function () {
                             counterI++;
                         }
                     }
-                    catch (e_8_1) { e_8 = { error: e_8_1 }; }
+                    catch (e_10_1) { e_10 = { error: e_10_1 }; }
                     finally {
                         try {
                             if (indicators_1_1 && !indicators_1_1.done && (_b = indicators_1.return)) _b.call(indicators_1);
                         }
-                        finally { if (e_8) throw e_8.error; }
+                        finally { if (e_10) throw e_10.error; }
                     }
                     tableData.push(tableRow);
                 }
             }
-            catch (e_7_1) { e_7 = { error: e_7_1 }; }
+            catch (e_9_1) { e_9 = { error: e_9_1 }; }
             finally {
                 try {
                     if (data_2_1 && !data_2_1.done && (_a = data_2.return)) _a.call(data_2);
                 }
-                finally { if (e_7) throw e_7.error; }
+                finally { if (e_9) throw e_9.error; }
             }
         }
         else {
