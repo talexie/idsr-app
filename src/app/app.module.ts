@@ -5,9 +5,6 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule,MatCheckboxModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule } from '@angular/material';
 
-// CSV Module
-import { CsvModule } from '@ctrl/ngx-csv';
-
 import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { TreeModule } from 'angular-tree-component';
@@ -20,7 +17,9 @@ import { AppNoContentComponent } from './app-no-content/app-no-content.component
 import { OrgUnitComponent } from './org-unit/org-unit.component';
 import { OrgUnitLimitedComponent } from './org-unit-limited/org-unit-limited.component';
 
-import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import * as more from 'highcharts/highcharts-more.src';
+import * as exporting from 'highcharts/modules/exporting.src';
 import { ColumnsDialogComponent } from './columns-dialog/columns-dialog.component';
 import { DatatableComponent } from './datatable/datatable.component';
 
@@ -44,13 +43,12 @@ import { DatatableComponent } from './datatable/datatable.component';
     MatButtonModule,MatCheckboxModule,MatMenuModule,MatInputModule,MatSelectModule,MatDatepickerModule,MatRadioModule,MatOptionModule,MatFormFieldModule,MatNativeDateModule,
     TreeModule.forRoot(),
     NgxDatatableModule,
-    HighchartsChartModule,
-    CsvModule
+    ChartModule,
   ],
   entryComponents: [
     ColumnsDialogComponent
   ],
-  providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService],
+  providers: [OutbreakInventoryService, ProgramIndicatorsService, ConstantService, OrgUnitService,{ provide: HIGHCHARTS_MODULES, useFactory: () => [ more, exporting ] }],
   bootstrap: [AppComponent]
 })
 
