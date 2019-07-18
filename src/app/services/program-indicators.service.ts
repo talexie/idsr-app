@@ -68,19 +68,31 @@ export class ProgramIndicatorsService {
   generatePeriods(startDate,endDate,periodType){
     let periods: any = [];
     if(periodType === 'weekly'){
-      console.log("Not implemented");
+      let startWeek = moment(startDate);
+      let endWeek = moment(endDate);
+      let noWeeks = endWeek.diff(startWeek,'weeks');
+      if(noWeeks <= 0) {
+        let weekNoq = moment(startWeek).format("GGGG") + 'W' + moment(startWeek).format("GG")
+        periods.push(weekNoq);
+      }
+      else{
+         for(let i = 0; i < noWeeks; i++) {
+            let weekNoq1 = startWeek.add(i,'w').format("GGGG") + 'W' + startWeek.add(i,'w').format("GG")
+            periods.push(weekNoq1);
+        }
+      }
     }
     else{
       let start = moment(startDate);
       endDate = moment(endDate);
       let diff = endDate.diff(startDate, 'days');
 
-        if(!startDate.isValid() || !endDate.isValid() || diff <= 0) {
+        if(diff <= 0) {
             periods.push(moment(start).format("YYYYMMDD"));
         }
         else{
-           for(let i = 0; i < diff; i++) {
-              periods.push(start.add(1,'d').format('YYYYMMDD'));
+           for(let n = 0; n < diff; n++) {
+              periods.push(start.add(n,'d').format('YYYYMMDD'));
           }
         }
     }
@@ -98,34 +110,36 @@ export class ProgramIndicatorsService {
     let suspected = [];
     let suspectedandconfirmed = [];
     if(!isNullOrUndefined(data)){
+      let c = this.filterCases(data,piIndicators[0]);
+      let s = this.filterCases(data,piIndicators[2]);
+      let d = this.filterCases(data,piIndicators[1]);
+      console.log("s",s);
+      console.log("c",c);
+      console.log("d",d);
+      console.log("period",periods);
       for(let period of periods){
-        for(let value of data){
-          if(value[0] === piIndicators[0]){
-            if(period === value[1]){
-              confirmed.push([period,parseInt(value[2])]);
-            }
-            else{
-              confirmed.push([period,0]);
-            }
-          }
-          else if(value[0] === piIndicators[1]){
-            if(period === value[1]){
-              deaths.push([period,parseInt(value[2])]);
-            }
-            else{
-              deaths.push([period,0]);
-            }
-          }
-          else if(value[0] === piIndicators[2]){
-            if(period === value[1]){
-              suspected.push([period,parseInt(value[2])]);
-            }
-            else{
-              suspected.push([period,0]);
-            }
+        for(let value of c){
+          if(period === value[1]){
+            confirmed.push([period,parseInt(value[2])]);
           }
           else{
-
+            confirmed.push([period,0]);
+          }
+        }
+        for(let value of s){
+          if(period === value[1]){
+            suspected.push([period,parseInt(value[2])]);
+          }
+          else{
+            suspected.push([period,0]);
+          }
+        }
+        for(let value of d){
+          if(period === value[1]){
+            deaths.push([period,parseInt(value[2])]);
+          }
+          else{
+            deaths.push([period,0]);
           }
         }
       }
@@ -208,7 +222,16 @@ export class ProgramIndicatorsService {
     }
   	return noDup;
   }
+  /**
+  Filter case by type
+  **/
+  filterCases(data,type){
 
+    let cases = data.filter((d:any) => {
+      return (d[0] === type)
+    });
+    return cases;
+  }
   /**
    Construct the table result
   **/

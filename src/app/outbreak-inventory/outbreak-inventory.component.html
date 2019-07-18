@@ -26,7 +26,7 @@
               </mat-select>
             </mat-form-field>
             <mat-radio-group  (change)="drawEpiCurve()" class="idsr-radio-group" formControlName="selectedPeriodType">
-              <mat-radio-button class="idsr-radio-button" *ngFor="let periodType of periodTypes" [value]="periodType.id">
+              <mat-radio-button class="idsr-radio-button" *ngFor="let periodType of periodTypes" [value]="periodType.id" [checked]="periodType.checked">
                 {{ periodType.name }}
               </mat-radio-button>
             </mat-radio-group>
