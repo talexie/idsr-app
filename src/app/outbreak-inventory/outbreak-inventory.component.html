@@ -16,7 +16,7 @@
             <mat-form-field>
               <mat-select (selectionChange)="getEpidemics(outbreakEpiCurveForm.value.epiCurveDisease)" placeholder="Diseases" formControlName="epiCurveDisease">
                 <mat-option>None</mat-option>
-                <mat-option *ngFor="let disv of dataStores" [value]="disv.disease" >{{ disv.disease }}</mat-option>
+                <mat-option *ngFor="let disv of dataStores.diseases" [value]="disv.disease" >{{ disv.disease }}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field>
@@ -34,16 +34,8 @@
         </div>
       </form>
     </div>
-    
-    <div class="table-container table-responsive mat-elevation-z2">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="options"
-        [(update)]="updateFlag"
-        [oneToOne]="oneToOneFlag"
-        (chartInstance)="getChartInstance($event)"
-        style="width: 100%; height: 400px; display: block;"
-      ></highcharts-chart>
+
+    <div class="table-container table-responsive mat-elevation-z2" [chart]="options">
     </div>
   </div>
   <div *ngIf="selectedType == 'outbreakReport' && selectedType  != 'epiCurve' && selectedType  != 'lineListing'">
@@ -52,7 +44,7 @@
         <div class="form-container">
           <div class="row columns">
             <h1>Outbreak Report</h1>
-            
+
             <div class="top-heading">
               <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited>
             </div>
@@ -60,11 +52,11 @@
             <mat-form-field>
               <mat-select (selectionChange)="getEpidemics(outbreakInventoryForm.value.disease)" placeholder="Diseases" formControlName="disease">
       		      <mat-option>None</mat-option>
-      		      <mat-option *ngFor="let dis of dataStores" [value]="dis.disease" >{{ dis.disease }}</mat-option>
+      		      <mat-option *ngFor="let dis of dataStores.diseases" [value]="dis.disease" >{{ dis.disease }}</mat-option>
           		</mat-select>
             </mat-form-field>
             <mat-form-field>
-              <mat-select (selectionChange)="getIndicatorDiseaseData(dataStores,outbreakInventoryForm.value.disease,outbreakInventoryForm.value.epidemic)" placeholder="Outbreaks" formControlName="epidemic">
+              <mat-select (selectionChange)="getIndicatorDiseaseData(dataStores.diseases,outbreakInventoryForm.value.disease,outbreakInventoryForm.value.epidemic)" placeholder="Outbreaks" formControlName="epidemic">
           		  <mat-option>None</mat-option>
           		  <mat-option *ngFor="let outbreak of outbreaks" [value]="outbreak" >{{outbreak.epicode}}</mat-option>
           		</mat-select>
@@ -110,7 +102,7 @@
           <form [formGroup]="outbreakLineListingForm">
             <div class="top-heading">
                  <!-- <app-org-unit-limited #ouTreeOutbreaks></app-org-unit-limited> -->
-                 <app-org-unit #ouTree></app-org-unit>       
+                 <app-org-unit #ouTree></app-org-unit>
             </div>
             <div class="top-heading">
               <mat-form-field>
@@ -135,6 +127,14 @@
                 <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                 <mat-datepicker #endDate touchUi="true" startView="month" [startAt]="beginEndDate"></mat-datepicker>
               </mat-form-field>
+
+
+              <div style="margin-left: 21%;">
+                <mat-form-field>
+                  <!-- (selectionChange)="updateFilter($event)"  -->
+                  <mat-select (selectionChange)="diseaseFilter($event)" multiple placeholder="Disease" formControlName="disease">
+
+                    <mat-option *ngFor="let ldis of dataStores.diseases" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
 
 
               <div style="margin-left: 21%;">
@@ -182,8 +182,9 @@
             </div>
 
       <div id="downPdfFile">
-    
+
           <ngx-datatable
+            #table
             class="material"
             [rows]="rows"
             [columns]="columns"
@@ -213,7 +214,7 @@
                 </tbody>
               </table>
           </ng-template>
-        
+
           <ng-template #pgStages let-value="value" let-column="column" cellClass="is-program-stage-cell">
               <table>
                 <tr *ngFor="let val of value">
@@ -229,4 +230,3 @@
 
 <!-- Parent Div closes -->
 </div>
-

@@ -8,14 +8,15 @@ import { TreeComponent, TREE_ACTIONS, IActionMapping } from 'angular-tree-compon
 import { ProgramIndicatorsService, OrgUnitService, OutbreakInventoryService, ConstantService } from '../services';
 import { OrgUnitComponent } from '../org-unit';
 import { OrgUnitLimitedComponent } from '../org-unit-limited';
-import * as Highcharts from 'highcharts';
+import { Chart } from 'angular-highcharts';
 
-// import { CsvModule } from '@ctrl/ngx-csv';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-// import { ColumnsDialogComponent } from '../columns-dialog/columns-dialog.component';
 
 /*Export Dependencies*/
 import { ExportToCsv } from 'export-to-csv';
+
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -56,19 +57,22 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   beginStartDate = moment(moment().subtract(30, 'days')).format('YYYY-MM-DD');
   rows: any = [];
   columns: any = [];
+
+  toggleColumns: any = [];
+  loadingIndicator: boolean = true;
+  reorderable: boolean = true;
+  firstCaseDate: any = "";
+  lastCaseDate: any = "";
+
   allColumns: any = [];
-  loadingIndicator = true;
-  reorderable = true;
-  firstCaseDate: any = '';
-  lastCaseDate: any = '';
   epiChartData: any = [];
   selectedType: any = 'epiCurve';
   selectedChoice: string;
   selectedProgramType = '';
   // Highcharts
-  Highcharts: typeof Highcharts = Highcharts; // required
-  chartConstructor = 'chart'; // optional string, defaults to 'chart'
-  options: any = {
+  //Highcharts: typeof Highcharts = Highcharts; // required
+  //chartConstructor = 'chart'; // optional string, defaults to 'chart'
+  options = new Chart({
     chart: {
       type: 'column',
       height: 700,
@@ -82,24 +86,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     },
     xAxis: {
       categories: [],
-      title: {
-        text: '',
-        enabled: true
-      }
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: '',
-        enabled: true
-      },
-      stackLabels: {
-        enabled: true,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
     },
     legend: {
       align: 'right',
@@ -125,25 +111,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         }
       }
     },
-    series: [
-      {
-        name: 'Confirmed',
-        data: [0, 2, 3, 5, 6, 8]
-      },
-      {
-        name: 'Suspected',
-        data: [0, 2, 3, 5, 6, 8]
-      },
-      {
-        name: 'Deaths',
-        data: [0, 2, 3, 5, 6, 8]
-      }
-    ]
-  }
+    series: []
+  });
 
-  chart: any;
-  updateFlag = true; // optional boolean
-  oneToOneFlag = true; // optional boolean, defaults to false
+  //chart: any;
+  //updateFlag = false; // optional boolean
+  //oneToOneFlag = true; // optional boolean, defaults to false
 
   @ViewChild('ouTree', { static: false })
   orgTree: OrgUnitComponent;
@@ -154,7 +127,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   @ViewChild('pgStages', { static: false }) pgStages: TemplateRef<any>;
   @ViewChild('pgStagesHeader', { static: false }) pgStagesHeader: TemplateRef<any>;
 
-  temp: [];
+  temp = [];
 
 
   constructor(
@@ -228,10 +201,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.piService.getDataStores(this.dataStore, 'diseases').subscribe((dataStoreValues: any) => {
-      this.dataStores = dataStoreValues.diseases;
+      this.dataStores = dataStoreValues;
 
     });
-
+    this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues: any) => {
+        this.epidemics = epiStoreValues;
+    });
     this.outbreakInventoryService.getPrograms().subscribe((programValues: any) => {
       this.programs = programValues.programs;
     });
@@ -241,17 +216,18 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
   }
   // Demonstrate chart instance
-  getChartInstance(chart: Highcharts.Chart) {
+/*  getChartInstance(chart: Highcharts.Chart) {
     this.chart = chart;
     this.drawEpiCurve(this.chart);
-  }
+  }*/
   getEpidemics(disease) {
-    this.piService.getDataStores(this.dataStore, 'epidemics').subscribe((epiStoreValues: any) => {
-      this.epidemics = epiStoreValues;
-      this.outbreaks = this.piService.getEpiCode(this.epidemics, disease);
+    let selectedOrgUnit: any = this.orgTreeOutbreaks.orgUnit.id;
+    this.orgUnitService.getOrgUnitChildren(selectedOrgUnit).subscribe((orgUnitChilds: any)=> {
+
+      let filteredOutbreaks = this.piService.getEpiCode(this.epidemics, disease);
+      this.outbreaks = this.piService.getEpiCodeWithOutbreaks(filteredOutbreaks,orgUnitChilds.organisationUnits);
       this.epiChartData = [];
       this.programIndicatorData = [];
-
     });
   }
   getIndicatorDiseaseData(dataStoreValues, disease, outbreak) {
@@ -287,12 +263,16 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     return this.programIndicatorData;
   }
 
-  drawEpiCurve(chart: Highcharts.Chart) {
+  drawEpiCurve() {
 
     // let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
     if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveDisease)) {
       let disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
+
+      this.programIndicators = this.piService.getProgramIndicators(this.dataStores.diseases, disease);
+
       this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
+
       this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
       if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
         let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
@@ -314,47 +294,54 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         let periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData: any) => {
           if (!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)) {
-            this.options.title = 'epi Curve: ' + outbreak.disease + ' in ' + ouName
-            this.options.xAxis.title.text = 'Period ( ' + periodType + ' )'
+          this.options.ref.setTitle({text: 'epi Curve: ' + outbreak.disease + ' in ' + ouName});
+            //this.options.xAxis.title.text = 'Period ( ' + periodType + ' )'
             if (periodType === 'daily') {
 
               this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
-
-              this.chart.xAxis.categories = this.epiChartData.categories;
+              this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
+              console.log("data",this.epiChartData.data);
               // this.options.series = this.epiChartData.data;
-              this.chart.series[0].setData(this.epiChartData.data[0]);
-              this.chart.series[1].setData(this.epiChartData.data[1]);
-              this.chart.series[2].setData(this.epiChartData.data[2]);
+              this.options.removeSeries(0);
+              this.options.addSeries({name:'Confirmed',type:'column',data:this.epiChartData.data[0].data},true,false);
+              this.options.removeSeries(1);
+              this.options.addSeries({name:'Suspected',type:'column',data:this.epiChartData.data[1].data},true,false);
+              this.options.removeSeries(2);
+              this.options.addSeries({name:'Deaths',type:'column',data:this.epiChartData.data[2].data},true,false);
               /*
               if (this.chart) {
                    this.chart.addSeries(o.json(), true)
               }
               */
-            } else {
-              this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
-              this.chart.xAxis.categories = this.epiChartData.categories;
-              // this.options.series =this.epiChartData.data;
-              this.chart.series[0].setData(this.epiChartData.data[0]);
-              this.chart.series[1].setData(this.epiChartData.data[1]);
-              this.chart.series[2].setData(this.epiChartData.data[2]);
-
             }
-          } else {
+            else {
+              this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
+              this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
+              this.options.addSeries({name:'Confirmed',type:'column',data:this.epiChartData.data[0].data},true,false);
+              this.options.addSeries({name:'Suspected',type:'column',data:this.epiChartData.data[1].data},true,false);
+              this.options.addSeries({name:'Deaths',type:'column',data:this.epiChartData.data[2].data},true,false);
+            }
+            //this.updateFlag = true
+            //console.log(this.epiChartData.data[0]);
+          }
+          else {
             this.epiChartData = [];
           }
 
         });
-      } else {
+      }
+      else {
         console.log('Select the outbreak/epidemic');
         this.epiChartData = [];
       }
-    } else {
+    }
+    else {
       console.log('Please select the disease');
       this.epiChartData = [];
     }
-    this.updateFlag = true
-    this.chart.redraw();
-    return this.chart;
+
+    //this.chart.redraw();
+    return this.options;
   }
 
   getProgramStages(program) {
@@ -373,6 +360,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     this.selectedChoice = event;
     return this.selectedType;
   }
+
 
   getLineListingReport() {
 
@@ -399,11 +387,18 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
           this.events = evs.events;
           let eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+
+          let data = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
+          this.rows = data;
+          this.temp = [...data];
+
           this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
+
           let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
           let stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
           this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
           this.allColumns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
+
         });
       });
     } else {
@@ -411,7 +406,9 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
         this.loadingIndicator = false;
         this.events = evs.events;
-        this.rows = this.outbreakInventoryService.getSingleEventData(evs.events);
+        let data = this.outbreakInventoryService.getSingleEventData(evs.events);
+        this.rows = data;
+        this.temp = [...data];
         this.columns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
         this.allColumns = this.outbreakInventoryService.getSingleEventColumns(this.selectedProgramStages);
       });
@@ -462,6 +459,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     };
   }
 
+
   datatableToCsv() {
     let my_data = this.rows;
 
@@ -482,11 +480,13 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     csvExporter.generateCsv(my_data);
   }
 
+
   // Download a Pdf file
 
   public downloadPdf() {
     return xepOnline.Formatter.Format('downPdfFile', { render: 'download' });
   }
+
 
   public downloadOutReport() {
     return xepOnline.Formatter.Format('outReport', { render: 'download' });
@@ -495,6 +495,35 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   public printOutReport() {
     return xepOnline.Formatter.Format('outReport', { render: 'print' });
   }
+
+  // Filter diseases
+  diseaseFilter(event) {
+   //let val = event.target.value.toLowerCase();
+   let diseaseColumn:any = ""
+   let val = this.outbreakLineListingForm.value.disease;
+   if(!isNullOrUndefined(val)){
+     if(this.selectedProgramType === 'WITH_REGISTRATION'){
+       diseaseColumn = this.dataStores.config.notificationProgram.disease.id;
+     }
+     else{
+        diseaseColumn = this.dataStores.config.reportingProgram.disease.id;
+     }
+     // filter our data
+     const temp = this.temp.filter(function(d) {
+       for(let v of val){
+         return (d[diseaseColumn]).indexOf(v) !== -1 || !v;
+       }
+     });
+
+     // update the rows
+     this.rows = temp;
+     // Whenever the filter changes, always go back to the first page
+     //this.table.offset = 0;
+   }
+
+ }
+}
+
 
 
 
@@ -517,7 +546,5 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
 
 }
-
-
 
 

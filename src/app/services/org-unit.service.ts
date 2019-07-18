@@ -244,6 +244,14 @@ export class OrgUnitService {
   getOrgUnitParents(orgUnit) {
     return this.http.get(this.constant.ROOTURL + 'api/organisationUnits/' + orgUnit + '.json?fields=id,name,code,ancestors[id,name]&paging=false');
   }
+  /**
+    Get orgUnit children
+    @param orgUnit
+    @return parents[]
+  **/
+  getOrgUnitChildren(orgUnit) {
+    return this.http.get(this.constant.ROOTURL + 'api/organisationUnits.json?fields=id,name,code&includeDescendants=true&paging=false&filter=ancestors.id:eq:'+orgUnit);
+  }
 
   // Handling error
   handleError (error: any) {
