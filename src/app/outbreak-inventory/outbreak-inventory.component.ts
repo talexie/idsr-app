@@ -277,7 +277,11 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     // let orgUnitOutbreaks:any = this.orgTreeOutbreaks.orgUnit.id;
     if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveDisease)) {
       let disease: any = this.outbreakEpiCurveForm.value.epiCurveDisease;
+
       this.programIndicators = this.piService.getProgramIndicators(this.dataStores.diseases, disease);
+
+      this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
+
       this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
       if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
         let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
@@ -395,9 +399,13 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         this.outbreakInventoryService.getEvents(orgUnit, program.id, programStartDate, programEndDate).subscribe((evs: any) => {
           this.events = evs.events;
           let eventsModified: any = this.outbreakInventoryService.filterEventsByTrackedEntityInstance(this.events);
+
           let data = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
           this.rows = data;
           this.temp = [...data];
+
+          this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
+
           let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
           let stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
           this.columns = this.outbreakInventoryService.mergeProgramAndProgramStageColumns(programColumns, stageColumns);
@@ -499,6 +507,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   public printOutReport() {
     return xepOnline.Formatter.Format('outReport', { render: 'print' });
   }
+
   // Filter diseases
   diseaseFilter(event) {
    //let val = event.target.value.toLowerCase();
@@ -526,3 +535,28 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
  }
 }
+
+
+
+
+// Filter the diseases in the Line Listing Application
+  updateFilter(event) {
+      // let val = event.target.value.toLowerCase();
+
+      // // filter our data
+      // let temp = this.temp.filter(function(d) {
+      //   return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+      // });
+
+      // // update the rows
+      // this.rows = temp;
+      // // Whenever the filter changes, always go back to the first page
+      // this.table.offset = 0;
+  }
+
+
+
+
+}
+
+
