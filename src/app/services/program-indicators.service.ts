@@ -68,33 +68,26 @@ export class ProgramIndicatorsService {
   generatePeriods(startDate,endDate,periodType){
     let periods: any = [];
     if(periodType === 'weekly'){
-      let startWeek = moment(startDate);
-      let endWeek = moment(endDate);
-      let noWeeks = endWeek.diff(startWeek,'weeks');
-      if(noWeeks <= 0) {
-        let weekNoq = moment(startWeek).format("GGGG") + 'W' + moment(startWeek).format("GG")
-        periods.push(weekNoq);
-      }
-      else{
-         for(let i = 0; i < noWeeks; i++) {
-            let weekNoq1 = startWeek.add(i,'w').format("GGGG") + 'W' + startWeek.add(i,'w').format("GG")
-            periods.push(weekNoq1);
-        }
+      const startWeek = moment(startDate);
+      const endWeek = moment(endDate);
+      let i = 0;
+      while(startWeek <= endWeek) {
+         const weekNoq1 = moment(startDate).add(i,'w').format("YYYY[W]WW")
+         periods.push(weekNoq1);
+         startWeek.add(i,'w');
+         i++;
       }
     }
     else{
-      let start = moment(startDate);
-      endDate = moment(endDate);
-      let diff = endDate.diff(startDate, 'days');
-
-        if(diff <= 0) {
-            periods.push(moment(start).format("YYYYMMDD"));
-        }
-        else{
-           for(let n = 0; n < diff; n++) {
-              periods.push(start.add(n,'d').format('YYYYMMDD'));
-          }
-        }
+      const startDay = moment(startDate);
+      const endDay = moment(endDate);
+      let i = 0;
+      while(startDay <= endDay) {
+         const weekDay = moment(startDate).add(i,'d').format("YYYYMMDD")
+         periods.push(weekDay);
+         startDay.add(i,'d');
+         i++;
+      }
     }
     return periods;
   }
