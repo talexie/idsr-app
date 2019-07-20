@@ -106,10 +106,6 @@ export class ProgramIndicatorsService {
       confirmed = this.filterCases(data,piIndicators[0],periods);
       suspected = this.filterCases(data,piIndicators[2],periods);
       deaths = this.filterCases(data,piIndicators[1],periods);
-      console.log("s",suspected);
-      console.log("c",confirmed);
-      console.log("d",deaths);
-      console.log("period",periods);
     }
     //Highcharts structure
     allcases.push({ "name": "Confirmed","data": confirmed });
@@ -197,15 +193,17 @@ export class ProgramIndicatorsService {
     let cases = data.filter((d:any) => {
       return (d[0] === type)
     });
+
     if(!isNullOrUndefined(cases)){
       for(let period of periods){
-        for(let value of cases){
-          if(period === value[1]){
-            caseType.push([period,parseInt(value[2])]);
-          }
-          else{
-            caseType.push([period,0]);
-          }
+        let casesPeriod = cases.filter((pe:any) => {
+          return (pe[1] === period)
+        });
+        if(casesPeriod.length > 0){
+          caseType.push([period,parseInt(casesPeriod[0][2])]);
+        }
+        else{
+          caseType.push([period,0]);
         }
       }
     }

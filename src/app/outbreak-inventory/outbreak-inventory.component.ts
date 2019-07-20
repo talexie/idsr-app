@@ -311,6 +311,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
             if (periodType === 'daily') {
 
               this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
+              this.options.ref.xAxis[0].setCategories([]);
               this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
               console.log("data"+ JSON.stringify(this.epiChartData.data[1].data));
               // this.options.series = this.epiChartData.data;
@@ -328,6 +329,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
             }
             else {
               this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
+              this.options.ref.xAxis[0].setCategories([]);
               this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
               this.options.removeSeries(0);
               this.options.addSeries({name:'Confirmed',type:'column',data:this.epiChartData.data[0].data},true,false);
