@@ -85,7 +85,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       enabled: false
     },
     xAxis: {
-      categories: ['Jan','Feb','Mar'],
+      categories: [],
     },
     legend: {
       align: 'right',
@@ -114,12 +114,17 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     series: [{
       name:'Confirmed',
       type:'column',
-      data:[['Jan',10],['Feb',2],['Mar',8]]
+      data:[]
     },
     {
       name:'Suspected',
       type:'column',
-      data:[['Jan',5],['Feb',5],['Mar',3]]
+      data:[]
+    },
+    {
+      name:'Deaths',
+      type:'column',
+      data:[]
     }]
   });
 
@@ -280,8 +285,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
       this.programIndicators = this.piService.getProgramIndicators(this.dataStores.diseases, disease);
 
-      this.programIndicators = this.piService.getProgramIndicators(this.dataStores, disease);
-
       this.diseaseProgramIndicators = this.piService.createArrayFromObject(this.programIndicators.programIndicators);
       if (!isNullOrUndefined(this.outbreakEpiCurveForm.value.epiCurveEpidemic)) {
         let outbreak = this.outbreakEpiCurveForm.value.epiCurveEpidemic;
@@ -403,8 +406,6 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
           let data = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
           this.rows = data;
           this.temp = [...data];
-
-          this.rows = this.outbreakInventoryService.getEventsByTrackedEntityInstance(this.trackedEntityInstances, eventsModified, this.selectedProgramStages);
 
           let programColumns = this.outbreakInventoryService.getColumns(teis.headers);
           let stageColumns = this.outbreakInventoryService.createProgramStageColumns(this.selectedProgramStages, this.pgStages, this.pgStagesHeader);
@@ -535,28 +536,3 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
 
  }
 }
-
-
-
-
-// Filter the diseases in the Line Listing Application
-  updateFilter(event) {
-      // let val = event.target.value.toLowerCase();
-
-      // // filter our data
-      // let temp = this.temp.filter(function(d) {
-      //   return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-      // });
-
-      // // update the rows
-      // this.rows = temp;
-      // // Whenever the filter changes, always go back to the first page
-      // this.table.offset = 0;
-  }
-
-
-
-
-}
-
-

@@ -135,15 +135,6 @@
                   <mat-select (selectionChange)="diseaseFilter($event)" multiple placeholder="Disease" formControlName="disease">
 
                     <mat-option *ngFor="let ldis of dataStores.diseases" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
-
-
-              <div style="margin-left: 21%;">
-                <mat-form-field>
-                  <!-- (selectionChange)="updateFilter($event)"  -->
-                  <mat-select (selectionChange)="updateFilter($event)" multiple placeholder="Disease" formControlName="disease">
-                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ ldis.disease }}</mat-option>
-                    <!-- <mat-option>None</mat-option> -->
-                    <mat-option *ngFor="let ldis of dataStores" [value]="ldis.disease" >{{ldis.disease}}</mat-option>
                   </mat-select>
                 </mat-form-field>
 
@@ -160,11 +151,6 @@
               <mat-label>Search from the table!</mat-label>
               <input matInput placeholder="Type here ...">
             </mat-form-field>
-              <!-- A table search input box -->
-              <mat-form-field appearance="outline">
-                <mat-label>Search from the table!</mat-label>
-                <input matInput placeholder="Type here ..." [(ngModel)]="searChItem">
-              </mat-form-field>
 
                 <!-- Export Buttons -->
               <button mat-raised-button [matMenuTriggerFor]="menu">Export</button>
