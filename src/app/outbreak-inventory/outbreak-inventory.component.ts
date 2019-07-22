@@ -72,7 +72,8 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
   // Highcharts
   //Highcharts: typeof Highcharts = Highcharts; // required
   //chartConstructor = 'chart'; // optional string, defaults to 'chart'
-  options:any = new Chart({
+  chartOptions:any;
+  options:any ={
     chart: {
       type: 'column',
       height: 700,
@@ -86,6 +87,14 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     },
     xAxis: {
       categories: [],
+      offset: 0
+    },
+    yAxis: {
+        min: 0,
+        offset: 0,
+        title:{
+          text:"Number of Cases"
+        }
     },
     legend: {
       align: 'right',
@@ -105,9 +114,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
     plotOptions: {
       column: {
         stacking: 'normal',
+        pointPadding: 0,
+        borderWidth: 0,
+        groupPadding: 0,
+        shadow: false,
         dataLabels: {
-          enabled: true,
-          color: 'white'
+          enabled: true
         }
       }
     },
@@ -126,7 +138,7 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
       type:'column',
       data:[]
     }]
-  });
+  };
 
   //chart: any;
   //updateFlag = false; // optional boolean
@@ -306,21 +318,20 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
         let periods: any = period.join(';');
         this.piService.getAnalyticsDataForEpiCurve(outbreakInds, ou, periods, periodType).subscribe((analyticsData: any) => {
           if (!isNullOrUndefined(analyticsData.rows) && !isNullOrUndefined(this.programIndicators.programIndicators)) {
-          this.options.ref.setTitle({text: 'epi Curve: ' + outbreak.disease + ' in ' + ouName});
+          this.options.title.text= 'epi Curve: ' + outbreak.disease + ' in ' + ouName ;
             //this.options.xAxis.title.text = 'Period ( ' + periodType + ' )'
             if (periodType === 'daily') {
 
               this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
-              this.options.ref.xAxis[0].setCategories([]);
-              this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
-              console.log("data"+ JSON.stringify(this.epiChartData.data[1].data));
+
+              //this.options.ref.xAxis[0].setCategories([]);
+              this.options.xAxis.categories=this.epiChartData.categories;
+              console.log("data",this.options);
               // this.options.series = this.epiChartData.data;
-              this.options.removeSeries(0);
-              this.options.addSeries({name:'Confirmed',type:'column',data:this.epiChartData.data[0].data},true,false);
-              this.options.removeSeries(1);
-              this.options.addSeries({name:'Suspected',type:'column',data:this.epiChartData.data[1].data},true,false);
-              this.options.removeSeries(2);
-              this.options.addSeries({name:'Deaths',type:'column',data:this.epiChartData.data[2].data},true,false);
+              this.options.series[0]={name:'Confirmed',type:'column',data:this.epiChartData.data[0].data};
+              this.options.series[1]={name:'Suspected',type:'column',data:this.epiChartData.data[1].data};
+              this.options.series[2]={name:'Deaths',type:'column',data:this.epiChartData.data[2].data};
+              this.chartOptions = this.piService.createChart(this.options);
               /*
               if (this.chart) {
                    this.chart.addSeries(o.json(), true)
@@ -329,14 +340,12 @@ export class OutbreakInventoryComponent implements OnInit, AfterViewInit {
             }
             else {
               this.epiChartData = this.piService.createEpiCurveData(analyticsData.rows, this.diseaseProgramIndicators, period);
-              this.options.ref.xAxis[0].setCategories([]);
-              this.options.ref.xAxis[0].setCategories(this.epiChartData.categories);
-              this.options.removeSeries(0);
-              this.options.addSeries({name:'Confirmed',type:'column',data:this.epiChartData.data[0].data},true,false);
-              this.options.removeSeries(1);
-              this.options.addSeries({name:'Suspected',type:'column',data:this.epiChartData.data[1].data},true,false);
-              this.options.removeSeries(2);
-              this.options.addSeries({name:'Deaths',type:'column',data:this.epiChartData.data[2].data},true,false);
+              this.options.xAxis.categories=this.epiChartData.categories;
+              this.options.series[0]={name:'Confirmed',type:'column',data:this.epiChartData.data[0].data};
+              this.options.series[1]={name:'Suspected',type:'column',data:this.epiChartData.data[1].data};
+              this.options.series[2]={name:'Deaths',type:'column',data:this.epiChartData.data[2].data};
+              this.chartOptions = this.piService.createChart(this.options);
+
             }
             //this.updateFlag = true
             //console.log(this.epiChartData.data[0]);

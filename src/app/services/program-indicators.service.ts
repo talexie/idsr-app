@@ -2,6 +2,7 @@ import { Injectable,Inject,forwardRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
 import * as moment from 'moment';
+import { Chart } from 'angular-highcharts';
 
 
 import { ConstantService } from '../services';
@@ -184,6 +185,12 @@ export class ProgramIndicatorsService {
       });
     }
   	return noDup;
+  }
+  /**
+  create Charts
+  **/
+  createChart(options:any){
+    return new Chart(options);
   }
   /**
   Filter case by type
