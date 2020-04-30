@@ -34,7 +34,7 @@
     "highcharts": "^7.1.2",
     "highcharts-angular": "^2.4.0",
     "html2canvas": "^1.0.0-rc.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jspdf": "^1.5.3",
     "moment": "^2.18.1",
     "rxjs": "^6.5.2",
