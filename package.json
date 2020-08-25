@@ -31,7 +31,7 @@
     "export-to-csv": "^0.2.1",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
-    "highcharts": "^7.1.2",
+    "highcharts": "^7.2.2",
     "highcharts-angular": "^2.4.0",
     "html2canvas": "^1.0.0-rc.3",
     "jquery": "^3.4.1",
