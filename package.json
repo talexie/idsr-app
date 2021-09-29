@@ -50,7 +50,7 @@
     "@types/jquery": "^3.3.30",
     "@types/node": "^6.0.90",
     "codelyzer": "^5.0.1",
-    "datatables.net": "^1.10.19",
+    "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.10.19",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
