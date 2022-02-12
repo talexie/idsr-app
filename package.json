@@ -25,7 +25,7 @@
     "@ctrl/ngx-csv": "^1.2.0",
     "@swimlane/ngx-datatable": "^15.0.2",
     "@types/highcharts": "^5.0.22",
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "angular-tree-component": "^8.4.0",
     "core-js": "^2.4.1",
     "export-to-csv": "^0.2.1",
